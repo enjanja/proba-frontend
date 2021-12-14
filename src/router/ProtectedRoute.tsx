@@ -6,11 +6,11 @@ type ProtectedRouteProps = {
 }
 
 const ProtectedRoute = ({ children, roles }: ProtectedRouteProps) => {
-  const jwt = JSON.parse(localStorage.getItem('jwt') || '')
-  const type = JSON.parse(localStorage.getItem('type') || '')
+  const jwt = localStorage.getItem('jwt')
+  const type = localStorage.getItem('type') || ''
 
-  const isLoggedIn = jwt !== ''
-  const userHasType = roles.includes(type)
+  const isLoggedIn = jwt
+  const userHasType = roles.includes(parseInt(type))
 
   if (!isLoggedIn) {
     return <Navigate to={Routes.LOGIN} />

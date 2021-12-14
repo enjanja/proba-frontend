@@ -15,7 +15,7 @@ const AddDoctor = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = useForm()
 
   const onSubmit = (data: UserType) => {

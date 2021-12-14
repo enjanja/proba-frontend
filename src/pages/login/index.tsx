@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 import { Routes } from '../../enums/routes'
@@ -59,8 +59,6 @@ const Login = () => {
         setIsLoading(true)
       },
     )
-
-    setIsLoading(false)
   }
 
   const handleAlertClose = () => {
