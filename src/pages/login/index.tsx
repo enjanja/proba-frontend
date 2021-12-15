@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 import { Routes } from '../../enums/routes'
@@ -17,6 +17,8 @@ import { FiUser } from 'react-icons/fi'
 import ClipLoader from 'react-spinners/ClipLoader'
 import AlertContainer from '../../components/alert/alert'
 import { useAuth } from '../../hooks/authHook'
+import { FaEye } from 'react-icons/fa'
+import { colors } from '../../global.styles'
 
 const usernameValidation = {
   required: 'This field is required',
@@ -42,27 +44,33 @@ const Login = () => {
 
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const { login } = useAuth()
+  const [passwordIsVisible, setPasswordIsVisible] = useState(false)
 
+  const { login } = useAuth()
   const navigation = useNavigate()
 
   const onSubmit = (data: LoginData) => {
     login(
       data,
+      () => setIsLoading(false),
       () => {
         navigation(Routes.HOME)
         setIsLoading(true)
       },
       (err: string) => {
         console.log(err)
-        setError(err)
         setIsLoading(true)
+        setError(err)
       },
     )
   }
 
   const handleAlertClose = () => {
     setError('')
+  }
+
+  const handleChangePasswordIsVisible = () => {
+    setPasswordIsVisible(!passwordIsVisible)
   }
 
   return (
@@ -90,9 +98,19 @@ const Login = () => {
           </InputContainer>
           <InputContainer>
             <Input
-              type="password"
+              type={passwordIsVisible ? 'text' : 'password'}
               placeholder="password"
               {...register('password', passwordValidation)}
+            />
+            <FaEye
+              onClick={handleChangePasswordIsVisible}
+              size={20}
+              style={{
+                position: 'absolute',
+                right: '5px',
+                top: '18px',
+                color: passwordIsVisible ? colors.primary : colors.secondary,
+              }}
             />
             <Error>{errors.password?.message}</Error>
           </InputContainer>

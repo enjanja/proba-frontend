@@ -24,7 +24,7 @@ const TableDoctors = () => {
   const [selected, setSelected] = useState<readonly string[]>([])
 
   const [doctors, setDoctors] = useState<DoctorType[]>([])
-  const jwt = JSON.parse(localStorage.getItem('jwt') || '')
+  const jwt = localStorage.getItem('jwt') || ''
   const [error, setError] = useState<string>('')
   const [success, setSuccess] = useState<string>('')
 

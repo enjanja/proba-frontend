@@ -7,7 +7,6 @@ type PublicOnlyRoutePorps = {
 
 const PublicOnlyRoute = ({ children }: PublicOnlyRoutePorps) => {
   const jwt = localStorage.getItem('jwt')
-  // console.log(jwt)
 
   const isLoggedIn = jwt
   return isLoggedIn ? <Navigate to={Routes.HOME} /> : children

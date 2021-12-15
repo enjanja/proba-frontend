@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 import { colors } from '../global.styles'
-import AddDoctor from './doctor/createDoctor'
+import AddDoctor from './doctor/addDoctor'
 import TableDoctors from './doctor/table/tableDoctor'
 
 interface TabPanelProps {
@@ -27,6 +27,7 @@ function TabPanel(props: TabPanelProps) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
+      style={{ height: '550px' }}
       {...other}
     >
       {value === index && (

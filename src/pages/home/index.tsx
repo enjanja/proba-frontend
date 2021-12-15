@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <>
       <Navbar showProfile />
-      {type === 2 ? <BoardNurse /> : null}
+      {type === 1 ? <BoardNurse /> : null}
     </>
   )
 }

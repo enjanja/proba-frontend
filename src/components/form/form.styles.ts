@@ -27,6 +27,7 @@ export const InputContainer = styled.div`
   max-height: 100px;
   width: 100%;
   text-align: start;
+  position: relative;
 `
 
 export const Input = styled.input`
@@ -71,6 +72,7 @@ export const AddDoctorFormContainer = styled.div`
   padding: 20px;
   width: 400px;
   margin: 0;
+  height: fit-content;
 
   background-color: ${colors.base};
   border-radius: 10px;

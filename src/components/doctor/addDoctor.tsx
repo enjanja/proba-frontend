@@ -20,12 +20,15 @@ const AddDoctor = () => {
 
   const onSubmit = (data: UserType) => {
     console.log(data)
-
-    setTimeout(() => {}, 5000)
   }
 
   return (
-    <Box>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      height="100%"
+    >
       <AddDoctorFormContainer>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <AddDoctorInputContainer>
