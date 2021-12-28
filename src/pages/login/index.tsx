@@ -19,21 +19,10 @@ import AlertContainer from '../../components/alert/alert'
 import { useAuth } from '../../hooks/authHook'
 import { FaEye } from 'react-icons/fa'
 import { colors } from '../../global.styles'
-
-const usernameValidation = {
-  required: 'This field is required',
-  minLength: {
-    value: 6,
-    message: 'Username must have at least 6 characters',
-  },
-}
-const passwordValidation = {
-  required: 'This field is required',
-  minLength: {
-    value: 6,
-    message: 'Password must have at least 6 characters',
-  },
-}
+import {
+  passwordValidation,
+  usernameValidation,
+} from '../../fixtures/validation'
 
 const Login = () => {
   const {
@@ -54,7 +43,7 @@ const Login = () => {
       data,
       () => setIsLoading(false),
       () => {
-        navigation(Routes.HOME)
+        navigation(Routes.NURSE)
         setIsLoading(true)
       },
       (err: string) => {

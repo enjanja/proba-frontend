@@ -1,14 +1,34 @@
 import axios from 'axios'
-import { UserType } from '../interfaces/dataTypes'
+import { API_URL_PATIENT } from '../api/api'
 
-const API_URL_PATIENT = 'http://localhost:8081/patient/'
+const deletePatient = (jmbg: string, jwt: string) =>
+  axios.delete(`${API_URL_PATIENT}${jmbg}`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  })
 
-const deletePatient = (id: string) => axios.delete(`${API_URL_PATIENT}${id}`)
+const createPatient = (
+  data: { name: string; jmbg: string; id: string },
+  jwt: string,
+) => {
+  console.log(data)
 
-const createPatient = (data: UserType) => axios.post(`${API_URL_PATIENT}`, data) // PatientType
+  return axios.post(`${API_URL_PATIENT}`, {
+    data,
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  })
+} // PatientType
 
 const getPatient = (id: string) => axios.get(`${API_URL_PATIENT}${id}`)
 
-const getAllPatients = () => axios.get(`${API_URL_PATIENT}`)
+const getAllPatients = (jwt: string) =>
+  axios.get(`${API_URL_PATIENT}`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  })
 
 export default { deletePatient, createPatient, getPatient, getAllPatients }

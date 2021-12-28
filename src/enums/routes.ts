@@ -3,4 +3,6 @@ export enum Routes {
   LOGIN = '/login',
   PROFILE = '/profile',
   NURSE = '/nurse',
+  DOCTORS = 'doctors',
+  PATIENTS = 'patients',
 }

@@ -1,8 +1,9 @@
-body {
+html,
+body,
+#root {
+  height: 100%;
   margin: 0;
-  background: rgb(48, 188, 237);
-  /* width: 100vw;
-  height: 100vh; */
+  background-color: rgb(48, 188, 237);
 
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;

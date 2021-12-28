@@ -4,6 +4,7 @@ export interface RouteProps {
   path: string
   element: ReactNode
   exact?: boolean
+  children?: RouteProps[]
 }
 
 export interface LoginFormData {

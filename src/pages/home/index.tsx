@@ -6,7 +6,7 @@ const Home = () => {
 
   return (
     <>
-      <Navbar showProfile />
+      <Navbar />
       {type === 1 ? <BoardNurse /> : null}
     </>
   )

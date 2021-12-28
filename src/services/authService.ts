@@ -1,8 +1,8 @@
 import axios from 'axios'
+import { API_URL_AUTH } from '../api/api'
 import { LoginData } from '../interfaces/dataTypes'
 
-const API_URL = 'http://localhost:8081/authenticate'
+const login = (data: LoginData) => axios.post(`${API_URL_AUTH}`, data)
+const logout = () => localStorage.clear()
 
-const login = (data: LoginData) => axios.post(`${API_URL}`, data)
-
-export default { login }
+export default { login, logout }

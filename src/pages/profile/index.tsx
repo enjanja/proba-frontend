@@ -24,7 +24,7 @@ const Profile = () => {
   const [user, setUser] = useState<UserType>({
     username: 'pera123',
     password: 'pera123',
-    fullName: 'Pera Peric',
+    name: 'Pera Peric',
     role: 2,
     active: true,
     specialization: { id: 1, name: 'Mladi Doktor' },
@@ -65,12 +65,7 @@ const Profile = () => {
             <AddDoctorInputContainer>
               <Label>Full Name</Label>
               <AddDoctorInputFieldContainer>
-                <Input
-                  placeholder={user.fullName}
-                  // value={user.name}
-                  // onChange={handleChange}
-                  disabled={!isEditable}
-                />
+                <Input placeholder={user.name} disabled={!isEditable} />
               </AddDoctorInputFieldContainer>
             </AddDoctorInputContainer>
             <AddDoctorInputContainer>

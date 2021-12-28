@@ -1,6 +1,5 @@
 import axios from 'axios'
-
-const API_URL_NURSE = 'http://localhost:8081/nurse/'
+import { API_URL_NURSE } from '../api/api'
 
 const getNurse = (id: string) => axios.get(`${API_URL_NURSE}${id}`)
 

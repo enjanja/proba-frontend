@@ -13,6 +13,7 @@ export const AlertBox = styled.div<AlertBoxProp>`
 
   width: 300px;
   height: 90px;
+  z-index: 9999;
 
   border-radius: 10px;
   box-shadow: 0px 0px 8px 0px ${colors.shadow};

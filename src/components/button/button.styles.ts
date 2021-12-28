@@ -8,7 +8,7 @@ export const ButtonContainer = styled.div`
 
 export const Button = styled.button`
   height: 40px;
-  width: 300px;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,6 +33,7 @@ export const Button = styled.button`
 export const ButtonSecondary = styled.button`
   height: 40px;
   width: 100%;
+  margin-top: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,4 +59,13 @@ export const ButtonSecondary = styled.button`
 `
 export const TransparentButton = styled.button`
   border: none;
+  display: flex;
+  align-content: center;
+  background-color: transparent;
+`
+export const ButtonHolderTable = styled.div`
+  padding: 10px;
+`
+export const ButtonHolderTableItem = styled.div`
+  margin-right: 10px;
 `

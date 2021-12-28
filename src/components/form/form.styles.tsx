@@ -1,5 +1,8 @@
+import { TiDelete } from 'react-icons/ti'
 import styled from 'styled-components'
 import { colors } from '../../global.styles'
+import { HospitalType } from '../../interfaces/dataTypes'
+import { TransparentButton } from '../button/button.styles'
 
 export const FormContainer = styled.div`
   display: flex;
@@ -89,3 +92,40 @@ export const AddDoctorInputContainer = styled.div`
 export const AddDoctorInputFieldContainer = styled.div`
   width: 70%;
 `
+
+export const ListContainer = styled.div`
+  height: fit-content;
+  width: 100%;
+`
+
+export const MyListItem = styled.div`
+  overflow: hidden;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  border-radius: 10px;
+  background-color: #dfdfe2;
+  padding: 0 2px;
+  margin: 0 0 5px 0;
+`
+
+export const MyListItemText = styled.span`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  .truncate {
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`
+
+export const Hospital = ({ hospital }: { hospital: HospitalType }) => {
+  return (
+    <MyListItem>
+      <MyListItemText>{hospital.name}</MyListItemText>
+    </MyListItem>
+  )
+}

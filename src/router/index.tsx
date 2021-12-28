@@ -1,5 +1,7 @@
 import { useRoutes } from 'react-router'
 import BoardNurse from '../components/boardNurse'
+import Doctor from '../components/doctor'
+import Patients from '../components/patients'
 import { Roles } from '../enums/roles'
 import { Routes } from '../enums/routes'
 import { RouteProps } from '../interfaces/propTypes'
@@ -27,20 +29,22 @@ const Router = () => {
           <Home />
         </ProtectedRoute>
       ),
+      children: [
+        {
+          path: Routes.NURSE,
+          element: <BoardNurse />,
+          children: [
+            { path: Routes.DOCTORS, element: <Doctor /> },
+            { path: Routes.PATIENTS, element: <Patients /> },
+          ],
+        },
+      ],
     },
     {
       path: Routes.PROFILE,
       element: (
         <ProtectedRoute roles={[Roles.NURSE, Roles.DOCTOR]}>
           <Profile />
-        </ProtectedRoute>
-      ),
-    },
-    {
-      path: Routes.NURSE,
-      element: (
-        <ProtectedRoute roles={[Roles.NURSE]}>
-          <BoardNurse />
         </ProtectedRoute>
       ),
     },

@@ -11,7 +11,6 @@ const ProtectedRoute = ({ children, roles }: ProtectedRouteProps) => {
 
   const isLoggedIn = jwt
   const userHasType = roles.includes(parseInt(type))
-  console.log('protected')
 
   if (!isLoggedIn) {
     return <Navigate to={Routes.LOGIN} />

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { colors } from '../../global.styles'
 
 interface NavProps {
   absolute?: boolean
@@ -7,15 +8,37 @@ interface NavProps {
 export const NavbarContainer = styled.div<NavProps>`
   display: flex;
   justify-content: space-between;
-  align-items: center;
 
   margin: 0;
 
-  height: 40px;
+  height: 50px;
   width: 100%;
-  ${({ absolute }) => (absolute ? 'position: absolute' : 'position: relative')}
+`
+export const NavSelection = styled.div<NavProps>`
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  width: 20%;
+`
+
+export const NavSelectionItem = styled.div<NavProps>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 50%;
+
+  &:hover {
+    background-color: ${colors.primaryLight};
+  }
+
+  &:active {
+    background-color: ${colors.primaryDark};
+  }
 `
 
 export const NavItem = styled.div`
+  display: flex;
+  align-items: center;
   margin: 0 20px;
 `

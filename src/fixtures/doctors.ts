@@ -2,11 +2,13 @@ import { DoctorType } from '../interfaces/dataTypes'
 
 export const data: DoctorType[] = [
   {
+    id: '1',
     username: 'nikola1',
     password: 'nikola1',
-    fullName: 'nikola nikola1',
+    name: 'nikola nikola1',
     role: 2,
     active: true,
+    examinations: [],
     specialization: { id: 1, name: 'Mladi Doktor' },
     hospitals: [
       {
@@ -21,244 +23,33 @@ export const data: DoctorType[] = [
       },
     ],
   },
+]
+
+export interface HeadCellDoctor {
+  id: keyof DoctorType
+  label: string
+  numeric: boolean
+}
+
+export const headCellsDoctors: HeadCellDoctor[] = [
   {
-    username: 'pera123',
-    password: 'pera123',
-    fullName: 'Pera Peric',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-      {
-        address: 'adresa 2',
-        name: 'Bolnica 2',
-        id: 2,
-      },
-    ],
+    id: 'name',
+    numeric: false,
+    label: 'Full name',
   },
   {
-    username: 'milica@',
-    password: 'milica',
-    fullName: 'milica milica',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-    ],
+    id: 'username',
+    numeric: false,
+    label: 'Username',
   },
   {
-    username: 'milica1',
-    password: 'milica',
-    fullName: 'milica milica',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-    ],
+    id: 'specialization',
+    numeric: false,
+    label: 'Specialization',
   },
   {
-    username: 'milica2',
-    password: 'milica',
-    fullName: 'milica milica',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-    ],
-  },
-  {
-    username: 'milica3',
-    password: 'milica',
-    fullName: 'milica milica',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-    ],
-  },
-  {
-    username: 'milica4',
-    password: 'milica',
-    fullName: 'milica milica',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-    ],
-  },
-  {
-    username: 'milica5',
-    password: 'milica',
-    fullName: 'milica milica',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-    ],
-  },
-  {
-    username: 'nikola1a',
-    password: 'nikola1',
-    fullName: 'nikola nikola1',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-      {
-        address: 'adresa 2',
-        name: 'Bolnica 2',
-        id: 2,
-      },
-    ],
-  },
-  {
-    username: 'pera123a',
-    password: 'pera123',
-    fullName: 'Pera Peric',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-      {
-        address: 'adresa 2',
-        name: 'Bolnica 2',
-        id: 2,
-      },
-    ],
-  },
-  {
-    username: 'milica@a',
-    password: 'milica',
-    fullName: 'milica milica',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-    ],
-  },
-  {
-    username: 'milica1a',
-    password: 'milica',
-    fullName: 'milica milica',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-    ],
-  },
-  {
-    username: 'milica2a',
-    password: 'milica',
-    fullName: 'milica milica',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-    ],
-  },
-  {
-    username: 'milica3a',
-    password: 'milica',
-    fullName: 'milica milica',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-    ],
-  },
-  {
-    username: 'milica4a',
-    password: 'milica',
-    fullName: 'milica milica',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-    ],
-  },
-  {
-    username: 'milicaa',
-    password: 'milica',
-    fullName: 'milica milica',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-    ],
+    id: 'hospitals',
+    numeric: false,
+    label: 'Works in',
   },
 ]
