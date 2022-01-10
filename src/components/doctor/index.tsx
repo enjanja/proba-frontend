@@ -23,7 +23,7 @@ const Doctor = () => {
         setDoctors(res.data)
       })
       .catch((err) => {
-        setAlert({ type: AlertMessages.ERROR, message: err.response?.data })
+        setAlert({ type: AlertMessages.ERROR, message: err.message })
       })
   }, [])
 

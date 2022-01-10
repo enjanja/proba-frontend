@@ -29,7 +29,6 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
         {location.pathname !== '/nurse/doctors' ? (
           <>
             <TableCell sx={{ backgroundColor: colors.secondary }} />
-            <TableCell sx={{ backgroundColor: colors.secondary }} />
           </>
         ) : null}
       </TableRow>

@@ -28,28 +28,33 @@ const Navbar = ({ absolute }: NavbarProps) => {
     <NavbarContainer absolute={absolute}>
       {type === 1 ? (
         <NavSelection>
-          <NavSelectionItem>
-            <Link to={`${Routes.NURSE}/${Routes.DOCTORS}`}>Doctors</Link>
-          </NavSelectionItem>
-          <NavSelectionItem>
-            <Link to={`${Routes.NURSE}/${Routes.PATIENTS}`}>Patients</Link>
-          </NavSelectionItem>
-          <NavSelectionItem>
-            <Link to={`${Routes.NURSE}/${Routes.EXAMINATIONS}`}>
-              Еxaminations
-            </Link>
-          </NavSelectionItem>
+          <Link
+            to={`${Routes.NURSE}/${Routes.DOCTORS}`}
+            style={{ width: '100%' }}
+          >
+            <NavSelectionItem>Doctors</NavSelectionItem>
+          </Link>
+          <Link
+            to={`${Routes.NURSE}/${Routes.PATIENTS}`}
+            style={{ width: '100%' }}
+          >
+            <NavSelectionItem>Patients</NavSelectionItem>
+          </Link>
+          <Link
+            to={`${Routes.NURSE}/${Routes.EXAMINATIONS}`}
+            style={{ width: '100%' }}
+          >
+            <NavSelectionItem>Еxaminations</NavSelectionItem>
+          </Link>
         </NavSelection>
       ) : (
-        <NavItem>
-          <Link to={Routes.HOME}>Home</Link>
-        </NavItem>
-      )}
-      <NavItem>
-        <Link onClick={handleLogout} to={Routes.LOGIN}>
-          Logout
+        <Link to={Routes.HOME}>
+          <NavItem>Home</NavItem>
         </Link>
-      </NavItem>
+      )}
+      <Link onClick={handleLogout} to={Routes.LOGIN}>
+        <NavItem>Logout</NavItem>
+      </Link>
     </NavbarContainer>
   )
 }

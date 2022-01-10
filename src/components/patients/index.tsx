@@ -10,7 +10,6 @@ import patientService from '../../services/patientService'
 import Modal from '../modal/Modal'
 import AddPatient from './addPatient'
 import { H2 } from '../text/text.styles'
-import DeletePatient from './deletePatient'
 import { ActionType } from '../../enums/action'
 import EditPatient from './editPatient'
 import { Box } from '@mui/system'
@@ -31,8 +30,6 @@ const Patients = () => {
         setPatients(res.data)
       })
       .catch((err) => {
-        console.log(err)
-
         setAlert({ type: AlertMessages.ERROR, message: err.message })
       })
   }, [])
@@ -57,32 +54,10 @@ const Patients = () => {
     setAlert({ type: AlertMessages.SUCCESS, message: alertMessage })
   }
 
-  const handleOpenDeleteModal = (patient: PatientType) => {
-    setSelectedPatient(patient)
-    setOpenModal(true)
-    setAction(ActionType.DELETE)
-  }
   const handleOpenEditModal = (patient: PatientType) => {
     setSelectedPatient(patient)
     setOpenModal(true)
     setAction(ActionType.EDIT)
-  }
-
-  const handleDelete = () => {
-    console.log(selectedPatient)
-    selectedPatient &&
-      patientService
-        .deletePatient(selectedPatient?.jmbg)
-        .then((res) => {
-          const newPatients = patients.filter(
-            (patient) => patient?.jmbg !== selectedPatient.jmbg,
-          )
-          setPatients(newPatients)
-          setAlert({ type: AlertMessages.SUCCESS, message: res.data })
-        })
-        .catch((err) =>
-          setAlert({ type: AlertMessages.ERROR, message: err.message }),
-        )
   }
 
   const handleEdit = (newPatient: PatientType, alertMessage: string) => {
@@ -116,9 +91,6 @@ const Patients = () => {
               onClose={handleCloseModal}
             />
           )}
-          {action === ActionType.DELETE && (
-            <DeletePatient onDelete={handleDelete} onClose={handleCloseModal} />
-          )}
           {action === ActionType.EDIT && selectedPatient && (
             <EditPatient
               onEdit={handleEdit}
@@ -135,11 +107,9 @@ const Patients = () => {
         <Button onClick={handleOpenModal}>Add Patient</Button>
       </ButtonHolderTable>
       {patients.length > 0 ? (
-        <TablePatients
-          patients={patients}
-          onDelete={handleOpenDeleteModal}
-          onEdit={handleOpenEditModal}
-        />
+        <Box sx={{ padding: '10px', height: 'fill' }}>
+          <TablePatients patients={patients} onEdit={handleOpenEditModal} />
+        </Box>
       ) : (
         <Grid
           container

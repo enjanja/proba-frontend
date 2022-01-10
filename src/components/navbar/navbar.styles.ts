@@ -16,17 +16,17 @@ export const NavbarContainer = styled.div<NavProps>`
 `
 export const NavSelection = styled.div<NavProps>`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   height: 100%;
   width: 40%;
 `
 
 export const NavSelectionItem = styled.div<NavProps>`
   display: flex;
-  justify-content: center;
   align-items: center;
   height: 100%;
-  width: 50%;
+  width: 100%;
+  justify-content: center;
 
   &:hover {
     background-color: ${colors.primaryLight};
@@ -40,5 +40,11 @@ export const NavSelectionItem = styled.div<NavProps>`
 export const NavItem = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  height: 100%;
   margin: 0 20px;
+
+  &:hover {
+    color: ${colors.secondaryDisabled};
+  }
 `

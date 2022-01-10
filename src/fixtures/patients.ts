@@ -9,7 +9,7 @@ export const data: PatientType[] = [
 ]
 
 export interface HeadCellPatient {
-  id: keyof PatientType
+  id: keyof PatientType | 'edit'
   label: string
   numeric: boolean
 }
