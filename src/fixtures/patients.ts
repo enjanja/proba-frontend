@@ -2,29 +2,9 @@ import { PatientType } from '../interfaces/dataTypes'
 
 export const data: PatientType[] = [
   {
-    id: 1,
+    id: '1',
     name: 'nikola nikola1',
     jmbg: '12345678912399',
-  },
-  {
-    id: 2,
-    name: 'nikola nikola1',
-    jmbg: '1234567899123',
-  },
-  {
-    id: 3,
-    name: 'nikola nikola1',
-    jmbg: '1234567899456',
-  },
-  {
-    id: 4,
-    name: 'nikola nikola1',
-    jmbg: '1234567899785',
-  },
-  {
-    id: 5,
-    name: 'nikola nikola1',
-    jmbg: '12345678997895',
   },
 ]
 

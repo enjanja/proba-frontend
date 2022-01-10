@@ -34,6 +34,11 @@ const Navbar = ({ absolute }: NavbarProps) => {
           <NavSelectionItem>
             <Link to={`${Routes.NURSE}/${Routes.PATIENTS}`}>Patients</Link>
           </NavSelectionItem>
+          <NavSelectionItem>
+            <Link to={`${Routes.NURSE}/${Routes.EXAMINATIONS}`}>
+              Еxaminations
+            </Link>
+          </NavSelectionItem>
         </NavSelection>
       ) : (
         <NavItem>

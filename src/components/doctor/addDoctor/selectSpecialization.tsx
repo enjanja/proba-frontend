@@ -13,7 +13,6 @@ import { Error } from '../../text/text.styles'
 
 interface SelectSpecializationProps {
   onError: (err: string) => void
-  jwt: string
   errorSpecialization: string
   onSelectSpecialization: (specialization: SpecializationType) => void
   specialization: SpecializationType
@@ -21,7 +20,6 @@ interface SelectSpecializationProps {
 
 const SelectSpecialization = ({
   onError,
-  jwt,
   errorSpecialization,
   onSelectSpecialization,
   specialization,
@@ -32,7 +30,7 @@ const SelectSpecialization = ({
 
   useEffect(() => {
     specializationService
-      .getAllSpecializations(jwt)
+      .getAllSpecializations()
       .then((res) => {
         setSpecializations(res?.data)
       })
@@ -40,7 +38,6 @@ const SelectSpecialization = ({
         if (!err) {
           console.log(err)
         }
-
         onError(err.response?.data)
       })
   }, [])

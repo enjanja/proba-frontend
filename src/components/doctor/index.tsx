@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Grid } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import doctorService from '../../services/doctorService'
 import { DoctorType } from '../../interfaces/dataTypes'
 import { colors } from '../../global.styles'
@@ -13,13 +13,12 @@ import { H2 } from '../text/text.styles'
 
 const Doctor = () => {
   const [doctors, setDoctors] = useState<DoctorType[]>([])
-  const jwt = localStorage.getItem('jwt') || ''
   const [alert, setAlert] = useState<AlertType | null>(null)
   const [openModal, setOpenModal] = useState(false)
 
   useEffect(() => {
     doctorService
-      .getAllDoctors(jwt)
+      .getAllDoctors()
       .then((res) => {
         setDoctors(res.data)
       })
@@ -39,6 +38,13 @@ const Doctor = () => {
     setOpenModal(false)
   }
 
+  const handleUpdateData = (newDoctor: DoctorType, alertMessage: string) => {
+    const lastPatient = doctors[doctors.length - 1]
+    newDoctor.id = Number(lastPatient.id) + 1 + ''
+    setDoctors([...doctors, newDoctor])
+    setAlert({ type: AlertMessages.SUCCESS, message: alertMessage })
+  }
+
   return (
     <>
       {alert && (
@@ -51,15 +57,19 @@ const Doctor = () => {
       )}
       {openModal && (
         <Modal onClose={handleCloseModal}>
-          <AddDoctor />
+          <AddDoctor onUpdate={handleUpdateData} onClose={handleCloseModal} />
         </Modal>
       )}
-      <H2>Doctors</H2>
+      <Box sx={{ padding: '10px 0 0 10px' }}>
+        <H2>Doctors</H2>
+      </Box>
       <ButtonHolderTable>
         <Button onClick={handleOpenModal}>Add doctor</Button>
       </ButtonHolderTable>
       {doctors.length > 0 ? (
-        <TableDoctors doctors={doctors} />
+        <Box sx={{ padding: '10px', height: 'fill' }}>
+          <TableDoctors doctors={doctors} />
+        </Box>
       ) : (
         <Grid
           container

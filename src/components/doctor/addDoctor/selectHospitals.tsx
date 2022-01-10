@@ -19,18 +19,9 @@ import {
 import { Error } from '../../text/text.styles'
 import hospitalService from '../../../services/hospitalService'
 
-const data = [
-  { id: 1, name: 'aabb', address: 'aa' },
-  { id: 2, name: 'aaccc', address: 'aa' },
-  { id: 3, name: 'aadd', address: 'aa' },
-  { id: 4, name: 'aadd', address: 'aa' },
-  { id: 5, name: 'aadd', address: 'aa' },
-]
-
 interface SelectHospitalsProps {
   onSelectHospitals: (hospital: HospitalType) => void
   chosenHospitals: HospitalType[]
-  jwt: string
   errorHospital: string
   onError: (err: string) => void
 }
@@ -38,16 +29,15 @@ interface SelectHospitalsProps {
 const HospitalsSelect = ({
   onSelectHospitals,
   chosenHospitals,
-  jwt,
   errorHospital,
   onError,
 }: SelectHospitalsProps) => {
-  const [hospitals, setHospitals] = useState<HospitalType[]>(data)
+  const [hospitals, setHospitals] = useState<HospitalType[]>([])
   const [error, setError] = useState('')
 
   useEffect(() => {
     hospitalService
-      .getAllHospitals(jwt)
+      .getAllHospitals()
       .then((res) => {
         setHospitals(res.data)
       })

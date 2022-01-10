@@ -1,8 +1,6 @@
-import { TiDelete } from 'react-icons/ti'
 import styled from 'styled-components'
 import { colors } from '../../global.styles'
 import { HospitalType } from '../../interfaces/dataTypes'
-import { TransparentButton } from '../button/button.styles'
 
 export const FormContainer = styled.div`
   display: flex;

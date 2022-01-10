@@ -10,21 +10,30 @@ import patientService from '../../services/patientService'
 import Modal from '../modal/Modal'
 import AddPatient from './addPatient'
 import { H2 } from '../text/text.styles'
+import DeletePatient from './deletePatient'
+import { ActionType } from '../../enums/action'
+import EditPatient from './editPatient'
+import { Box } from '@mui/system'
 
 const Patients = () => {
   const [patients, setPatients] = useState<PatientType[]>([])
-  const jwt = localStorage.getItem('jwt') || ''
+  const [selectedPatient, setSelectedPatient] = useState<PatientType | null>(
+    null,
+  )
   const [alert, setAlert] = useState<AlertType | null>(null)
   const [openModal, setOpenModal] = useState(false)
+  const [action, setAction] = useState('')
 
   useEffect(() => {
     patientService
-      .getAllPatients(jwt)
+      .getAllPatients()
       .then((res) => {
         setPatients(res.data)
       })
       .catch((err) => {
-        setAlert({ type: AlertMessages.ERROR, message: err.response?.data })
+        console.log(err)
+
+        setAlert({ type: AlertMessages.ERROR, message: err.message })
       })
   }, [])
 
@@ -34,9 +43,59 @@ const Patients = () => {
 
   const handleOpenModal = () => {
     setOpenModal(true)
+    setAction(ActionType.ADD)
   }
   const handleCloseModal = () => {
     setOpenModal(false)
+    setAction('')
+  }
+
+  const handleUpdateData = (newPatient: PatientType, alertMessage: string) => {
+    const lastPatient = patients[patients.length - 1]
+    newPatient.id = Number(lastPatient.id) + 1 + ''
+    setPatients([...patients, newPatient])
+    setAlert({ type: AlertMessages.SUCCESS, message: alertMessage })
+  }
+
+  const handleOpenDeleteModal = (patient: PatientType) => {
+    setSelectedPatient(patient)
+    setOpenModal(true)
+    setAction(ActionType.DELETE)
+  }
+  const handleOpenEditModal = (patient: PatientType) => {
+    setSelectedPatient(patient)
+    setOpenModal(true)
+    setAction(ActionType.EDIT)
+  }
+
+  const handleDelete = () => {
+    console.log(selectedPatient)
+    selectedPatient &&
+      patientService
+        .deletePatient(selectedPatient?.jmbg)
+        .then((res) => {
+          const newPatients = patients.filter(
+            (patient) => patient?.jmbg !== selectedPatient.jmbg,
+          )
+          setPatients(newPatients)
+          setAlert({ type: AlertMessages.SUCCESS, message: res.data })
+        })
+        .catch((err) =>
+          setAlert({ type: AlertMessages.ERROR, message: err.message }),
+        )
+  }
+
+  const handleEdit = (newPatient: PatientType, alertMessage: string) => {
+    console.log(newPatient)
+    const newPatients = patients.map((patient) => {
+      if (patient.id === newPatient.id) {
+        patient.name = newPatient.name
+        patient.jmbg = newPatient.jmbg
+      }
+      return patient
+    })
+    setPatients(newPatients)
+    setAlert({ type: AlertMessages.SUCCESS, message: alertMessage })
   }
 
   return (
@@ -51,15 +110,36 @@ const Patients = () => {
       )}
       {openModal && (
         <Modal onClose={handleCloseModal}>
-          <AddPatient />
+          {action === ActionType.ADD && (
+            <AddPatient
+              onUpdate={handleUpdateData}
+              onClose={handleCloseModal}
+            />
+          )}
+          {action === ActionType.DELETE && (
+            <DeletePatient onDelete={handleDelete} onClose={handleCloseModal} />
+          )}
+          {action === ActionType.EDIT && selectedPatient && (
+            <EditPatient
+              onEdit={handleEdit}
+              onClose={handleCloseModal}
+              selectedPatient={selectedPatient}
+            />
+          )}
         </Modal>
       )}
-      <H2>Patients</H2>
+      <Box sx={{ padding: '10px 0 0 10px' }}>
+        <H2>Patients</H2>
+      </Box>
       <ButtonHolderTable>
         <Button onClick={handleOpenModal}>Add Patient</Button>
       </ButtonHolderTable>
       {patients.length > 0 ? (
-        <TablePatients patients={patients} />
+        <TablePatients
+          patients={patients}
+          onDelete={handleOpenDeleteModal}
+          onEdit={handleOpenEditModal}
+        />
       ) : (
         <Grid
           container

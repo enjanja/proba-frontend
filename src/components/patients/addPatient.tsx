@@ -1,7 +1,7 @@
 import { Box } from '@mui/system'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { AlertMessages } from '../../enums/alert'
+import { AlertType } from '../../enums/alert'
 import {
   addPatientValidations,
   AddPatientValidationType,
@@ -20,82 +20,49 @@ import {
 } from '../form/form.styles'
 import { Error } from '../text/text.styles'
 
-const AddPatient = () => {
+interface AddPatientProps {
+  onUpdate: (newPatient: PatientType, alertMessage: string) => void
+  onClose: () => void
+}
+
+const AddPatient = ({ onUpdate, onClose }: AddPatientProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm()
 
-  const jwt = localStorage.getItem('jwt') || ''
-  const [error, setError] = useState('')
-  const [message, setMessage] = useState('')
-
-  // const jwt = localStorage.getItem('jwt') || ''
-
-  // const [error, setError] = useState('')
-
-  // useEffect(() => {
-  //   specializationService
-  //     .getAllSpecializations(jwt)
-  //     .then((res) => {
-  //       setSpecializations(res?.data)
-  //     })
-  //     .catch((err) => {
-  //       setError(err.response?.data)
-  //     })
-  // }, [])
-
-  // useEffect(() => {
-  //   hospitalService
-  //     .getAllHospitals(jwt)
-  //     .then((res) => {
-  //       setSpecializations(res?.data)
-  //     })
-  //     .catch((err) => {
-  //       setError(err.response?.data)
-  //     })
-  // }, [])
+  const [alert, setAlert] = useState<AlertType | null>(null)
 
   const onSubmit = (data: PatientType) => {
-    console.log(data)
-    data['id'] = 0
-
     const newData: { name: string; id: string; jmbg: string } = {
       ...data,
       id: '',
     }
 
     patientService
-      .createPatient(newData, jwt)
+      .createPatient(newData)
       .then((res) => {
-        setMessage(res.data?.message)
+        onUpdate(newData, res.data)
+        onClose()
       })
       .catch((err) => {
-        setError(err.message)
+        setAlert(err.message)
       })
   }
 
   const handleCloseAlert = () => {
-    setError('')
+    setAlert(null)
   }
 
   return (
     <>
-      {error && (
+      {alert && (
         <AlertContainer
-          type={AlertMessages.ERROR}
-          title="Error"
+          type={alert.type}
+          title={alert.type}
+          message={alert.message}
           onClose={handleCloseAlert}
-          message={error}
-        />
-      )}
-      {message && (
-        <AlertContainer
-          type={AlertMessages.SUCCESS}
-          title="Success"
-          onClose={handleCloseAlert}
-          message={error}
         />
       )}
       <Box

@@ -31,7 +31,7 @@ export interface ExaminationType {
 }
 
 export interface PatientType {
-  id: number
+  id: string
   name: string
   jmbg: string
 }

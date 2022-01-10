@@ -10,8 +10,6 @@ interface ModalProps {
 const modalPortal = document.getElementById('modal-root')
 
 const Modal = ({ children, onClose }: ModalProps) => {
-  console.log('modal')
-
   const modal = (
     <BackDrop>
       <ModalContainer>

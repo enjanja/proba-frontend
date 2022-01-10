@@ -25,13 +25,17 @@ import { AlertMessages, AlertType } from '../../../enums/alert'
 import AlertContainer from '../../alert/alert'
 import SelectSpecialization from './selectSpecialization'
 
-const AddDoctor = () => {
+interface AddDoctorProps {
+  onUpdate: (newDoctor: DoctorType, alertMessage: string) => void
+  onClose: () => void
+}
+
+const AddDoctor = ({ onUpdate, onClose }: AddDoctorProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm()
-  const jwt = localStorage.getItem('jwt') || ''
 
   const [specialization, setSpecialization] = useState<SpecializationType>({
     name: '',
@@ -57,6 +61,7 @@ const AddDoctor = () => {
       hospitals: chosenHospitals,
       specialization: specialization,
     }
+
     const newData: DoctorType = {
       ...doctorData,
       id: '',
@@ -64,17 +69,17 @@ const AddDoctor = () => {
       examinations: [],
     }
 
-    console.log(newData)
     doctorService
-      .createDoctor(newData, jwt)
+      .createDoctor(newData)
       .then((res) => {
-        setAlert({ type: AlertMessages.SUCCESS, message: res.data?.message })
+        onUpdate(newData, res.data)
+        onClose()
       })
       .catch((err) => {
         if (!err) {
           setAlert({ type: AlertMessages.ERROR, message: 'Network Error' })
         }
-        setAlert({ type: AlertMessages.ERROR, message: err.response?.data })
+        setAlert({ type: AlertMessages.ERROR, message: err.message })
       })
       .finally(() => {
         setErrorSpecialization('')
@@ -128,7 +133,6 @@ const AddDoctor = () => {
           <SelectSpecialization
             specialization={specialization}
             onError={handleSetError}
-            jwt={jwt}
             errorSpecialization={errorSpecialization}
             onSelectSpecialization={handleSelectSpecialization}
           />
@@ -136,7 +140,6 @@ const AddDoctor = () => {
           <HospitalsSelect
             onSelectHospitals={handleSelectHospitals}
             chosenHospitals={chosenHospitals}
-            jwt={jwt}
             onError={handleSetError}
             errorHospital={errorHospital}
           />

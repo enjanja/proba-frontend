@@ -1,6 +1,7 @@
 import { useRoutes } from 'react-router'
 import BoardNurse from '../components/boardNurse'
 import Doctor from '../components/doctor'
+import Examinations from '../components/examinations'
 import Patients from '../components/patients'
 import { Roles } from '../enums/roles'
 import { Routes } from '../enums/routes'
@@ -36,6 +37,7 @@ const Router = () => {
           children: [
             { path: Routes.DOCTORS, element: <Doctor /> },
             { path: Routes.PATIENTS, element: <Patients /> },
+            { path: Routes.EXAMINATIONS, element: <Examinations /> },
           ],
         },
       ],

@@ -10,8 +10,8 @@ import {
 import EnhancedTableHead from '../tableHead/tableHead'
 import { DoctorType } from '../../interfaces/dataTypes'
 import { headCellsDoctors } from '../../fixtures/doctors'
-import { Hospital, ListContainer } from '../form/form.styles'
-import { SmallText } from '../text/text.styles'
+// import { ListContainer } from '../form/form.styles'
+// import { SmallText } from '../text/text.styles'
 
 const TableDoctors = ({ doctors }: { doctors: DoctorType[] }) => {
   const [page, setPage] = useState<number>(0)
@@ -42,36 +42,41 @@ const TableDoctors = ({ doctors }: { doctors: DoctorType[] }) => {
 
   return (
     <>
-      <TableContainer sx={{ overflow: 'scroll', height: '400px' }}>
+      <TableContainer sx={{ overflow: 'scroll', height: '415px' }}>
         <Table size="small" stickyHeader>
           <EnhancedTableHead header={headCellsDoctors} />
           <TableBody>
             {doctors
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((doctor) => {
-                doctor['hospitals'] = [
-                  { id: 1, name: 'Jove Ilica 150/2', address: 'adss' },
-                  { id: 2, name: 'Dusana Radovica 14b', address: 'adss' },
-                ]
                 return (
-                  <TableRow key={doctor.id}>
+                  <TableRow key={doctor.id} sx={{ height: '55px' }}>
                     <TableCell>{doctor.name}</TableCell>
                     <TableCell>{doctor.username}</TableCell>
                     <TableCell>{doctor.specialization.name}</TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       <ListContainer>
                         {doctor.hospitals &&
                           doctor.hospitals.map((item) => (
                             <SmallText key={item.id}>{item.name}</SmallText>
                           ))}
                       </ListContainer>
-                    </TableCell>
+                    </TableCell> */}
                   </TableRow>
                 )
               })}
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25]}
+        component="div"
+        count={doctors.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </>
   )
 }

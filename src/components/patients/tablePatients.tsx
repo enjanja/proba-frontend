@@ -12,7 +12,13 @@ import { headCellsPatients } from '../../fixtures/patients'
 import { FaEdit, FaTrashAlt } from 'react-icons/fa'
 import { PatientType } from '../../interfaces/dataTypes'
 
-const TablePatients = ({ patients }: { patients: PatientType[] }) => {
+interface TablePatientsProps {
+  patients: PatientType[]
+  onDelete: (patient: PatientType) => void
+  onEdit: (patient: PatientType) => void
+}
+
+const TablePatients = ({ patients, onDelete, onEdit }: TablePatientsProps) => {
   const [page, setPage] = useState<number>(0)
   const [rowsPerPage, setRowsPerPage] = useState<number>(10)
 
@@ -30,9 +36,37 @@ const TablePatients = ({ patients }: { patients: PatientType[] }) => {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - patients.length) : 0
 
+  const DeleteCell = ({
+    selectedPatient,
+  }: {
+    selectedPatient: PatientType
+  }) => {
+    const handleDelete = () => {
+      onDelete(selectedPatient)
+    }
+
+    return (
+      <TableCell>
+        <FaTrashAlt onClick={handleDelete} />
+      </TableCell>
+    )
+  }
+
+  const EditCell = ({ selectedPatient }: { selectedPatient: PatientType }) => {
+    const handleEdit = () => {
+      onEdit(selectedPatient)
+    }
+
+    return (
+      <TableCell>
+        <FaEdit onClick={handleEdit} />
+      </TableCell>
+    )
+  }
+
   return (
     <>
-      <TableContainer sx={{ overflow: 'scroll', height: '400px' }}>
+      <TableContainer sx={{ overflow: 'scroll', height: '415px' }}>
         <Table size="small" stickyHeader>
           <EnhancedTableHead header={headCellsPatients} />
           <TableBody>
@@ -44,12 +78,8 @@ const TablePatients = ({ patients }: { patients: PatientType[] }) => {
                     <TableCell>{patient.id}</TableCell>
                     <TableCell>{patient.name}</TableCell>
                     <TableCell>{patient.jmbg}</TableCell>
-                    <TableCell>
-                      <FaTrashAlt />
-                    </TableCell>
-                    <TableCell>
-                      <FaEdit />
-                    </TableCell>
+                    <DeleteCell selectedPatient={patient} />
+                    <EditCell selectedPatient={patient} />
                   </TableRow>
                 )
               })}

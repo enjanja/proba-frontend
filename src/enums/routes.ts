@@ -5,4 +5,5 @@ export enum Routes {
   NURSE = '/nurse',
   DOCTORS = 'doctors',
   PATIENTS = 'patients',
+  EXAMINATIONS = 'examinations',
 }

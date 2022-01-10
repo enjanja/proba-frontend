@@ -18,7 +18,7 @@ export const NavSelection = styled.div<NavProps>`
   display: flex;
   justify-content: space-between;
   height: 100%;
-  width: 20%;
+  width: 40%;
 `
 
 export const NavSelectionItem = styled.div<NavProps>`
