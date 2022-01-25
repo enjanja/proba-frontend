@@ -3,17 +3,15 @@ import { Box, Grid } from '@mui/material'
 import doctorService from '../../services/doctorService'
 import { DoctorType } from '../../interfaces/dataTypes'
 import { colors } from '../../global.styles'
-import AlertContainer from '../alert/alert'
-import { AlertMessages, AlertType } from '../../enums/alert'
 import { Button, ButtonHolderTable } from '../button/button.styles'
 import TableDoctors from './tableDoctor'
 import AddDoctor from './addDoctor/addDoctor'
 import Modal from '../modal/Modal'
 import { H2 } from '../text/text.styles'
+import { toast } from 'react-toastify'
 
 const Doctor = () => {
   const [doctors, setDoctors] = useState<DoctorType[]>([])
-  const [alert, setAlert] = useState<AlertType | null>(null)
   const [openModal, setOpenModal] = useState(false)
 
   useEffect(() => {
@@ -23,13 +21,9 @@ const Doctor = () => {
         setDoctors(res.data)
       })
       .catch((err) => {
-        setAlert({ type: AlertMessages.ERROR, message: err.message })
+        toast.error(err.message)
       })
   }, [])
-
-  const handleAlertClose = () => {
-    setAlert(null)
-  }
 
   const handleOpenModal = () => {
     setOpenModal(true)
@@ -38,23 +32,14 @@ const Doctor = () => {
     setOpenModal(false)
   }
 
-  const handleUpdateData = (newDoctor: DoctorType, alertMessage: string) => {
+  const handleUpdateData = (newDoctor: DoctorType) => {
     const lastPatient = doctors[doctors.length - 1]
     newDoctor.id = Number(lastPatient.id) + 1 + ''
     setDoctors([...doctors, newDoctor])
-    setAlert({ type: AlertMessages.SUCCESS, message: alertMessage })
   }
 
   return (
     <>
-      {alert && (
-        <AlertContainer
-          type={alert.type}
-          title={alert.type}
-          message={alert.message}
-          onClose={handleAlertClose}
-        />
-      )}
       {openModal && (
         <Modal onClose={handleCloseModal}>
           <AddDoctor onUpdate={handleUpdateData} onClose={handleCloseModal} />

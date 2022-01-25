@@ -15,7 +15,6 @@ import { Error, H2 } from '../../components/text/text.styles'
 import { Button } from '../../components/button/button.styles'
 import { FiUser } from 'react-icons/fi'
 import ClipLoader from 'react-spinners/ClipLoader'
-import AlertContainer from '../../components/alert/alert'
 import { useAuth } from '../../hooks/authHook'
 import { FaEye } from 'react-icons/fa'
 import { colors } from '../../global.styles'
@@ -23,6 +22,7 @@ import {
   passwordValidation,
   usernameValidation,
 } from '../../fixtures/validation'
+import { toast } from 'react-toastify'
 
 const Login = () => {
   const {
@@ -31,7 +31,6 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginFormData>()
 
-  const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [passwordIsVisible, setPasswordIsVisible] = useState(false)
 
@@ -47,15 +46,10 @@ const Login = () => {
         setIsLoading(true)
       },
       (err: string) => {
-        console.log(err)
         setIsLoading(true)
-        setError(err)
+        toast.error(err)
       },
     )
-  }
-
-  const handleAlertClose = () => {
-    setError('')
   }
 
   const handleChangePasswordIsVisible = () => {
@@ -64,14 +58,6 @@ const Login = () => {
 
   return (
     <Wrapper>
-      {error && (
-        <AlertContainer
-          type="error"
-          title="Error"
-          message={error}
-          onClose={handleAlertClose}
-        />
-      )}
       <FormContainer>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <H2>

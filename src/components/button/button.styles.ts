@@ -6,15 +6,15 @@ export const ButtonContainer = styled.div`
   justify-content: space-around;
 `
 
-export const Button = styled.button`
+export const Button = styled.button<SeccondaryButtonProps>`
   height: 40px;
-  max-width: 300px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  background-color: ${colors.primary};
+  background-color: ${({ color }) => (color ? color : colors.primary)};
   color: ${colors.base};
   border: none;
   border-radius: 10px;
@@ -29,34 +29,29 @@ export const Button = styled.button`
     background-color: ${colors.primaryLight};
   }
 `
+interface SeccondaryButtonProps {
+  color?: string
+}
 
-export const ButtonSecondary = styled.button`
-  height: 40px;
+export const ButtonSecondary = styled(Button)`
   width: 100%;
-  margin-top: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-top: 20px;
 
-  background-color: ${colors.secondary};
-  color: ${colors.base};
-  border: none;
-  border-radius: 10px;
-
-  font-size: 20px;
+  background-color: ${({ color }) => (color ? color : colors.secondary)};
 
   &:hover {
-    background-color: ${colors.secondaryDark};
+    background-color: ${({ color }) => (color ? null : colors.secondaryDark)};
   }
 
   &:active {
-    background-color: ${colors.secondaryLight};
+    background-color: ${({ color }) => (color ? null : colors.secondaryLight)};
   }
 
   &:disabled {
     background-color: ${colors.inputBorder};
   }
 `
+
 export const TransparentButton = styled.button`
   border: none;
   display: flex;

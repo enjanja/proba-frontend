@@ -13,4 +13,5 @@ export const colors = {
   text: '#050401',
   inputBorder: '#c8dce2',
   shadow: '#196480',
+  hover: '#e9f4f8',
 }

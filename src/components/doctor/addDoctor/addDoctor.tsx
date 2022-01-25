@@ -21,12 +21,11 @@ import {
 import { Error } from '../../text/text.styles'
 import doctorService from '../../../services/doctorService'
 import HospitalsSelect from './selectHospitals'
-import { AlertMessages, AlertType } from '../../../enums/alert'
-import AlertContainer from '../../alert/alert'
 import SelectSpecialization from './selectSpecialization'
+import { toast } from 'react-toastify'
 
 interface AddDoctorProps {
-  onUpdate: (newDoctor: DoctorType, alertMessage: string) => void
+  onUpdate: (newDoctor: DoctorType) => void
   onClose: () => void
 }
 
@@ -44,7 +43,6 @@ const AddDoctor = ({ onUpdate, onClose }: AddDoctorProps) => {
   const [errorSpecialization, setErrorSpecialization] = useState('')
   const [chosenHospitals, setChosenHospitals] = useState<HospitalType[]>([])
   const [errorHospital, setErrorHospital] = useState('')
-  const [alert, setAlert] = useState<AlertType | null>(null)
 
   const onSubmit = (data: DoctorType) => {
     if (specialization.name === '') {
@@ -72,14 +70,15 @@ const AddDoctor = ({ onUpdate, onClose }: AddDoctorProps) => {
     doctorService
       .createDoctor(newData)
       .then((res) => {
-        onUpdate(newData, res.data)
+        onUpdate(newData)
+        toast.error(res.data)
         onClose()
       })
       .catch((err) => {
         if (!err) {
-          setAlert({ type: AlertMessages.ERROR, message: 'Network Error' })
+          toast.error('Network Error')
         }
-        setAlert({ type: AlertMessages.ERROR, message: err.message })
+        toast.error(err.message)
       })
       .finally(() => {
         setErrorSpecialization('')
@@ -100,54 +99,34 @@ const AddDoctor = ({ onUpdate, onClose }: AddDoctorProps) => {
     } else setChosenHospitals((prev: HospitalType[]) => [...prev, hospital])
   }
 
-  const handleSetError = (err: string) => {
-    setAlert({ type: AlertMessages.ERROR, message: err })
-  }
-
-  const handleCloseAlert = () => {
-    setAlert(null)
-  }
-
   return (
-    <>
-      {alert && (
-        <AlertContainer
-          title={alert.type}
-          type={alert.type}
-          message={alert.message}
-          onClose={handleCloseAlert}
+    <AddDoctorFormContainer>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        {addDoctorValidations.map((validation: AddDrValidationType) => (
+          <AddDoctorInputContainer key={validation.name}>
+            <Label>{validation.name}</Label>
+            <AddDoctorInputFieldContainer>
+              <Input {...register(validation.name, validation.validations)} />
+              <Error>{errors[validation.name]?.message}</Error>
+            </AddDoctorInputFieldContainer>
+          </AddDoctorInputContainer>
+        ))}
+
+        <SelectSpecialization
+          specialization={specialization}
+          errorSpecialization={errorSpecialization}
+          onSelectSpecialization={handleSelectSpecialization}
         />
-      )}
-      <AddDoctorFormContainer>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          {addDoctorValidations.map((validation: AddDrValidationType) => (
-            <AddDoctorInputContainer key={validation.name}>
-              <Label>{validation.name}</Label>
-              <AddDoctorInputFieldContainer>
-                <Input {...register(validation.name, validation.validations)} />
-                <Error>{errors[validation.name]?.message}</Error>
-              </AddDoctorInputFieldContainer>
-            </AddDoctorInputContainer>
-          ))}
 
-          <SelectSpecialization
-            specialization={specialization}
-            onError={handleSetError}
-            errorSpecialization={errorSpecialization}
-            onSelectSpecialization={handleSelectSpecialization}
-          />
+        <HospitalsSelect
+          onSelectHospitals={handleSelectHospitals}
+          chosenHospitals={chosenHospitals}
+          errorHospital={errorHospital}
+        />
 
-          <HospitalsSelect
-            onSelectHospitals={handleSelectHospitals}
-            chosenHospitals={chosenHospitals}
-            onError={handleSetError}
-            errorHospital={errorHospital}
-          />
-
-          <ButtonSecondary>Create</ButtonSecondary>
-        </Form>
-      </AddDoctorFormContainer>
-    </>
+        <ButtonSecondary>Create</ButtonSecondary>
+      </Form>
+    </AddDoctorFormContainer>
   )
 }
 

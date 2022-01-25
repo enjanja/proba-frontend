@@ -14,6 +14,12 @@ export const H2 = styled.h2`
   color: ${colors.primary};
 `
 
+export const H3 = styled.h3`
+  margin: 0;
+  margin-bottom: 20px;
+  color: ${colors.secondary};
+`
+
 export const PlainText = styled.p`
   font-size: 15px;
   margin: 0;
@@ -37,5 +43,13 @@ export const Link = styled(ReactRouterLink)`
 
   &:visited {
     color: ${colors.secondary};
+  }
+`
+
+export const UpdateDiagnosisAcentText = styled.div`
+  font-size: 16px;
+  margin: 5px 0;
+  span {
+    color: ${colors.shadow};
   }
 `

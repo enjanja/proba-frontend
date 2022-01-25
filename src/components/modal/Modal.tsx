@@ -1,6 +1,6 @@
-import { BackDrop, Close, ModalContainer } from './modal.styles'
+import { BackDrop, ModalContainer } from './modal.styles'
 import ReactDOM from 'react-dom'
-import { AiOutlineCloseCircle } from 'react-icons/ai'
+import { SyntheticEvent } from 'react'
 
 interface ModalProps {
   children: React.ReactNode
@@ -10,13 +10,12 @@ interface ModalProps {
 const modalPortal = document.getElementById('modal-root')
 
 const Modal = ({ children, onClose }: ModalProps) => {
+  const handleEventPropagation = (event: SyntheticEvent) => {
+    event.stopPropagation()
+  }
   const modal = (
-    <BackDrop>
-      <ModalContainer>
-        <Close onClick={onClose}>
-          {' '}
-          <AiOutlineCloseCircle size="30px" />
-        </Close>
+    <BackDrop onClick={onClose}>
+      <ModalContainer onClick={handleEventPropagation}>
         {children}
       </ModalContainer>
     </BackDrop>

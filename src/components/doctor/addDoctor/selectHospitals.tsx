@@ -18,22 +18,20 @@ import {
 } from '@mui/material'
 import { Error } from '../../text/text.styles'
 import hospitalService from '../../../services/hospitalService'
+import { toast } from 'react-toastify'
 
 interface SelectHospitalsProps {
   onSelectHospitals: (hospital: HospitalType) => void
   chosenHospitals: HospitalType[]
   errorHospital: string
-  onError: (err: string) => void
 }
 
 const HospitalsSelect = ({
   onSelectHospitals,
   chosenHospitals,
   errorHospital,
-  onError,
 }: SelectHospitalsProps) => {
   const [hospitals, setHospitals] = useState<HospitalType[]>([])
-  const [error, setError] = useState('')
 
   useEffect(() => {
     hospitalService
@@ -43,9 +41,10 @@ const HospitalsSelect = ({
       })
       .catch((err) => {
         if (!err) {
-          onError('Network Error')
+          toast.error('Network error')
         }
-        onError(err.response?.data)
+
+        toast.error(err.message)
       })
   }, [])
 
@@ -55,18 +54,17 @@ const HospitalsSelect = ({
     })
 
     if (chosenHospitals.length === 4) {
-      setError('You can select max 4 hospitals')
+      toast.error('You can select max 4 hospitals')
       return
     }
 
     if (selectedHosp === undefined) return
 
     if (chosenHospitals.includes(selectedHosp)) {
-      setError('this hospital was already chosen')
+      toast.error('this hospital was already chosen')
       return
     }
     selectedHosp && onSelectHospitals(selectedHosp)
-    setError('')
   }
 
   const Hospital = ({ hospital }: { hospital: HospitalType }) => {
@@ -83,8 +81,6 @@ const HospitalsSelect = ({
       </MyListItem>
     )
   }
-
-  const errHospital = error ? error : errorHospital
 
   return (
     <AddDoctorInputContainer>
@@ -118,7 +114,7 @@ const HospitalsSelect = ({
             </MenuItem>
           ))}
         </Select>
-        <Error>{errHospital}</Error>
+        <Error>{errorHospital}</Error>
       </FormControl>
     </AddDoctorInputContainer>
   )

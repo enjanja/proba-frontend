@@ -47,7 +47,6 @@ const Profile = () => {
   }
 
   const onSubmit = (data: UserType) => {
-    console.log(data)
     setUser(data)
 
     setTimeout(() => {
@@ -59,7 +58,6 @@ const Profile = () => {
     <>
       <Navbar showProfile absolute />
       <Wrapper>
-        {console.log('home rendered')}
         <AddDoctorFormContainer>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <AddDoctorInputContainer>

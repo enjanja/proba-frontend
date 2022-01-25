@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import { Grid } from '@mui/material'
 import { PatientType } from '../../interfaces/dataTypes'
 import { colors } from '../../global.styles'
-import AlertContainer from '../alert/alert'
-import { AlertMessages, AlertType } from '../../enums/alert'
 import { Button, ButtonHolderTable } from '../button/button.styles'
 import TablePatients from './tablePatients'
 import patientService from '../../services/patientService'
@@ -13,13 +11,13 @@ import { H2 } from '../text/text.styles'
 import { ActionType } from '../../enums/action'
 import EditPatient from './editPatient'
 import { Box } from '@mui/system'
+import { toast } from 'react-toastify'
 
 const Patients = () => {
   const [patients, setPatients] = useState<PatientType[]>([])
   const [selectedPatient, setSelectedPatient] = useState<PatientType | null>(
     null,
   )
-  const [alert, setAlert] = useState<AlertType | null>(null)
   const [openModal, setOpenModal] = useState(false)
   const [action, setAction] = useState('')
 
@@ -30,13 +28,9 @@ const Patients = () => {
         setPatients(res.data)
       })
       .catch((err) => {
-        setAlert({ type: AlertMessages.ERROR, message: err.message })
+        toast.error(err.message)
       })
   }, [])
-
-  const handleAlertClose = () => {
-    setAlert(null)
-  }
 
   const handleOpenModal = () => {
     setOpenModal(true)
@@ -47,11 +41,10 @@ const Patients = () => {
     setAction('')
   }
 
-  const handleUpdateData = (newPatient: PatientType, alertMessage: string) => {
+  const handleUpdateData = (newPatient: PatientType) => {
     const lastPatient = patients[patients.length - 1]
     newPatient.id = Number(lastPatient.id) + 1 + ''
     setPatients([...patients, newPatient])
-    setAlert({ type: AlertMessages.SUCCESS, message: alertMessage })
   }
 
   const handleOpenEditModal = (patient: PatientType) => {
@@ -60,8 +53,7 @@ const Patients = () => {
     setAction(ActionType.EDIT)
   }
 
-  const handleEdit = (newPatient: PatientType, alertMessage: string) => {
-    console.log(newPatient)
+  const handleEdit = (newPatient: PatientType) => {
     const newPatients = patients.map((patient) => {
       if (patient.id === newPatient.id) {
         patient.name = newPatient.name
@@ -70,19 +62,10 @@ const Patients = () => {
       return patient
     })
     setPatients(newPatients)
-    setAlert({ type: AlertMessages.SUCCESS, message: alertMessage })
   }
 
   return (
     <>
-      {alert && (
-        <AlertContainer
-          type={alert.type}
-          title={alert.type}
-          message={alert.message}
-          onClose={handleAlertClose}
-        />
-      )}
       {openModal && (
         <Modal onClose={handleCloseModal}>
           {action === ActionType.ADD && (

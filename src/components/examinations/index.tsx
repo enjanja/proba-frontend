@@ -1,52 +1,127 @@
-import { Box, Grid } from '@mui/material'
-import { useState } from 'react'
-import { AlertType } from '../../enums/alert'
+import { Autocomplete, Box, Grid, Stack, TextField } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import { colors } from '../../global.styles'
-import AlertContainer from '../alert/alert'
-import { Button, ButtonHolderTable } from '../button/button.styles'
-import Modal from '../modal/Modal'
-import { H2 } from '../text/text.styles'
+import { DoctorType, HospitalType } from '../../interfaces/dataTypes'
+import doctorService from '../../services/doctorService'
+import hospitalService from '../../services/hospitalService'
+import Calendar from '../calendar'
 
 const Examinations = () => {
-  const [alert, setAlert] = useState<AlertType | null>(null)
-  const [openModal, setOpenModal] = useState(false)
-  const oui = true
+  const { control } = useForm()
+  const [doctors, setDoctors] = useState<DoctorType[]>([])
+  const [doctor, setDoctor] = useState<DoctorType | null>(null)
+  const [doctorWithExams, setDoctorWithExams] = useState<DoctorType | null>(
+    null,
+  )
+  const [hospital, setHospital] = useState<HospitalType | null>(null)
+  const [hospitals, setHospitals] = useState<HospitalType[]>([])
 
-  const handleAlertClose = () => {
-    setAlert(null)
-  }
+  useEffect(() => {
+    doctorService
+      .getAllDoctors()
+      .then((res) => {
+        setDoctors(res.data)
+      })
+      .catch((err) => {
+        toast.error(err.message)
+      })
 
-  const handleOpenModal = () => {
-    setOpenModal(true)
-  }
-  const handleCloseModal = () => {
-    setOpenModal(false)
-  }
+    hospitalService
+      .getAllHospitals()
+      .then((res) => {
+        setHospitals(res.data)
+      })
+      .catch((err) => {
+        if (!err) {
+          toast.error('Network error')
+        }
+
+        toast.error(err.message)
+      })
+  }, [])
+
+  useEffect(() => {
+    if (doctor) {
+      doctorService
+        .getAllDoctorByUsername(doctor?.username)
+        .then((res) => {
+          setDoctorWithExams(res.data)
+        })
+        .catch((err) => {
+          toast.error(err.message)
+        })
+    }
+  }, [doctor])
 
   return (
     <>
-      {alert && (
-        <AlertContainer
-          type={alert.type}
-          title={alert.type}
-          message={alert.message}
-          onClose={handleAlertClose}
-        />
-      )}
-      {openModal && (
-        <Modal onClose={handleCloseModal}>
-          <div>modal</div>
-        </Modal>
-      )}
-      <Box sx={{ padding: '10px 0 0 10px' }}>
-        <H2>Examinations</H2>
+      <Box sx={{ padding: '10px 0 0 20px ' }}>
+        <Stack direction="row" spacing={2}>
+          <div style={{ width: '300px' }}>
+            <Controller
+              render={({ field: { value } }) => (
+                <Autocomplete
+                  options={doctors}
+                  getOptionLabel={(option: DoctorType) => option.name}
+                  renderOption={(
+                    props: React.HTMLAttributes<HTMLLIElement>,
+                    option: DoctorType,
+                  ) => (
+                    <Box component="li" {...props} key={option.id}>
+                      {option.name}
+                    </Box>
+                  )}
+                  renderInput={(params) => {
+                    return (
+                      <TextField {...params} label="Doctor" value={value} />
+                    )
+                  }}
+                  onChange={(_, data) => setDoctor(data)}
+                />
+              )}
+              defaultValue={doctors[0]}
+              name="doctor"
+              control={control}
+            />
+          </div>
+          <div style={{ width: '300px' }}>
+            <Controller
+              render={({ field: { value } }) => (
+                <Autocomplete
+                  options={hospitals}
+                  getOptionLabel={(option: HospitalType) => option.name}
+                  renderOption={(
+                    props: React.HTMLAttributes<HTMLLIElement>,
+                    option: HospitalType,
+                  ) => (
+                    <Box component="li" {...props} key={option.id}>
+                      {option.name}
+                    </Box>
+                  )}
+                  renderInput={(params) => {
+                    return (
+                      <TextField {...params} label="Hospital" value={value} />
+                    )
+                  }}
+                  onChange={(_, data) => setHospital(data)}
+                />
+              )}
+              defaultValue={hospitals[0]}
+              name="hospital"
+              control={control}
+            />
+          </div>
+        </Stack>
       </Box>
-      <ButtonHolderTable>
-        <Button onClick={handleOpenModal}>Add an appointment</Button>
-      </ButtonHolderTable>
-      {oui ? (
-        <Box sx={{ padding: '10px', height: 'fill' }}>
-          <div>examinations</div>
+      {doctorWithExams && hospital ? (
+        <Box sx={{ padding: '5px', height: 'fill' }}>
+          <Calendar
+            hospital={hospital}
+            doctor={doctorWithExams}
+            examinations={doctorWithExams?.examinations}
+          />
         </Box>
       ) : (
         <Grid
@@ -55,9 +130,7 @@ const Examinations = () => {
           justifyContent={'center'}
           height={'400px'}
         >
-          <h3 style={{ color: colors.secondary }}>
-            No examination appointments exist
-          </h3>
+          <h3 style={{ color: colors.secondary }}>Select a doctor</h3>
         </Grid>
       )}
     </>

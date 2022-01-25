@@ -5,3 +5,4 @@ export const API_URL_NURSE = `${API_URL}nurse/`
 export const API_URL_PATIENT = `${API_URL}patient/`
 export const API_URL_HOSPITAL = `${API_URL}hospitals/`
 export const API_URL_DOCTOR = `${API_URL}doctors/`
+export const API_URL_EXAMINATION = `${API_URL}examinations/`

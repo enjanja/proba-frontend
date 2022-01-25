@@ -6,20 +6,19 @@ import {
   SelectChangeEvent,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { SpecializationType } from '../../../interfaces/dataTypes'
 import specializationService from '../../../services/specializationService'
 import { AddDoctorInputContainer, Label } from '../../form/form.styles'
 import { Error } from '../../text/text.styles'
 
 interface SelectSpecializationProps {
-  onError: (err: string) => void
   errorSpecialization: string
   onSelectSpecialization: (specialization: SpecializationType) => void
   specialization: SpecializationType
 }
 
 const SelectSpecialization = ({
-  onError,
   errorSpecialization,
   onSelectSpecialization,
   specialization,
@@ -36,9 +35,9 @@ const SelectSpecialization = ({
       })
       .catch((err) => {
         if (!err) {
-          console.log(err)
+          toast.error('Network error')
         }
-        onError(err.response?.data)
+        toast.error(err.message)
       })
   }, [])
 

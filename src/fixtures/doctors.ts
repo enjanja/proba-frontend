@@ -3,7 +3,7 @@ import { DoctorType } from '../interfaces/dataTypes'
 export const data: DoctorType[] = [
   {
     id: '1',
-    username: 'nikola1',
+    username: 'cveta',
     password: 'nikola1',
     name: 'nikola nikola1',
     role: 2,
@@ -22,6 +22,24 @@ export const data: DoctorType[] = [
         id: 2,
       },
     ],
+  },
+  {
+    id: '2',
+    username: 'cveta',
+    name: 'cveta cveta',
+    specialization: { id: 1, name: 'Mladi Doktor' },
+  },
+  {
+    id: '3',
+    username: 'cvetanija',
+    name: 'cvetanija cvetanija',
+    specialization: { id: 1, name: 'Mladi Doktor' },
+  },
+  {
+    id: '4',
+    username: 'sanja',
+    name: 'sanja sanja',
+    specialization: { id: 1, name: 'Mladi Doktor' },
   },
 ]
 

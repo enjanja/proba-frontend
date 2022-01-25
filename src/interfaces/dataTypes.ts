@@ -16,18 +16,42 @@ export interface UserType {
 export interface DoctorType {
   id?: string
   username: string
-  password: string
+  password?: string
   name: string
-  role: number
-  hospitals: HospitalType[]
-  active: boolean
+  role?: number
+  hospitals?: HospitalType[]
+  active?: boolean
   specialization: SpecializationType
-  examinations: ExaminationType[]
+  examinations?: ExaminationType[]
 }
 
 export interface ExaminationType {
-  id: number
-  name: string
+  id: {
+    doctorId: string | undefined
+    patientId: string
+    dateTime: string
+  }
+  patient: PatientType
+  doctor: DoctorType
+  diagnosis: string
+}
+
+export interface ExaminationTypeForAxios {
+  id: {
+    doctorId: string
+    patientId: string
+    dateTime: string
+  }
+  patient: PatientType
+  doctor: DoctorType
+  diagnosis: string
+}
+
+export interface UpdateDiagnosisData {
+  doctorId: string | undefined
+  patientId: string
+  dateTime: string
+  diagnosis: string
 }
 
 export interface PatientType {
