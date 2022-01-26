@@ -149,6 +149,14 @@ const Calendar = ({ doctor, examinations, hospital }: CalendarProps) => {
     setNewExaminations((prev) => [...(prev as ExaminationType[]), ...newExams])
   }
 
+  const handleDeleteExamForDay = (deletedExam: ExaminationType) => {
+    setNewExaminations(
+      (prev) =>
+        prev &&
+        prev.filter((exam) => exam.id.dateTime !== deletedExam.id.dateTime),
+    )
+  }
+
   const handleOpenModal = () => {
     setOpenModal(true)
   }
@@ -203,6 +211,7 @@ const Calendar = ({ doctor, examinations, hospital }: CalendarProps) => {
         <DayModal
           onClose={handleCloseModal}
           onAddExamForDay={handleAddExamForDay}
+          onDeleteExamForDay={handleDeleteExamForDay}
           examinations={chosenDayExams}
           todaysDate={todaysDate}
           doctor={doctor}

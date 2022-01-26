@@ -19,6 +19,7 @@ import { UpdateDiagnosisAcentText, H3 } from '../text/text.styles'
 interface UpdateDiagnosisProps {
   examination: ExaminationType
   onCancel: () => void
+  onDelete: (examination: ExaminationType) => void
   onUpdate: (newExamination: UpdateDiagnosisData) => void
 }
 
@@ -26,6 +27,7 @@ const UpdateDiagnosis = ({
   examination,
   onCancel,
   onUpdate,
+  onDelete,
 }: UpdateDiagnosisProps) => {
   const [isEditable, setisEditable] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)
@@ -64,7 +66,22 @@ const UpdateDiagnosis = ({
       .catch((err) => toast.error(err.message))
     setisEditable(false)
   }
-  const handleDelete = () => {}
+  const handleDelete = () => {
+    if (examination.id.doctorId) {
+      examinationService
+        .deleteExamination(
+          examination.id.doctorId,
+          examination.id.patientId,
+          examination.id.dateTime,
+        )
+        .then(() => {
+          onDelete(examination)
+          onCancel()
+          toast.success('Examination was deleted')
+        })
+        .catch((err) => toast.error(err.message))
+    }
+  }
 
   return (
     <AddExaminationContainer>

@@ -44,7 +44,12 @@ const TimeTableRow = ({
                 onClick={() => handleAddExamination(interval)}
               />
             )}
-            {examination && <MdEditCalendar size="20px" />}
+            {examination && (
+              <MdEditCalendar
+                size="20px"
+                onClick={() => handleEditDiagnosis(examination)}
+              />
+            )}
           </div>
         </AppointmentSlotBottom>
       )}

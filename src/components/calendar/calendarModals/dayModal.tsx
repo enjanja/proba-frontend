@@ -19,6 +19,7 @@ import TimeTableRow from './timeTableRow'
 
 interface DayModalProps {
   onAddExamForDay: (newExams: ExaminationType[]) => void
+  onDeleteExamForDay: (deletedExam: ExaminationType) => void
   onClose: () => void
   examinations: ExaminationType[]
   todaysDate: Date | null
@@ -33,6 +34,7 @@ const DayModal = ({
   hospital,
   onClose,
   onAddExamForDay,
+  onDeleteExamForDay,
 }: DayModalProps) => {
   const [showAddExamDialog, setshowAddExamDialog] = useState(false)
   const [showUpdateDiagnosisDialog, setUpdateDiagnosisDialog] = useState(false)
@@ -48,7 +50,6 @@ const DayModal = ({
 
   const generateTimeIntervals = (step: number) => {
     const date = new Date(2020, 0, 1, 8)
-
     const intervals = []
     while (date.toLocaleTimeString() !== '4:30:00 PM') {
       intervals.push(date.toLocaleTimeString('en-GB'))
@@ -105,6 +106,14 @@ const DayModal = ({
     setUpdatedExaminations(newExams)
   }
 
+  const handleDelete = (deletedExam: ExaminationType) => {
+    setUpdatedExaminations((prev) =>
+      prev.filter((exam) => exam.id.dateTime !== deletedExam.id.dateTime),
+    )
+
+    onDeleteExamForDay(deletedExam)
+  }
+
   return (
     <Modal onClose={handleCloseDayModal}>
       <ModalContainer>
@@ -148,6 +157,7 @@ const DayModal = ({
                 onUpdate={handleUpdate}
                 examination={chosenExamination}
                 onCancel={handleCancelEditDiagnosis}
+                onDelete={handleDelete}
               />
             )}
           </ColumnContainer>
