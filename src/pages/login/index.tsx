@@ -8,10 +8,9 @@ import { Wrapper } from '../../components/layout/layout.styles'
 import {
   Form,
   FormContainer,
-  Input,
   InputContainer,
 } from '../../components/form/form.styles'
-import { Error, H2 } from '../../components/text/text.styles'
+import { H2 } from '../../components/text/text.styles'
 import { Button } from '../../components/button/button.styles'
 import { FiUser } from 'react-icons/fi'
 import ClipLoader from 'react-spinners/ClipLoader'
@@ -23,13 +22,14 @@ import {
   usernameValidation,
 } from '../../fixtures/validation'
 import { toast } from 'react-toastify'
+import { TextField } from '@mui/material'
 
 const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormData>()
+  } = useForm<LoginFormData>({ defaultValues: { username: '', password: '' } })
 
   const [isLoading, setIsLoading] = useState(false)
   const [passwordIsVisible, setPasswordIsVisible] = useState(false)
@@ -64,30 +64,33 @@ const Login = () => {
             <FiUser size="30px" />
           </H2>
           <InputContainer>
-            <Input
-              type="text"
-              placeholder="username"
+            <TextField
+              placeholder="Username"
+              sx={{ width: '100%' }}
               {...register('username', usernameValidation)}
+              error={errors.username !== undefined}
+              helperText={errors?.username?.message}
             />
-            <Error>{errors.username?.message}</Error>
           </InputContainer>
           <InputContainer>
-            <Input
+            <TextField
               type={passwordIsVisible ? 'text' : 'password'}
-              placeholder="password"
+              placeholder="Password"
+              sx={{ width: '100%' }}
               {...register('password', passwordValidation)}
+              error={errors.password !== undefined}
+              helperText={errors?.password?.message}
             />
             <FaEye
               onClick={handleChangePasswordIsVisible}
               size={20}
               style={{
                 position: 'absolute',
-                right: '5px',
+                right: '10px',
                 top: '18px',
                 color: passwordIsVisible ? colors.primary : colors.secondary,
               }}
             />
-            <Error>{errors.password?.message}</Error>
           </InputContainer>
           <Button>
             {isLoading ? <ClipLoader color="white" size="20px" /> : 'Login'}

@@ -70,7 +70,7 @@ const Examinations = () => {
 
   return (
     <div style={{ paddingTop: '50px' }}>
-      <Box sx={{ padding: '10px 0 0 20px ' }}>
+      <Box>
         <Stack direction="row" spacing={2}>
           {type === 1 && (
             <div style={{ width: '300px' }}>
@@ -131,7 +131,7 @@ const Examinations = () => {
         </Stack>
       </Box>
       {(doctorWithExams && hospital) || (doctor?.examinations && hospital) ? (
-        <Box sx={{ padding: '5px', height: 'fill' }}>
+        <Box sx={{ height: 'fill' }}>
           <Calendar
             type={type}
             hospital={hospital}
