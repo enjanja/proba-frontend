@@ -1,4 +1,5 @@
 import { useRoutes } from 'react-router'
+import BoardDoctor from '../components/boardDoctor'
 import BoardNurse from '../components/boardNurse'
 import Doctor from '../components/doctor'
 import Examinations from '../components/examinations'
@@ -38,17 +39,18 @@ const Router = () => {
             { path: Routes.DOCTORS, element: <Doctor /> },
             { path: Routes.PATIENTS, element: <Patients /> },
             { path: Routes.EXAMINATIONS, element: <Examinations /> },
+            { path: Routes.PROFILE, element: <Profile /> },
+          ],
+        },
+        {
+          path: Routes.DOCTOR,
+          element: <BoardDoctor />,
+          children: [
+            { path: Routes.EXAMINATIONS, element: <Examinations /> },
+            { path: Routes.PROFILE, element: <Profile /> },
           ],
         },
       ],
-    },
-    {
-      path: Routes.PROFILE,
-      element: (
-        <ProtectedRoute roles={[Roles.NURSE, Roles.DOCTOR]}>
-          <Profile />
-        </ProtectedRoute>
-      ),
     },
   ]
   const routing = useRoutes(routes)

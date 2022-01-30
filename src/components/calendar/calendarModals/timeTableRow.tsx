@@ -8,6 +8,7 @@ import {
 } from './calendarModal.styles'
 
 interface TimeTableRowProps {
+  type: number
   interval: string
   examination: ExaminationType | undefined
   onSetInterval: (value: string) => void
@@ -15,6 +16,7 @@ interface TimeTableRowProps {
 }
 
 const TimeTableRow = ({
+  type,
   interval,
   examination,
   onSetInterval,
@@ -38,7 +40,7 @@ const TimeTableRow = ({
             <div>{examination?.patient.jmbg}</div>
           </Patient>
           <div>
-            {!examination && (
+            {!examination && type === 1 && (
               <MdOutlineAddBox
                 size="20px"
                 onClick={() => handleAddExamination(interval)}
@@ -61,7 +63,7 @@ const TimeTableRow = ({
             <div>{examination?.patient.jmbg}</div>
           </Patient>
           <div>
-            {!examination && (
+            {!examination && type === 1 && (
               <MdOutlineAddBox
                 size="20px"
                 onClick={() => handleAddExamination(interval)}

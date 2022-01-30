@@ -20,14 +20,6 @@ export const Button = styled.button<SeccondaryButtonProps>`
   border-radius: 10px;
 
   font-size: 20px;
-
-  &:hover {
-    background-color: ${colors.primaryDark};
-  }
-
-  &:active {
-    background-color: ${colors.primaryLight};
-  }
 `
 interface SeccondaryButtonProps {
   color?: string

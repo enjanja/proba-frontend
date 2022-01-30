@@ -1,116 +1,342 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   AddDoctorFormContainer,
   AddDoctorInputContainer,
   AddDoctorInputFieldContainer,
+  ButtonDivider,
+  ButtonDividerInner,
   Form,
-  FormListContainer,
-  FormListItem,
-  Input,
   Label,
 } from '../../components/form/form.styles'
-import { Wrapper } from '../../components/layout/layout.styles'
-import { AcentText, PlainText } from '../../components/text/text.styles'
-import { FaMapMarkerAlt } from 'react-icons/fa'
-import { ButtonSecondary } from '../../components/button/button.styles'
-import { useForm } from 'react-hook-form'
-import { UserType } from '../../interfaces/dataTypes'
-import Navbar from '../../components/navbar'
+import { InnerWrapper, Wrapper } from '../../components/layout/layout.styles'
+import { Button } from '../../components/button/button.styles'
+import { Controller, useForm } from 'react-hook-form'
+import {
+  HospitalType,
+  SpecializationType,
+  UserType,
+} from '../../interfaces/dataTypes'
+import doctorService from '../../services/doctorService'
+import { toast } from 'react-toastify'
+import { colors } from '../../global.styles'
+import SelectSpecialization from '../../components/doctor/addDoctor/selectSpecialization'
+import HospitalsSelect from '../../components/doctor/addDoctor/selectHospitals'
+import { Autocomplete, TextField } from '@mui/material'
+import nurseService from '../../services/nurseService'
+import { Box } from '@mui/system'
+import hospitalService from '../../services/hospitalService'
+import Modal from '../../components/modal/Modal'
+import UpdatePassword from '../../components/modal/UpdatePassword'
 
 const Profile = () => {
-  const { handleSubmit } = useForm()
-
-  const [isEditable, setIsEditable] = useState(false)
-  const [user, setUser] = useState<UserType>({
-    username: 'pera123',
-    password: 'pera123',
-    name: 'Pera Peric',
-    role: 2,
-    active: true,
-    specialization: { id: 1, name: 'Mladi Doktor' },
-    hospitals: [
-      {
-        address: 'adresa 1 Kurac Palac',
-        name: 'Bolnica 1 ',
-        id: 1,
-      },
-      {
-        address: 'adresa 2',
-        name: 'Bolnica 2',
-        id: 2,
-      },
-    ],
+  const type = JSON.parse(localStorage.getItem('type') || '')
+  const [user, setUser] = useState<UserType | null>(null)
+  const { handleSubmit, register, setValue, control } = useForm({
+    defaultValues: {
+      name: user?.name,
+      username: user?.username,
+      specialization: user?.specialization,
+      hospital: user?.hospital,
+    },
   })
 
+  const [isEditable, setIsEditable] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
+  const [specialization, setSpecialization] = useState<SpecializationType>({
+    name: '',
+    id: 0,
+  })
+
+  const [chosenHospitals, setChosenHospitals] = useState<HospitalType[]>([])
+  const [hospital, setHospital] = useState<HospitalType | null>(null)
+  const [hospitals, setHospitals] = useState<HospitalType[]>([])
+
+  useEffect(() => {
+    if (type === 2) {
+      console.log('uso')
+
+      doctorService
+        .getDoctorProfile()
+        .then((res) => {
+          console.log(res)
+          setUser(res.data)
+          console.log('uso')
+          setValue('name', res.data.name)
+          setValue('username', res.data.username)
+          setSpecialization(res.data.specialization)
+          setChosenHospitals(res.data.hospitals)
+        })
+        .catch((err) => toast.error(err.message))
+    } else {
+      nurseService
+        .getNurseProfile()
+        .then((res) => {
+          setUser(res.data)
+          setValue('name', res.data.name)
+          setValue('username', res.data.username)
+          setHospital(res.data.hospital)
+        })
+        .catch((err) => toast.error(err.message))
+
+      hospitalService
+        .getAllHospitals()
+        .then((res) => {
+          setHospitals(res.data)
+        })
+        .catch((err) => toast.error(err.message))
+    }
+  }, [])
+
   const handleEditForm = () => {
-    setIsEditable(true)
+    if (user) {
+      setIsEditable(!isEditable)
+      if (type === 1 && user.hospitals) {
+        setChosenHospitals(user.hospitals)
+      }
+    }
+  }
+
+  const handleSelectSpecialization = (spec: SpecializationType) => {
+    setSpecialization(spec)
+  }
+
+  const handleSelectHospitals = (hospital: HospitalType) => {
+    const hosps = [...chosenHospitals]
+    const index = hosps.indexOf(hospital)
+    if (index !== -1) {
+      hosps.splice(index, 1)
+      setChosenHospitals(() => hosps)
+    } else {
+      if (chosenHospitals.find((h) => h.id === hospital.id)) return
+      setChosenHospitals((prev: HospitalType[]) => [...prev, hospital])
+    }
+  }
+
+  const equalHospitals = (hospitals: HospitalType[]) => {
+    const drsHospitals = []
+    chosenHospitals.map((hospital) => {
+      const h = hospitals.find((h) => h.id === hospital.id)
+      if (h) {
+        drsHospitals.push(h)
+      }
+    })
+    if (
+      drsHospitals.length === chosenHospitals.length &&
+      chosenHospitals.length === hospitals?.length
+    )
+      return true
+    return false
   }
 
   const onSubmit = (data: UserType) => {
-    setUser(data)
+    if (user && user.hospitals && user.specialization) {
+      if (
+        data.username === user?.username &&
+        data.name === user.name &&
+        data.password === user.password &&
+        specialization.id === user.specialization.id &&
+        equalHospitals(user.hospitals)
+      ) {
+        return
+      }
 
-    setTimeout(() => {
-      setIsEditable(false)
-    }, 5000)
+      if (chosenHospitals.length === 0) {
+        setChosenHospitals(user?.hospitals)
+      }
+
+      const newData = {
+        ...data,
+        hospitals: chosenHospitals,
+        specialization: specialization,
+        active: user?.active,
+      }
+
+      doctorService
+        .updateDoctorProfile(newData)
+        .then((res) => {
+          console.log(res)
+          setValue('name', res.data.name)
+          setValue('username', res.data.username)
+          setSpecialization(res.data.specialization)
+          setChosenHospitals(res.data.hospitals)
+          handleEditForm()
+          toast.info('Profile updated')
+        })
+        .catch((err) => {
+          console.log(err)
+          toast.info(err.message)
+        })
+    }
+
+    if (user && user.hospital) {
+      if (
+        data.username === user?.username &&
+        data.name === user.name &&
+        data.password === user.password &&
+        data.hospital === user.hospital
+      ) {
+        return
+      }
+
+      const newData = {
+        ...data,
+        active: user?.active,
+      }
+
+      nurseService
+        .updateNurseProfile(newData)
+        .then((res) => {
+          console.log(res)
+          setValue('name', res.data.name)
+          setValue('username', res.data.username)
+          setHospital(res.data.hospitals)
+          handleEditForm()
+          toast.info('Profile updated')
+        })
+        .catch((err) => {
+          console.log(err)
+          toast.info(err.message)
+        })
+    }
+  }
+
+  const handleOpenModal = () => {
+    setOpenModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setOpenModal(false)
   }
 
   return (
-    <>
-      <Navbar showProfile absolute />
-      <Wrapper>
+    <Wrapper>
+      {openModal && (
+        <Modal onClose={handleCloseModal}>
+          <UpdatePassword onCancel={handleCloseModal} />
+        </Modal>
+      )}
+      <InnerWrapper>
         <AddDoctorFormContainer>
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <AddDoctorInputContainer>
-              <Label>Full Name</Label>
-              <AddDoctorInputFieldContainer>
-                <Input placeholder={user.name} disabled={!isEditable} />
-              </AddDoctorInputFieldContainer>
-            </AddDoctorInputContainer>
-            <AddDoctorInputContainer>
-              <Label>Userame</Label>
-              <AddDoctorInputFieldContainer>
-                <Input placeholder={user.username} disabled={!isEditable} />
-              </AddDoctorInputFieldContainer>
-            </AddDoctorInputContainer>
-            <AddDoctorInputContainer>
-              <Label>Password</Label>
-              <AddDoctorInputFieldContainer>
-                <Input
-                  placeholder={user.password}
-                  type="password"
+          {(user?.hospitals || user?.hospital) && (
+            <Form onSubmit={handleSubmit(onSubmit)} id="update-form">
+              <AddDoctorInputContainer>
+                <Label>Full Name</Label>
+                <AddDoctorInputFieldContainer>
+                  <TextField
+                    placeholder="name"
+                    disabled={!isEditable}
+                    sx={{ width: '100%' }}
+                    {...register('name')}
+                  />
+                </AddDoctorInputFieldContainer>
+              </AddDoctorInputContainer>
+              <AddDoctorInputContainer>
+                <Label>Userame</Label>
+                <AddDoctorInputFieldContainer>
+                  <TextField
+                    placeholder="username"
+                    disabled={!isEditable}
+                    sx={{ width: '100%' }}
+                    {...register('username')}
+                  />
+                </AddDoctorInputFieldContainer>
+              </AddDoctorInputContainer>
+              {user.specialization && (
+                <SelectSpecialization
+                  defaultValue={user.specialization.name}
                   disabled={!isEditable}
+                  specialization={specialization}
+                  onSelectSpecialization={handleSelectSpecialization}
                 />
-              </AddDoctorInputFieldContainer>
-            </AddDoctorInputContainer>
-            <AddDoctorInputContainer>
-              <Label>Specialization</Label>
-              <AddDoctorInputFieldContainer>
-                <Input
-                  placeholder={user.specialization.name}
+              )}
+              {user.hospitals && (
+                <HospitalsSelect
                   disabled={!isEditable}
+                  onSelectHospitals={handleSelectHospitals}
+                  chosenHospitals={chosenHospitals}
                 />
-              </AddDoctorInputFieldContainer>
-            </AddDoctorInputContainer>
-            <Label>Works in: </Label>
-            <FormListContainer>
-              {user.hospitals.map((hospital) => {
-                return (
-                  <FormListItem key={hospital.id}>
-                    <PlainText>{hospital.name} </PlainText>
-                    <AcentText>
-                      {hospital.address} <FaMapMarkerAlt />
-                    </AcentText>
-                  </FormListItem>
-                )
-              })}
-            </FormListContainer>
-
-            <ButtonSecondary disabled={!isEditable}>Update</ButtonSecondary>
-          </Form>
-          <ButtonSecondary onClick={handleEditForm}>Edit</ButtonSecondary>
+              )}
+              {user.hospital && (
+                <AddDoctorInputContainer>
+                  <Label>Hospital</Label>
+                  <AddDoctorInputFieldContainer>
+                    <Controller
+                      render={({ field: { value } }) => (
+                        <Autocomplete
+                          disabled={!isEditable}
+                          options={hospitals}
+                          getOptionLabel={(option: HospitalType) => option.name}
+                          renderOption={(
+                            props: React.HTMLAttributes<HTMLLIElement>,
+                            option: HospitalType,
+                          ) => (
+                            <Box component="li" {...props} key={option.id}>
+                              {option.name}
+                            </Box>
+                          )}
+                          renderInput={(params) => {
+                            return (
+                              <TextField
+                                {...params}
+                                label={hospital?.name}
+                                disabled={!isEditable}
+                                value={value}
+                              />
+                            )
+                          }}
+                          onChange={(_, data) => setHospital(data)}
+                        />
+                      )}
+                      name="hospital"
+                      control={control}
+                    />
+                  </AddDoctorInputFieldContainer>
+                </AddDoctorInputContainer>
+              )}
+              <ButtonDivider>
+                <ButtonDividerInner>
+                  {!isEditable && (
+                    <Button onClick={handleEditForm} type="button">
+                      Edit
+                    </Button>
+                  )}
+                  {isEditable && (
+                    <Button
+                      form="update-form"
+                      type="button"
+                      color={colors.primary}
+                      onClick={handleEditForm}
+                    >
+                      Cancel
+                    </Button>
+                  )}
+                </ButtonDividerInner>{' '}
+                <ButtonDividerInner>
+                  {isEditable && (
+                    <Button
+                      form="update-form"
+                      type="submit"
+                      color={colors.secondary}
+                    >
+                      Update
+                    </Button>
+                  )}
+                  {!isEditable && (
+                    <Button
+                      color={colors.secondary}
+                      onClick={handleOpenModal}
+                      type="button"
+                    >
+                      Change Password
+                    </Button>
+                  )}
+                </ButtonDividerInner>
+              </ButtonDivider>
+            </Form>
+          )}
         </AddDoctorFormContainer>
-      </Wrapper>
-    </>
+      </InnerWrapper>
+    </Wrapper>
   )
 }
 

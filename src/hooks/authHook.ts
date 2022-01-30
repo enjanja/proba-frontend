@@ -28,7 +28,5 @@ export const useAuth = () => {
       .finally(() => setLoading(false))
   }
 
-  const logout = () => {}
-
-  return { login, logout }
+  return { login }
 }

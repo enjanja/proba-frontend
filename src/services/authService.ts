@@ -1,8 +1,22 @@
-import axios from 'axios'
-import { API_URL_AUTH } from '../api/api'
+import { API_URL, API_URL_AUTH } from '../api/api'
+import instance from '../api/instance'
 import { LoginData } from '../interfaces/dataTypes'
 
-const login = (data: LoginData) => axios.post(`${API_URL_AUTH}`, data)
-const logout = () => localStorage.clear()
+const login = (data: LoginData) => instance.post(`${API_URL_AUTH}`, data)
+const logout = () => {
+  Object.assign(instance.defaults, {
+    headers: {
+      ...instance.defaults.headers,
+      common: {
+        ...instance.defaults.headers.common,
+        Authorization: ``,
+      },
+    },
+  })
+  localStorage.clear()
+}
 
-export default { login, logout }
+const updatePassword = (data: { oldPassword: string; newPassword: string }) =>
+  instance.put(`${API_URL}change-password`, data)
+
+export default { login, logout, updatePassword }

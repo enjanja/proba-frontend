@@ -69,6 +69,7 @@ export const Day = styled.div`
   height: 100%;
   max-height: 90px;
   background: ${colors.base};
+  cursor: pointer;
 
   overflow: scroll;
   &::-webkit-scrollbar {

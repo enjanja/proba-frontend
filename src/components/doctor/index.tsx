@@ -7,12 +7,14 @@ import { Button, ButtonHolderTable } from '../button/button.styles'
 import TableDoctors from './tableDoctor'
 import AddDoctor from './addDoctor/addDoctor'
 import Modal from '../modal/Modal'
-import { H2 } from '../text/text.styles'
 import { toast } from 'react-toastify'
+import Deactivate from './deactivateModal'
 
 const Doctor = () => {
   const [doctors, setDoctors] = useState<DoctorType[]>([])
-  const [openModal, setOpenModal] = useState(false)
+  const [doctorToDeactivate, setDoctorToDeactivate] = useState<DoctorType>()
+  const [openModalAdd, setOpenModalAdd] = useState(false)
+  const [openModalDeact, setOpenModalDeact] = useState(false)
 
   useEffect(() => {
     doctorService
@@ -25,11 +27,19 @@ const Doctor = () => {
       })
   }, [])
 
-  const handleOpenModal = () => {
-    setOpenModal(true)
+  const handleOpenModalAddDr = () => {
+    setOpenModalAdd(true)
   }
-  const handleCloseModal = () => {
-    setOpenModal(false)
+  const handleCloseModalAddDr = () => {
+    setOpenModalAdd(false)
+  }
+
+  const handleOpenModalDeactivate = (doctor: DoctorType) => {
+    setDoctorToDeactivate(doctor)
+    setOpenModalDeact(true)
+  }
+  const handleCloseModalDeactivate = () => {
+    setOpenModalDeact(false)
   }
 
   const handleUpdateData = (newDoctor: DoctorType) => {
@@ -38,22 +48,44 @@ const Doctor = () => {
     setDoctors([...doctors, newDoctor])
   }
 
+  const handleDeactivate = () => {
+    if (doctorToDeactivate) {
+      doctorService
+        .deactivate(doctorToDeactivate.username)
+        .then((res) => toast.info(res.data))
+        .catch((err) => toast.error(err.message))
+    }
+  }
+
   return (
-    <>
-      {openModal && (
-        <Modal onClose={handleCloseModal}>
-          <AddDoctor onUpdate={handleUpdateData} onClose={handleCloseModal} />
+    <div style={{ paddingTop: '50px' }}>
+      {openModalAdd && (
+        <Modal onClose={handleCloseModalAddDr}>
+          <AddDoctor
+            onUpdate={handleUpdateData}
+            onClose={handleCloseModalAddDr}
+          />
         </Modal>
       )}
-      <Box sx={{ padding: '10px 0 0 10px' }}>
-        <H2>Doctors</H2>
-      </Box>
+      {openModalDeact && (
+        <Modal onClose={handleCloseModalDeactivate}>
+          <Deactivate
+            onCancel={handleCloseModalDeactivate}
+            onDeactivate={handleDeactivate}
+          />
+        </Modal>
+      )}
       <ButtonHolderTable>
-        <Button onClick={handleOpenModal}>Add doctor</Button>
+        <div style={{ maxWidth: '200px' }}>
+          <Button onClick={handleOpenModalAddDr}>Add doctor</Button>
+        </div>
       </ButtonHolderTable>
       {doctors.length > 0 ? (
         <Box sx={{ padding: '10px', height: 'fill' }}>
-          <TableDoctors doctors={doctors} />
+          <TableDoctors
+            doctors={doctors}
+            onDeactivate={handleOpenModalDeactivate}
+          />
         </Box>
       ) : (
         <Grid
@@ -67,7 +99,7 @@ const Doctor = () => {
           </h3>
         </Grid>
       )}
-    </>
+    </div>
   )
 }
 

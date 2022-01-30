@@ -31,6 +31,12 @@ export const InputContainer = styled.div`
   position: relative;
 `
 
+export const InputContainerPassword = styled.div`
+  width: 70%;
+  text-align: start;
+  position: relative;
+`
+
 export const Input = styled.input`
   height: 40px;
   width: 100%;
@@ -57,13 +63,14 @@ export const Input = styled.input`
 `
 
 export const Label = styled.label`
+  max-width: 100px;
   font-size: 15px;
   margin-bottom: 10px;
 `
 
 export const FormListContainer = styled.div`
-  padding: 5px;
-  margin: 10px 0;
+  display: flex;
+  justify-content: end;
 `
 
 export const FormListItem = styled.div`
@@ -76,8 +83,8 @@ export const AddDoctorFormContainer = styled.div`
   height: fit-content;
 
   background-color: ${colors.base};
-  border-radius: 10px;
-  box-shadow: 0 0 4px 0 ${colors.shadow};
+  border-radius: 5px;
+  border: 1px solid ${colors.primary};
 `
 export const AddDoctorInputContainer = styled.div`
   min-height: 80px;
@@ -93,7 +100,7 @@ export const AddDoctorInputFieldContainer = styled.div`
 
 export const ListContainer = styled.div`
   height: fit-content;
-  width: 100%;
+  width: 100px;
 `
 
 export const MyListItem = styled.div`

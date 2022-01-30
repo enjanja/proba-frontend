@@ -2,7 +2,7 @@ import { Grid } from '@mui/material'
 import { Outlet } from 'react-router-dom'
 import { colors } from '../global.styles'
 
-const BoardNurse = () => {
+const BoardDoctor = () => {
   return (
     <Grid sx={{ backgroundColor: colors.base, height: '100vh' }}>
       <Outlet />
@@ -10,4 +10,4 @@ const BoardNurse = () => {
   )
 }
 
-export default BoardNurse
+export default BoardDoctor

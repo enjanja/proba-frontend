@@ -1,6 +1,10 @@
-import { API_URL_DOCTOR } from '../api/api'
+import { API_URL, API_URL_DOCTOR } from '../api/api'
 import instance from '../api/instance'
-import { DoctorType, ExaminationTypeForAxios } from '../interfaces/dataTypes'
+import {
+  DoctorType,
+  ExaminationTypeForAxios,
+  UserType,
+} from '../interfaces/dataTypes'
 
 const deleteDoctor = (id: number) => instance.delete(`${API_URL_DOCTOR}${id}`)
 
@@ -28,6 +32,14 @@ const getAllDoctors = () => instance.get(`${API_URL_DOCTOR}`)
 const getAllDoctorByUsername = (username: string) =>
   instance.get(`${API_URL_DOCTOR}${username}`)
 
+const getDoctorProfile = () => instance.get(`${API_URL_DOCTOR}myProfile`)
+
+const updateDoctorProfile = (data: UserType) =>
+  instance.put(`${API_URL_DOCTOR}`, data)
+
+const deactivate = (username: string) =>
+  instance.put(`${API_URL}deactivate/${username}`)
+
 export default {
   deleteDoctor,
   createDoctor,
@@ -35,4 +47,7 @@ export default {
   getAllDoctors,
   getAllDoctorByUsername,
   createExam,
+  getDoctorProfile,
+  updateDoctorProfile,
+  deactivate,
 }

@@ -28,12 +28,13 @@ import DayModal from './calendarModals/dayModal'
 import { colors } from '../../global.styles'
 
 interface CalendarProps {
+  type: number
   doctor: DoctorType | null
   hospital: HospitalType | null
   examinations: ExaminationType[] | undefined
 }
 
-const Calendar = ({ doctor, examinations, hospital }: CalendarProps) => {
+const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
   const weekDays = moment.weekdaysShort()
   const weekdayshort = [...weekDays.slice(1), weekDays[0]]
   const [showYearTable, setShowYearTable] = useState(false)
@@ -209,6 +210,7 @@ const Calendar = ({ doctor, examinations, hospital }: CalendarProps) => {
     <>
       {openModal && (
         <DayModal
+          type={type}
           onClose={handleCloseModal}
           onAddExamForDay={handleAddExamForDay}
           onDeleteExamForDay={handleDeleteExamForDay}

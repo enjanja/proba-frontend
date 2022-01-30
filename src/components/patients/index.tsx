@@ -7,7 +7,6 @@ import TablePatients from './tablePatients'
 import patientService from '../../services/patientService'
 import Modal from '../modal/Modal'
 import AddPatient from './addPatient'
-import { H2 } from '../text/text.styles'
 import { ActionType } from '../../enums/action'
 import EditPatient from './editPatient'
 import { Box } from '@mui/system'
@@ -65,7 +64,7 @@ const Patients = () => {
   }
 
   return (
-    <>
+    <div style={{ paddingTop: '50px' }}>
       {openModal && (
         <Modal onClose={handleCloseModal}>
           {action === ActionType.ADD && (
@@ -83,11 +82,10 @@ const Patients = () => {
           )}
         </Modal>
       )}
-      <Box sx={{ padding: '10px 0 0 10px' }}>
-        <H2>Patients</H2>
-      </Box>
       <ButtonHolderTable>
-        <Button onClick={handleOpenModal}>Add Patient</Button>
+        <div style={{ maxWidth: '200px' }}>
+          <Button onClick={handleOpenModal}>Add Patient</Button>
+        </div>
       </ButtonHolderTable>
       {patients.length > 0 ? (
         <Box sx={{ padding: '10px', height: 'fill' }}>
@@ -105,7 +103,7 @@ const Patients = () => {
           </h3>
         </Grid>
       )}
-    </>
+    </div>
   )
 }
 

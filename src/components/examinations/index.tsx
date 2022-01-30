@@ -9,83 +9,98 @@ import hospitalService from '../../services/hospitalService'
 import Calendar from '../calendar'
 
 const Examinations = () => {
+  const type = JSON.parse(localStorage.getItem('type') || '')
+
   const { control } = useForm()
   const [doctors, setDoctors] = useState<DoctorType[]>([])
   const [doctor, setDoctor] = useState<DoctorType | null>(null)
   const [doctorWithExams, setDoctorWithExams] = useState<DoctorType | null>(
     null,
   )
+
   const [hospital, setHospital] = useState<HospitalType | null>(null)
   const [hospitals, setHospitals] = useState<HospitalType[]>([])
+  console.log(hospitals)
 
   useEffect(() => {
-    doctorService
-      .getAllDoctors()
-      .then((res) => {
-        setDoctors(res.data)
-      })
-      .catch((err) => {
-        toast.error(err.message)
-      })
-
-    hospitalService
-      .getAllHospitals()
-      .then((res) => {
-        setHospitals(res.data)
-      })
-      .catch((err) => {
-        if (!err) {
-          toast.error('Network error')
-        }
-
-        toast.error(err.message)
-      })
-  }, [])
-
-  useEffect(() => {
-    if (doctor) {
+    if (type === 1) {
       doctorService
-        .getAllDoctorByUsername(doctor?.username)
+        .getAllDoctors()
         .then((res) => {
-          setDoctorWithExams(res.data)
+          setDoctors(res.data)
         })
         .catch((err) => {
           toast.error(err.message)
         })
     }
+
+    if (type === 2) {
+      doctorService
+        .getDoctorProfile()
+        .then((res) => {
+          setDoctor(res.data)
+          setHospitals(res.data.hospitals)
+        })
+        .catch((err) => toast.error(err.message))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (doctor) {
+      if (type === 2) {
+        doctorService
+          .getAllDoctorByUsername(doctor?.username)
+          .then((res) => {
+            setDoctorWithExams(res.data)
+          })
+          .catch((err) => {
+            toast.error(err.message)
+          })
+      }
+      if (type === 1) {
+        hospitalService
+          .getHospitalsByDoctor(doctor)
+          .then((res) => {
+            setHospitals(res.data.hospitals)
+          })
+          .catch((err) => toast.error(err.message))
+      }
+    }
   }, [doctor])
 
   return (
-    <>
+    <div style={{ paddingTop: '50px' }}>
       <Box sx={{ padding: '10px 0 0 20px ' }}>
         <Stack direction="row" spacing={2}>
-          <div style={{ width: '300px' }}>
-            <Controller
-              render={({ field: { value } }) => (
-                <Autocomplete
-                  options={doctors}
-                  getOptionLabel={(option: DoctorType) => option.name}
-                  renderOption={(
-                    props: React.HTMLAttributes<HTMLLIElement>,
-                    option: DoctorType,
-                  ) => (
-                    <Box component="li" {...props} key={option.id}>
-                      {option.name}
-                    </Box>
-                  )}
-                  renderInput={(params) => {
-                    return (
-                      <TextField {...params} label="Doctor" value={value} />
-                    )
-                  }}
-                  onChange={(_, data) => setDoctor(data)}
-                />
-              )}
-              defaultValue={doctors[0]}
-              name="doctor"
-              control={control}
-            />
-          </div>
+          {type === 1 && (
+            <div style={{ width: '300px' }}>
+              <Controller
+                render={({ field: { value } }) => (
+                  <Autocomplete
+                    options={doctors}
+                    getOptionLabel={(option: DoctorType) => option.name}
+                    renderOption={(
+                      props: React.HTMLAttributes<HTMLLIElement>,
+                      option: DoctorType,
+                    ) => (
+                      <Box component="li" {...props} key={option.id}>
+                        {option.name}
+                      </Box>
+                    )}
+                    renderInput={(params) => {
+                      return (
+                        <TextField {...params} label="Doctor" value={value} />
+                      )
+                    }}
+                    onChange={(_, data) => setDoctor(data)}
+                  />
+                )}
+                defaultValue={doctors[0]}
+                name="doctor"
+                control={control}
+              />
+            </div>
+          )}
           <div style={{ width: '300px' }}>
             <Controller
               render={({ field: { value } }) => (
@@ -115,12 +130,17 @@ const Examinations = () => {
           </div>
         </Stack>
       </Box>
-      {doctorWithExams && hospital ? (
+      {(doctorWithExams && hospital) || (doctor?.examinations && hospital) ? (
         <Box sx={{ padding: '5px', height: 'fill' }}>
           <Calendar
+            type={type}
             hospital={hospital}
-            doctor={doctorWithExams}
-            examinations={doctorWithExams?.examinations}
+            doctor={doctor?.examinations ? doctor : doctorWithExams}
+            examinations={
+              doctor?.examinations
+                ? doctor.examinations
+                : doctorWithExams?.examinations
+            }
           />
         </Box>
       ) : (
@@ -130,10 +150,12 @@ const Examinations = () => {
           justifyContent={'center'}
           height={'400px'}
         >
-          <h3 style={{ color: colors.secondary }}>Select a doctor</h3>
+          <h3 style={{ color: colors.secondary }}>
+            Select a doctor and hospital
+          </h3>
         </Grid>
       )}
-    </>
+    </div>
   )
 }
 

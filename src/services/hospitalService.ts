@@ -1,6 +1,6 @@
 import { API_URL_HOSPITAL } from '../api/api'
 import instance from '../api/instance'
-import { HospitalType } from '../interfaces/dataTypes'
+import { DoctorType, HospitalType } from '../interfaces/dataTypes'
 
 const deletHospital = (id: string) =>
   instance.delete(`${API_URL_HOSPITAL}${id}`)
@@ -12,9 +12,18 @@ const getHospital = (id: string) => instance.get(`${API_URL_HOSPITAL}${id}`)
 
 const getAllHospitals = () => instance.get(`${API_URL_HOSPITAL}`)
 
+const getHospitalsByDoctor = (data: DoctorType) =>
+  instance.get(`${API_URL_HOSPITAL}doctors`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: data,
+  })
+
 export default {
   deletHospital,
   createHospital,
   getHospital,
   getAllHospitals,
+  getHospitalsByDoctor,
 }

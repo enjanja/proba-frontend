@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import EnhancedTableHead from '../tableHead/tableHead'
 import { headCellsPatients } from '../../fixtures/patients'
-import { FaEdit } from 'react-icons/fa'
+import { AiFillEdit } from 'react-icons/ai'
 import { PatientType } from '../../interfaces/dataTypes'
 
 interface TablePatientsProps {
@@ -41,8 +41,8 @@ const TablePatients = ({ patients, onEdit }: TablePatientsProps) => {
     }
 
     return (
-      <TableCell>
-        <FaEdit onClick={handleEdit} />
+      <TableCell onClick={handleEdit} style={{ cursor: 'pointer' }}>
+        <AiFillEdit size="17px" />
       </TableCell>
     )
   }

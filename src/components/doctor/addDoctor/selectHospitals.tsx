@@ -23,13 +23,15 @@ import { toast } from 'react-toastify'
 interface SelectHospitalsProps {
   onSelectHospitals: (hospital: HospitalType) => void
   chosenHospitals: HospitalType[]
-  errorHospital: string
+  errorHospital?: string
+  disabled?: boolean
 }
 
 const HospitalsSelect = ({
   onSelectHospitals,
   chosenHospitals,
   errorHospital,
+  disabled,
 }: SelectHospitalsProps) => {
   const [hospitals, setHospitals] = useState<HospitalType[]>([])
 
@@ -74,7 +76,7 @@ const HospitalsSelect = ({
 
     return (
       <MyListItem>
-        <TransparentButton onClick={handleRemoveHospital}>
+        <TransparentButton onClick={handleRemoveHospital} disabled={disabled}>
           <TiDelete />
         </TransparentButton>
         <MyListItemText>{hospital.name}</MyListItemText>
@@ -94,19 +96,14 @@ const HospitalsSelect = ({
         <Label>Hospitals</Label>
       )}
       <FormControl fullWidth style={{ width: '70%', float: 'right' }}>
-        <InputLabel id="hospital-select" sx={{ marginTop: '-6px' }}>
-          Hospitals
-        </InputLabel>
+        <InputLabel id="hospital-select">Hospitals</InputLabel>
         <Select
+          disabled={disabled}
           labelId="hospital"
           id="select"
           label="Hospitals"
           value={''}
           onChange={handleSelectHospital}
-          sx={{
-            height: '44px',
-            borderRadius: '10px',
-          }}
         >
           {hospitals.map((h) => (
             <MenuItem key={h.id} value={h.id}>

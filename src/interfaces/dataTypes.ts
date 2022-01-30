@@ -4,13 +4,16 @@ export interface LoginData {
 }
 
 export interface UserType {
+  id?: string
   username: string
   password: string
   name: string
   role: number
-  hospitals: HospitalType[]
+  hospitals?: HospitalType[]
+  hospital?: HospitalType
   active: boolean
-  specialization: SpecializationType
+  specialization?: SpecializationType
+  examinations?: ExaminationType[]
 }
 
 export interface DoctorType {

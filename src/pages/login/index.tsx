@@ -42,7 +42,7 @@ const Login = () => {
       data,
       () => setIsLoading(false),
       () => {
-        navigation(Routes.NURSE)
+        navigation(Routes.HOME)
         setIsLoading(true)
       },
       (err: string) => {

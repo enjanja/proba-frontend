@@ -10,10 +10,15 @@ import {
 import EnhancedTableHead from '../tableHead/tableHead'
 import { DoctorType } from '../../interfaces/dataTypes'
 import { headCellsDoctors } from '../../fixtures/doctors'
-// import { ListContainer } from '../form/form.styles'
-// import { SmallText } from '../text/text.styles'
+import { FiUserX } from 'react-icons/fi'
 
-const TableDoctors = ({ doctors }: { doctors: DoctorType[] }) => {
+const TableDoctors = ({
+  doctors,
+  onDeactivate,
+}: {
+  doctors: DoctorType[]
+  onDeactivate: (doctor: DoctorType) => void
+}) => {
   const [page, setPage] = useState<number>(0)
   const [rowsPerPage, setRowsPerPage] = useState<number>(10)
 
@@ -40,6 +45,10 @@ const TableDoctors = ({ doctors }: { doctors: DoctorType[] }) => {
     }
   }
 
+  const handleDeactivate = (doctor: DoctorType) => {
+    onDeactivate(doctor)
+  }
+
   return (
     <>
       <TableContainer sx={{ overflow: 'scroll', height: '415px' }}>
@@ -50,18 +59,18 @@ const TableDoctors = ({ doctors }: { doctors: DoctorType[] }) => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((doctor) => {
                 return (
-                  <TableRow key={doctor.id} sx={{ height: '55px' }}>
+                  <TableRow key={doctor.id} sx={{ height: '55px' }} hover>
                     <TableCell>{doctor.name}</TableCell>
                     <TableCell>{doctor.username}</TableCell>
                     <TableCell>{doctor.specialization.name}</TableCell>
-                    {/* <TableCell>
-                      <ListContainer>
-                        {doctor.hospitals &&
-                          doctor.hospitals.map((item) => (
-                            <SmallText key={item.id}>{item.name}</SmallText>
-                          ))}
-                      </ListContainer>
-                    </TableCell> */}
+                    <TableCell
+                      onClick={() => handleDeactivate(doctor)}
+                      style={{
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <FiUserX size="17px" />
+                    </TableCell>
                   </TableRow>
                 )
               })}

@@ -2,12 +2,14 @@ import styled from 'styled-components'
 import { colors } from '../../global.styles'
 
 interface NavProps {
-  absolute?: boolean
+  active?: boolean
 }
 
 export const NavbarContainer = styled.div<NavProps>`
   display: flex;
   justify-content: space-between;
+  position: absolute;
+  background: ${colors.primary};
 
   margin: 0;
 
@@ -26,15 +28,9 @@ export const NavSelectionItem = styled.div<NavProps>`
   align-items: center;
   height: 100%;
   width: 100%;
+  max-width: 150px;
   justify-content: center;
-
-  &:hover {
-    background-color: ${colors.primaryLight};
-  }
-
-  &:active {
-    background-color: ${colors.primaryDark};
-  }
+  background-color: ${({ active }) => (active ? colors.primaryLight : 'none')};
 `
 
 export const NavItem = styled.div`

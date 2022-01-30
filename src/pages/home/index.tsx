@@ -1,3 +1,4 @@
+import BoardDoctor from '../../components/boardDoctor'
 import BoardNurse from '../../components/boardNurse'
 import Navbar from '../../components/navbar'
 
@@ -7,7 +8,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      {type === 1 ? <BoardNurse /> : null}
+      {type === 1 ? <BoardNurse /> : <BoardDoctor />}
     </>
   )
 }

@@ -25,9 +25,11 @@ interface DayModalProps {
   todaysDate: Date | null
   doctor: DoctorType | null
   hospital: HospitalType | null
+  type: number
 }
 
 const DayModal = ({
+  type,
   examinations,
   todaysDate,
   doctor,
@@ -131,6 +133,7 @@ const DayModal = ({
 
                 return (
                   <TimeTableRow
+                    type={type}
                     key={a}
                     examination={examination}
                     interval={a}
@@ -154,6 +157,7 @@ const DayModal = ({
             )}
             {showUpdateDiagnosisDialog && chosenExamination && (
               <UpdateDiagnosis
+                type={type}
                 onUpdate={handleUpdate}
                 examination={chosenExamination}
                 onCancel={handleCancelEditDiagnosis}

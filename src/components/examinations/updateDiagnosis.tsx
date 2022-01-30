@@ -17,6 +17,7 @@ import {
 import { UpdateDiagnosisAcentText, H3 } from '../text/text.styles'
 
 interface UpdateDiagnosisProps {
+  type: number
   examination: ExaminationType
   onCancel: () => void
   onDelete: (examination: ExaminationType) => void
@@ -24,6 +25,7 @@ interface UpdateDiagnosisProps {
 }
 
 const UpdateDiagnosis = ({
+  type,
   examination,
   onCancel,
   onUpdate,
@@ -113,10 +115,10 @@ const UpdateDiagnosis = ({
       {isEditable && (
         <ButtonSecondary onClick={handleUpdate}>Update</ButtonSecondary>
       )}
-      {!openDelete && (
+      {!openDelete && type === 1 && (
         <ButtonSecondary onClick={handleOpenDelete}>Delete</ButtonSecondary>
       )}
-      {openDelete && (
+      {openDelete && type === 1 && (
         <ButtonDivider>
           <ButtonDividerInner>
             <Button color={colors.secondary} onClick={handleOpenDelete}>
@@ -132,7 +134,7 @@ const UpdateDiagnosis = ({
         </ButtonDivider>
       )}
       <ButtonSecondary onClick={onCancel} color={colors.secondaryDisabled}>
-        Cancel
+        Close
       </ButtonSecondary>
     </AddExaminationContainer>
   )

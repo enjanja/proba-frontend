@@ -13,15 +13,18 @@ import { AddDoctorInputContainer, Label } from '../../form/form.styles'
 import { Error } from '../../text/text.styles'
 
 interface SelectSpecializationProps {
-  errorSpecialization: string
   onSelectSpecialization: (specialization: SpecializationType) => void
+  errorSpecialization?: string
   specialization: SpecializationType
+  disabled?: boolean
+  defaultValue?: string
 }
 
 const SelectSpecialization = ({
+  disabled,
   errorSpecialization,
-  onSelectSpecialization,
   specialization,
+  onSelectSpecialization,
 }: SelectSpecializationProps) => {
   const [specializations, setSpecializations] = useState<SpecializationType[]>(
     [],
@@ -56,15 +59,12 @@ const SelectSpecialization = ({
           Specialization
         </InputLabel>
         <Select
+          disabled={disabled}
           labelId="specialization"
           id="select"
           value={specialization.name}
           label="Specialization"
           onChange={handleSelectSpecialization}
-          sx={{
-            height: '44px',
-            borderRadius: '10px',
-          }}
         >
           {specializations.map((specialization) => (
             <MenuItem key={specialization.id} value={specialization.name}>
