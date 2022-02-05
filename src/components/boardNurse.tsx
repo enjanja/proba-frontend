@@ -4,7 +4,7 @@ import { colors } from '../global.styles'
 
 const BoardNurse = () => {
   return (
-    <Grid sx={{ backgroundColor: colors.base, height: '100vh' }}>
+    <Grid sx={{ backgroundColor: colors.background, height: '100vh' }}>
       <Outlet />
     </Grid>
   )

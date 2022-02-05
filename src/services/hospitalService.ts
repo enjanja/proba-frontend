@@ -13,12 +13,7 @@ const getHospital = (id: string) => instance.get(`${API_URL_HOSPITAL}${id}`)
 const getAllHospitals = () => instance.get(`${API_URL_HOSPITAL}`)
 
 const getHospitalsByDoctor = (data: DoctorType) =>
-  instance.get(`${API_URL_HOSPITAL}doctors`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: data,
-  })
+  instance.get(`${API_URL_HOSPITAL}doctors`, { params: { doctorId: data.id } })
 
 export default {
   deletHospital,

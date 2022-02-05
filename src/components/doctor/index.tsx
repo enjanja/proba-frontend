@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Box, Grid } from '@mui/material'
+import { Grid, Paper } from '@mui/material'
 import doctorService from '../../services/doctorService'
 import { DoctorType } from '../../interfaces/dataTypes'
 import { colors } from '../../global.styles'
@@ -9,6 +9,7 @@ import AddDoctor from './addDoctor/addDoctor'
 import Modal from '../modal/Modal'
 import { toast } from 'react-toastify'
 import Deactivate from './deactivateModal'
+import { Content } from '../layout/layout.styles'
 
 const Doctor = () => {
   const [doctors, setDoctors] = useState<DoctorType[]>([])
@@ -58,7 +59,7 @@ const Doctor = () => {
   }
 
   return (
-    <div style={{ paddingTop: '50px' }}>
+    <Content>
       {openModalAdd && (
         <Modal onClose={handleCloseModalAddDr}>
           <AddDoctor
@@ -75,31 +76,35 @@ const Doctor = () => {
           />
         </Modal>
       )}
-      <ButtonHolderTable>
-        <div style={{ maxWidth: '200px' }}>
-          <Button onClick={handleOpenModalAddDr}>Add doctor</Button>
-        </div>
-      </ButtonHolderTable>
-      {doctors.length > 0 ? (
-        <Box sx={{ padding: '10px', height: 'fill' }}>
+      <Paper
+        sx={{
+          width: '80%',
+        }}
+      >
+        <ButtonHolderTable>
+          <div style={{ maxWidth: '200px' }}>
+            <Button onClick={handleOpenModalAddDr}>Add doctor</Button>
+          </div>
+        </ButtonHolderTable>
+        {doctors.length > 0 ? (
           <TableDoctors
             doctors={doctors}
             onDeactivate={handleOpenModalDeactivate}
           />
-        </Box>
-      ) : (
-        <Grid
-          container
-          direction={'row'}
-          justifyContent={'center'}
-          height={'400px'}
-        >
-          <h3 style={{ color: colors.secondary }}>
-            No doctors currently work with us
-          </h3>
-        </Grid>
-      )}
-    </div>
+        ) : (
+          <Grid
+            container
+            direction={'row'}
+            justifyContent={'center'}
+            height={'400px'}
+          >
+            <h3 style={{ color: colors.secondary }}>
+              No doctors currently work with us
+            </h3>
+          </Grid>
+        )}
+      </Paper>
+    </Content>
   )
 }
 

@@ -1,11 +1,11 @@
+* {
+  box-sizing: border-box;
+}
 html,
-body,
-#root {
-  height: 100%;
+body {
   margin: 0;
-  background-color: rgb(48, 188, 237);
-
-  font-family: 'Roboto', sans-serif;
+  background-color: #bbdefb;
+  font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

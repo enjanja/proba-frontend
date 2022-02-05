@@ -28,7 +28,7 @@ export const PlainText = styled.p`
 export const AcentText = styled.p`
   font-size: 13px;
   margin: 0;
-  color: ${colors.shadow};
+  color: ${colors.primaryLight};
 `
 
 export const SmallText = styled.p`
@@ -50,6 +50,6 @@ export const UpdateDiagnosisAcentText = styled.div`
   font-size: 16px;
   margin: 5px 0;
   span {
-    color: ${colors.shadow};
+    color: ${colors.primaryLight};
   }
 `

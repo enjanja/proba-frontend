@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Grid, Stack, TextField } from '@mui/material'
+import { Autocomplete, Box, Grid, Paper, Stack, TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -7,6 +7,7 @@ import { DoctorType, HospitalType } from '../../interfaces/dataTypes'
 import doctorService from '../../services/doctorService'
 import hospitalService from '../../services/hospitalService'
 import Calendar from '../calendar'
+import { Content } from '../layout/layout.styles'
 
 const Examinations = () => {
   const type = JSON.parse(localStorage.getItem('type') || '')
@@ -20,7 +21,6 @@ const Examinations = () => {
 
   const [hospital, setHospital] = useState<HospitalType | null>(null)
   const [hospitals, setHospitals] = useState<HospitalType[]>([])
-  console.log(hospitals)
 
   useEffect(() => {
     if (type === 1) {
@@ -47,21 +47,20 @@ const Examinations = () => {
 
   useEffect(() => {
     if (doctor) {
-      if (type === 2) {
-        doctorService
-          .getAllDoctorByUsername(doctor?.username)
-          .then((res) => {
-            setDoctorWithExams(res.data)
-          })
-          .catch((err) => {
-            toast.error(err.message)
-          })
-      }
+      doctorService
+        .getAllDoctorByUsername(doctor?.username)
+        .then((res) => {
+          setDoctorWithExams(res.data)
+        })
+        .catch((err) => {
+          toast.error(err.message)
+        })
+
       if (type === 1) {
         hospitalService
           .getHospitalsByDoctor(doctor)
           .then((res) => {
-            setHospitals(res.data.hospitals)
+            setHospitals(res.data)
           })
           .catch((err) => toast.error(err.message))
       }
@@ -69,9 +68,17 @@ const Examinations = () => {
   }, [doctor])
 
   return (
-    <div style={{ paddingTop: '50px' }}>
-      <Box>
-        <Stack direction="row" spacing={2}>
+    <Content>
+      <Paper
+        sx={{
+          width: '80%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Stack direction="row" spacing={2} sx={{ paddingTop: '20px' }}>
           {type === 1 && (
             <div style={{ width: '300px' }}>
               <Controller
@@ -101,7 +108,9 @@ const Examinations = () => {
               />
             </div>
           )}
-          <div style={{ width: '300px' }}>
+          <div
+            style={{ width: '300px', paddingLeft: type === 1 ? '' : '20px' }}
+          >
             <Controller
               render={({ field: { value } }) => (
                 <Autocomplete
@@ -123,15 +132,13 @@ const Examinations = () => {
                   onChange={(_, data) => setHospital(data)}
                 />
               )}
-              defaultValue={hospitals[0]}
+              // defaultValue={hospitals[0] || null}
               name="hospital"
               control={control}
             />
           </div>
         </Stack>
-      </Box>
-      {(doctorWithExams && hospital) || (doctor?.examinations && hospital) ? (
-        <Box sx={{ height: 'fill' }}>
+        {doctorWithExams && hospital ? (
           <Calendar
             type={type}
             hospital={hospital}
@@ -142,20 +149,20 @@ const Examinations = () => {
                 : doctorWithExams?.examinations
             }
           />
-        </Box>
-      ) : (
-        <Grid
-          container
-          direction={'row'}
-          justifyContent={'center'}
-          height={'400px'}
-        >
-          <h3 style={{ color: colors.secondary }}>
-            Select a doctor and hospital
-          </h3>
-        </Grid>
-      )}
-    </div>
+        ) : (
+          <Grid
+            container
+            direction={'row'}
+            justifyContent={'center'}
+            height={'400px'}
+          >
+            <h3 style={{ color: colors.secondary }}>
+              Select a {type === 1 && `doctor and `} hospital
+            </h3>
+          </Grid>
+        )}
+      </Paper>
+    </Content>
   )
 }
 

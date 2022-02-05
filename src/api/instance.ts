@@ -7,9 +7,8 @@ const instanceConfig: AxiosRequestConfig = {
   headers: { 'Content-Type': 'application/json' },
 }
 
-const jwt = localStorage.getItem('jwt')
-  ? JSON.parse(localStorage.getItem('jwt') || '')
-  : ''
+const exists = localStorage.getItem('jwt')
+const jwt = exists ? JSON.parse(exists || '') : ''
 
 if (jwt && instanceConfig.headers) {
   instanceConfig.headers.Authorization = `Bearer "${jwt}"`
@@ -23,6 +22,8 @@ instance.interceptors.request.use(
   },
   (err) => err,
 )
+
+console.log(instance.defaults.headers.common.Authorization)
 
 instance.interceptors.response.use(
   (res) => {

@@ -15,14 +15,13 @@ import {
   AddDoctorInputContainer,
   AddDoctorInputFieldContainer,
   Form,
-  Input,
   Label,
 } from '../../form/form.styles'
-import { Error } from '../../text/text.styles'
 import doctorService from '../../../services/doctorService'
 import HospitalsSelect from './selectHospitals'
 import SelectSpecialization from './selectSpecialization'
 import { toast } from 'react-toastify'
+import { TextField } from '@mui/material'
 
 interface AddDoctorProps {
   onUpdate: (newDoctor: DoctorType) => void
@@ -106,8 +105,13 @@ const AddDoctor = ({ onUpdate, onClose }: AddDoctorProps) => {
           <AddDoctorInputContainer key={validation.name}>
             <Label>{validation.name}</Label>
             <AddDoctorInputFieldContainer>
-              <Input {...register(validation.name, validation.validations)} />
-              <Error>{errors[validation.name]?.message}</Error>
+              <TextField
+                sx={{ width: '100%' }}
+                placeholder={validation.name}
+                {...register(validation.name, validation.validations)}
+                error={errors.username !== undefined}
+                helperText={errors?.username?.message}
+              />
             </AddDoctorInputFieldContainer>
           </AddDoctorInputContainer>
         ))}

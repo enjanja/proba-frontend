@@ -1,3 +1,4 @@
+import { TextField } from '@mui/material'
 import { Box } from '@mui/system'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -13,10 +14,8 @@ import {
   AddDoctorInputContainer,
   AddDoctorInputFieldContainer,
   Form,
-  Input,
   Label,
 } from '../form/form.styles'
-import { Error } from '../text/text.styles'
 
 interface AddPatientProps {
   onUpdate: (newPatient: PatientType) => void
@@ -61,8 +60,13 @@ const AddPatient = ({ onUpdate, onClose }: AddPatientProps) => {
             <AddDoctorInputContainer key={validation.name}>
               <Label>{validation.name}</Label>
               <AddDoctorInputFieldContainer>
-                <Input {...register(validation.name, validation.validations)} />
-                <Error>{errors[validation.name]?.message}</Error>
+                <TextField
+                  sx={{ width: '100%' }}
+                  placeholder={validation.name}
+                  {...register(validation.name, validation.validations)}
+                  error={errors.name !== undefined}
+                  helperText={errors?.name?.message}
+                />
               </AddDoctorInputFieldContainer>
             </AddDoctorInputContainer>
           ))}

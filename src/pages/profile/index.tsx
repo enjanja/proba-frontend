@@ -189,7 +189,7 @@ const Profile = () => {
           console.log(res)
           setValue('name', res.data.name)
           setValue('username', res.data.username)
-          setHospital(res.data.hospitals)
+          setHospital(res.data.hospital)
           handleEditForm()
           toast.info('Profile updated')
         })

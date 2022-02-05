@@ -22,3 +22,12 @@ export const ButtonHolder = styled.div`
   width: 50%;
   margin-bottom: 20px;
 `
+
+export const Content = styled.div`
+  padding-top: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`

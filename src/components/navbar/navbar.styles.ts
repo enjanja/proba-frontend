@@ -30,7 +30,8 @@ export const NavSelectionItem = styled.div<NavProps>`
   width: 100%;
   max-width: 150px;
   justify-content: center;
-  background-color: ${({ active }) => (active ? colors.primaryLight : 'none')};
+  background-color: ${({ active }) => (active ? colors.background : 'none')};
+  color: ${({ active }) => (active ? colors.secondaryDark : 'white')};
 `
 
 export const NavItem = styled.div`

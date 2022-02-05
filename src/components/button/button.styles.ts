@@ -19,7 +19,7 @@ export const Button = styled.button<SeccondaryButtonProps>`
   border: none;
   border-radius: 10px;
 
-  font-size: 20px;
+  font-size: 18px;
 `
 interface SeccondaryButtonProps {
   color?: string
@@ -37,10 +37,6 @@ export const ButtonSecondary = styled(Button)`
 
   &:active {
     background-color: ${({ color }) => (color ? null : colors.secondaryLight)};
-  }
-
-  &:disabled {
-    background-color: ${colors.inputBorder};
   }
 `
 

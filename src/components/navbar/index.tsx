@@ -20,6 +20,8 @@ import {
 } from '@mui/material'
 import { FiLogOut } from 'react-icons/fi'
 import { useState } from 'react'
+import { FaUserMd, FaUserNurse } from 'react-icons/fa'
+import { colors } from '../../global.styles'
 
 const Navbar = () => {
   const type = JSON.parse(localStorage.getItem('type') || '')
@@ -72,14 +74,6 @@ const Navbar = () => {
               Еxaminations
             </NavSelectionItem>
           </Link>
-          <Link
-            to={`${Routes.NURSE}/${Routes.PROFILE}`}
-            style={{ width: '100%' }}
-          >
-            <NavSelectionItem active={path === 'profile'}>
-              Profile
-            </NavSelectionItem>
-          </Link>
         </NavSelection>
       ) : type === 2 ? (
         <NavSelection>
@@ -105,7 +99,7 @@ const Navbar = () => {
               sx={{ width: 32, height: 32 }}
               style={{ backgroundColor: '#303036' }}
             >
-              {type === 1 ? 'N' : 'D'}
+              {type === 1 ? <FaUserNurse /> : <FaUserMd />}
             </Avatar>
           </IconButton>
         </Tooltip>
@@ -149,7 +143,7 @@ const Navbar = () => {
           style={{ width: '100%', color: 'gray' }}
         >
           <MenuItem>
-            <Avatar style={{ backgroundColor: '#30BCED' }} /> Profile
+            <Avatar style={{ backgroundColor: colors.primary }} /> Profile
           </MenuItem>
         </Link>
         <Divider />

@@ -3,6 +3,7 @@ import { colors } from '../../global.styles'
 
 export const CalendarContainer = styled.div`
   margin: 20px;
+  width: 80%;
 `
 
 export const Header = styled.div`
@@ -32,12 +33,12 @@ export const Kalendar = styled.div`
 export const KalendarContent = styled.table`
   /* border-collapse: collapse; */
   width: 100%;
-  height: 455px;
+  height: 430px;
 `
 export const KalendarContentSecond = styled.table`
   /* border-collapse: collapse; */
   width: 100%;
-  height: 455px;
+  height: 430px;
 `
 
 export const DayNames = styled.thead`
@@ -71,6 +72,10 @@ export const Day = styled.div`
   background: ${colors.base};
   cursor: pointer;
 
+  &:hover {
+    background-color: ${colors.hover};
+  }
+
   overflow: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -80,8 +85,7 @@ export const Day = styled.div`
 export const BlankDay = styled.td`
   width: 1/7 * 100%;
   max-width: 50px;
-  height: 50px;
-  max-height: 50px;
+  max-height: 90px;
   background: ${colors.secondaryDisabled};
 `
 

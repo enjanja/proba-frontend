@@ -51,7 +51,12 @@ const TableDoctors = ({
 
   return (
     <>
-      <TableContainer sx={{ overflow: 'scroll', height: '415px' }}>
+      <TableContainer
+        sx={{
+          overflow: 'scroll',
+          height: '415px',
+        }}
+      >
         <Table size="small" stickyHeader>
           <EnhancedTableHead header={headCellsDoctors} />
           <TableBody>

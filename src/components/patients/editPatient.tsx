@@ -1,3 +1,4 @@
+import { TextField } from '@mui/material'
 import { Box } from '@mui/system'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -10,10 +11,8 @@ import {
   AddDoctorInputContainer,
   AddDoctorInputFieldContainer,
   Form,
-  Input,
   Label,
 } from '../form/form.styles'
-import { Error } from '../text/text.styles'
 
 interface EditPatientProps {
   onEdit: (newPatient: PatientType) => void
@@ -72,19 +71,25 @@ const EditPatient = ({
           <AddDoctorInputContainer key={addPatientValidations[0].name}>
             <Label>{addPatientValidations[0].name}</Label>
             <AddDoctorInputFieldContainer>
-              <Input
+              <TextField
+                sx={{ width: '100%' }}
+                placeholder="name"
                 {...register('name', addPatientValidations[0].validations)}
+                error={errors.name !== undefined}
+                helperText={errors?.name?.message}
               />
-              <Error>{errors['name']?.message}</Error>
             </AddDoctorInputFieldContainer>
           </AddDoctorInputContainer>
           <AddDoctorInputContainer key={addPatientValidations[1].name}>
             <Label>{addPatientValidations[1].name}</Label>
             <AddDoctorInputFieldContainer>
-              <Input
+              <TextField
+                sx={{ width: '100%' }}
+                placeholder="jmbg"
                 {...register('jmbg', addPatientValidations[1].validations)}
+                error={errors.jmbg !== undefined}
+                helperText={errors?.jmbg?.message}
               />
-              <Error>{errors['jmbg']?.message}</Error>
             </AddDoctorInputFieldContainer>
           </AddDoctorInputContainer>
           <ButtonSecondary>Edit</ButtonSecondary>
