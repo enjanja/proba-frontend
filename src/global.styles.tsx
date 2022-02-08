@@ -15,4 +15,5 @@ export const colors = {
   text: '#050401',
   inputBorder: '#c8dce2',
   hover: mui.blue[100],
+  white: '#fff',
 }

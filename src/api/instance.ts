@@ -10,11 +10,12 @@ const instanceConfig: AxiosRequestConfig = {
 const exists = localStorage.getItem('jwt')
 const jwt = exists ? JSON.parse(exists || '') : ''
 
-if (jwt && instanceConfig.headers) {
-  instanceConfig.headers.Authorization = `Bearer "${jwt}"`
-}
+// if (jwt && instanceConfig.headers) {
+//   instanceConfig.headers.Authorization = `Bearer "${jwt}"`
+// }
 
 const instance = axios.create(instanceConfig)
+instance.defaults.headers.common['Authorization'] = `Bearer "${jwt}"`
 
 instance.interceptors.request.use(
   (config) => {
@@ -23,7 +24,8 @@ instance.interceptors.request.use(
   (err) => err,
 )
 
-console.log(instance.defaults.headers.common.Authorization)
+console.log(jwt)
+console.log(instance.defaults.headers.common)
 
 instance.interceptors.response.use(
   (res) => {

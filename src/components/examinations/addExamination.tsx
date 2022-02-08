@@ -48,6 +48,10 @@ const AddExamination = ({
   }, [])
 
   const onSubmit = (data: { patient: PatientType }) => {
+    if (!data.patient) {
+      return
+    }
+
     const newPatient = {
       id: data.patient.id,
       jmbg: data.patient.jmbg,
@@ -84,7 +88,7 @@ const AddExamination = ({
           onCreate(newData)
           toast.success(res.data)
         })
-        .catch((err) => toast.error(err.message))
+        .catch((err) => toast.error(err.response.data))
         .finally(() => onClose && onClose())
     }
   }

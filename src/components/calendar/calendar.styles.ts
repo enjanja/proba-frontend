@@ -4,6 +4,7 @@ import { colors } from '../../global.styles'
 export const CalendarContainer = styled.div`
   margin: 20px;
   width: 80%;
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.8);
 `
 
 export const Header = styled.div`
@@ -27,16 +28,15 @@ export const Header = styled.div`
 `
 
 export const Kalendar = styled.div`
-  background: ${colors.secondaryDisabled};
+  background: ${colors.white};
 `
 
 export const KalendarContent = styled.table`
-  /* border-collapse: collapse; */
   width: 100%;
   height: 430px;
+  border-collapse: collapse;
 `
 export const KalendarContentSecond = styled.table`
-  /* border-collapse: collapse; */
   width: 100%;
   height: 430px;
 `
@@ -44,7 +44,7 @@ export const KalendarContentSecond = styled.table`
 export const DayNames = styled.thead`
   width: 100%;
   background: ${colors.secondaryLight};
-  color: ${colors.base};
+  color: ${colors.white};
   padding: 10px;
   font-style: oblique;
 
@@ -54,13 +54,13 @@ export const DayNames = styled.thead`
 `
 
 export const Days = styled.tr`
-  background: ${colors.base};
+  background: ${colors.white};
 `
 
 export const Cell1 = styled.td`
   width: 50px;
   max-width: 50px;
-  background: ${colors.base};
+  background: ${colors.white};
   overflow: hidden;
   position: relative;
 `
@@ -69,8 +69,9 @@ export const Day = styled.div`
   width: 100%;
   height: 100%;
   max-height: 90px;
-  background: ${colors.base};
+  background: ${colors.white};
   cursor: pointer;
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.8);
 
   &:hover {
     background-color: ${colors.hover};
@@ -86,17 +87,22 @@ export const BlankDay = styled.td`
   width: 1/7 * 100%;
   max-width: 50px;
   max-height: 90px;
-  background: ${colors.secondaryDisabled};
 `
 
 export const DayNumber = styled.div`
   position: absolute;
-  top: 3px;
+  top: 4px;
   right: 5px;
   color: white;
 `
 
 export const TodayNumber = styled(DayNumber)`
+  background-color: white;
+  width: 16px;
+  height: 17px;
+  border-radius: 99px;
+  text-align: center;
+  justify-content: center;
   color: ${colors.danger};
 `
 
@@ -145,7 +151,7 @@ export const Busyness = styled.div<BusynessProp>`
   display: flex;
   align-items: center;
   color: white;
-  height: 20px;
+  height: 25px;
   background: ${({ color }) => color};
   border-radius: 3px;
   padding: 2px 5px;

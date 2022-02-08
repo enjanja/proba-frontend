@@ -8,14 +8,11 @@ import TableDoctors from './tableDoctor'
 import AddDoctor from './addDoctor/addDoctor'
 import Modal from '../modal/Modal'
 import { toast } from 'react-toastify'
-import Deactivate from './deactivateModal'
 import { Content } from '../layout/layout.styles'
 
 const Doctor = () => {
   const [doctors, setDoctors] = useState<DoctorType[]>([])
-  const [doctorToDeactivate, setDoctorToDeactivate] = useState<DoctorType>()
   const [openModalAdd, setOpenModalAdd] = useState(false)
-  const [openModalDeact, setOpenModalDeact] = useState(false)
 
   useEffect(() => {
     doctorService
@@ -35,27 +32,10 @@ const Doctor = () => {
     setOpenModalAdd(false)
   }
 
-  const handleOpenModalDeactivate = (doctor: DoctorType) => {
-    setDoctorToDeactivate(doctor)
-    setOpenModalDeact(true)
-  }
-  const handleCloseModalDeactivate = () => {
-    setOpenModalDeact(false)
-  }
-
   const handleUpdateData = (newDoctor: DoctorType) => {
     const lastPatient = doctors[doctors.length - 1]
     newDoctor.id = Number(lastPatient.id) + 1 + ''
     setDoctors([...doctors, newDoctor])
-  }
-
-  const handleDeactivate = () => {
-    if (doctorToDeactivate) {
-      doctorService
-        .deactivate(doctorToDeactivate.username)
-        .then((res) => toast.info(res.data))
-        .catch((err) => toast.error(err.message))
-    }
   }
 
   return (
@@ -68,14 +48,7 @@ const Doctor = () => {
           />
         </Modal>
       )}
-      {openModalDeact && (
-        <Modal onClose={handleCloseModalDeactivate}>
-          <Deactivate
-            onCancel={handleCloseModalDeactivate}
-            onDeactivate={handleDeactivate}
-          />
-        </Modal>
-      )}
+
       <Paper
         sx={{
           width: '80%',
@@ -87,10 +60,7 @@ const Doctor = () => {
           </div>
         </ButtonHolderTable>
         {doctors.length > 0 ? (
-          <TableDoctors
-            doctors={doctors}
-            onDeactivate={handleOpenModalDeactivate}
-          />
+          <TableDoctors doctors={doctors} />
         ) : (
           <Grid
             container

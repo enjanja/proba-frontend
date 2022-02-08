@@ -43,10 +43,8 @@ const Login = () => {
       () => setIsLoading(false),
       () => {
         navigation(Routes.HOME)
-        setIsLoading(true)
       },
       (err: string) => {
-        setIsLoading(true)
         toast.error(err)
       },
     )

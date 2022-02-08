@@ -5,7 +5,7 @@ import authService from '../services/authService'
 export const useAuth = () => {
   const login = (
     data: LoginData,
-    setLoading: (yes: boolean) => void, // dodato
+    setLoading: (yes: boolean) => void,
     onSuccess: () => void,
     onError: (error: string) => void,
   ) => {
@@ -15,16 +15,11 @@ export const useAuth = () => {
         if (res.data?.jwt) {
           localStorage.setItem('jwt', JSON.stringify(res.data?.jwt))
           localStorage.setItem('type', JSON.stringify(res.data?.type))
-          Object.assign(instance.defaults, {
-            headers: {
-              ...instance.defaults.headers,
-              common: {
-                ...instance.defaults.headers.common,
-                Authorization: `Bearer "${res.data?.jwt}"`,
-              },
-            },
-          })
-          console.log(instance.defaults.headers.common.Authorization)
+          instance.defaults.headers.common[
+            'Authorization'
+          ] = `Bearer "${res.data?.jwt}"`
+
+          console.log(instance.defaults.headers.common)
           onSuccess()
         }
       })

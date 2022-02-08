@@ -7,6 +7,7 @@ import {
 import { Routes } from '../../enums/routes'
 import { Link } from '../text/text.styles'
 import authService from '../../services/authService'
+import doctorService from '../../services/doctorService'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   Avatar,
@@ -18,10 +19,11 @@ import {
   MenuItem,
   Tooltip,
 } from '@mui/material'
-import { FiLogOut } from 'react-icons/fi'
+import { FiLogOut, FiUserX } from 'react-icons/fi'
 import { useState } from 'react'
 import { FaUserMd, FaUserNurse } from 'react-icons/fa'
 import { colors } from '../../global.styles'
+import { toast } from 'react-toastify'
 
 const Navbar = () => {
   const type = JSON.parse(localStorage.getItem('type') || '')
@@ -39,6 +41,32 @@ const Navbar = () => {
 
   const handleLogout = () => {
     authService.logout()
+    navigation(Routes.LOGIN)
+  }
+
+  const handleDeactivate = () => {
+    const handleDeactivate = async () => {
+      try {
+        const username = await doctorService
+          .getDoctorProfile()
+          .then((res) => res.data.username)
+          .catch((err) => {
+            toast.error(err.message)
+          })
+
+        const navigationRoute = await doctorService
+          .deactivate(username)
+          .then(() => Routes.LOGIN)
+          .catch((err) => {
+            toast.error(err.message)
+          })
+
+        if (navigationRoute) navigation(navigationRoute)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    handleDeactivate()
     navigation(Routes.LOGIN)
   }
 
@@ -157,6 +185,18 @@ const Navbar = () => {
               <FiLogOut fontSize="large" />
             </ListItemIcon>
             Logout
+          </MenuItem>
+        </Link>
+        <Link
+          onClick={handleDeactivate}
+          to={Routes.LOGIN}
+          style={{ color: 'gray' }}
+        >
+          <MenuItem>
+            <ListItemIcon>
+              <FiUserX fontSize="large" />
+            </ListItemIcon>
+            Deactivate
           </MenuItem>
         </Link>
       </Menu>

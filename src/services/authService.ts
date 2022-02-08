@@ -5,15 +5,9 @@ import { LoginData } from '../interfaces/dataTypes'
 const login = (data: LoginData) => instance.post(`${API_URL_AUTH}`, data)
 
 const logout = () => {
-  Object.assign(instance.defaults, {
-    headers: {
-      ...instance.defaults.headers,
-      common: {
-        ...instance.defaults.headers.common,
-        Authorization: ``,
-      },
-    },
-  })
+  instance.defaults.headers.common['Authorization'] = ``
+  console.log(instance.defaults.headers.common)
+
   localStorage.clear()
 }
 

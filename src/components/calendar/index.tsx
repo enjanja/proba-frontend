@@ -78,13 +78,6 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
     }
   }, [currentMonth, currentYear, newExaminations])
 
-  const toggleShowYearTable = () => {
-    setShowYearTable((prev) => !prev)
-  }
-  const toggleShowMonthTable = () => {
-    setShowMonthTable((prev) => !prev)
-    setShowDateTable((prev) => !prev)
-  }
   const setNewDateObject = (newDateObject: moment.Moment) => {
     setDateObject(newDateObject)
   }
@@ -103,8 +96,18 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
     return firstDay
   }
 
-  const handleShowTable = () => {
+  const toggleShowYearTable = () => {
+    if (showMonthTable) {
+      return
+    }
     setShowYearTable((prev) => !prev)
+    setShowDateTable((prev) => !prev)
+  }
+  const toggleShowMonthTable = () => {
+    if (showYearTable) {
+      return
+    }
+    setShowMonthTable((prev) => !prev)
     setShowDateTable((prev) => !prev)
   }
 
@@ -149,7 +152,6 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
   const handleAddExamForDay = (newExams: ExaminationType[]) => {
     setNewExaminations((prev) => [...(prev as ExaminationType[]), ...newExams])
   }
-
   const handleDeleteExamForDay = (deletedExam: ExaminationType) => {
     setNewExaminations(
       (prev) =>
@@ -161,7 +163,6 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
   const handleOpenModal = () => {
     setOpenModal(true)
   }
-
   const handleCloseModal = () => {
     setOpenModal(false)
   }
@@ -178,7 +179,7 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
         <Day key={day}>
           {thisMonthExams.filter((exam) => {
             if (new Date(exam?.id.dateTime).getDate() === day) return true
-          }).length > 1 ? (
+          }).length >= 1 ? (
             <Busyness color={colors.danger}>Busy</Busyness>
           ) : (
             <Busyness color={colors.primary}>Available</Busyness>
@@ -204,7 +205,7 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
       days.push(cells) // when end loop we add remain date
     }
   })
-  days.shift() // TODO - ovo mozda ide
+  days.shift()
 
   return (
     <>
@@ -232,7 +233,7 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
           <div onClick={onPrevYear}>
             <RiArrowLeftSFill size="30px" />
           </div>
-          <div onClick={handleShowTable}>{currentYear}</div>
+          <div onClick={toggleShowYearTable}>{currentYear}</div>
           <div onClick={onNextYear}>
             <RiArrowRightSFill size="30px" />
           </div>
