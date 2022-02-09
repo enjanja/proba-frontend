@@ -179,7 +179,7 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
         <Day key={day}>
           {thisMonthExams.filter((exam) => {
             if (new Date(exam?.id.dateTime).getDate() === day) return true
-          }).length >= 1 ? (
+          }).length >= 16 ? (
             <Busyness color={colors.danger}>Busy</Busyness>
           ) : (
             <Busyness color={colors.primary}>Available</Busyness>

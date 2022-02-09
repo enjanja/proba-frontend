@@ -59,6 +59,8 @@ const UpdateDiagnosis = ({
       diagnosis: getValues('diagnosis'),
     }
 
+    console.log(examination)
+
     examinationService
       .updateDiagnosis(newExamination)
       .then((res) => {
@@ -85,6 +87,14 @@ const UpdateDiagnosis = ({
     }
   }
 
+  const date = examination.id.dateTime
+  const newFormat1 = date.substring(0, date.indexOf('T'))
+  const newFormat2 = date.substring(
+    date.indexOf('T') + 1,
+    date.lastIndexOf(':'),
+  )
+  const newDate = newFormat1 + ' ' + newFormat2
+
   return (
     <AddExaminationContainer>
       <H3>Appointment data</H3>
@@ -95,7 +105,7 @@ const UpdateDiagnosis = ({
         Patient: <span>{examination.patient.name}</span>
       </UpdateDiagnosisAcentText>
       <UpdateDiagnosisAcentText>
-        Date: <span>{new Date(examination.id.dateTime).toLocaleString()}</span>
+        Date: <span>{newDate}</span>
       </UpdateDiagnosisAcentText>
       <UpdateDiagnosisAcentText>Diagnosis:</UpdateDiagnosisAcentText>
       <TextareaAutosize

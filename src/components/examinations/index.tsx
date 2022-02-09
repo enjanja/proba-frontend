@@ -67,6 +67,8 @@ const Examinations = () => {
     }
   }, [doctor])
 
+  // console.log(doctorWithExams?.examinations)
+
   return (
     <Content>
       <Paper

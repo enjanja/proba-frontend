@@ -29,6 +29,8 @@ const getDoctor = (id: string) => instance.get(`${API_URL_DOCTOR}${id}`)
 
 const getAllDoctors = () => instance.get(`${API_URL_DOCTOR}`)
 
+const getAllActiveDoctors = () => instance.get(`${API_URL_DOCTOR}active`)
+
 const getAllDoctorByUsername = (username: string) =>
   instance.get(`${API_URL_DOCTOR}${username}`)
 
@@ -41,13 +43,14 @@ const deactivate = (username: string) =>
   instance.put(`${API_URL}deactivate/${username}`)
 
 export default {
-  deleteDoctor,
   createDoctor,
+  createExam,
+  deactivate,
+  deleteDoctor,
   getDoctor,
   getAllDoctors,
+  getAllActiveDoctors,
   getAllDoctorByUsername,
-  createExam,
   getDoctorProfile,
   updateDoctorProfile,
-  deactivate,
 }

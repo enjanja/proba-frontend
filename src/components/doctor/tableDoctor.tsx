@@ -10,8 +10,15 @@ import {
 import EnhancedTableHead from '../tableHead/tableHead'
 import { DoctorType } from '../../interfaces/dataTypes'
 import { headCellsDoctors } from '../../fixtures/doctors'
+import { FiUserX } from 'react-icons/fi'
 
-const TableDoctors = ({ doctors }: { doctors: DoctorType[] }) => {
+const TableDoctors = ({
+  doctors,
+  onDeactivate,
+}: {
+  doctors: DoctorType[]
+  onDeactivate: (doctor: DoctorType) => void
+}) => {
   const [page, setPage] = useState<number>(0)
   const [rowsPerPage, setRowsPerPage] = useState<number>(10)
 
@@ -57,6 +64,9 @@ const TableDoctors = ({ doctors }: { doctors: DoctorType[] }) => {
                     <TableCell>{doctor.name}</TableCell>
                     <TableCell>{doctor.username}</TableCell>
                     <TableCell>{doctor.specialization.name}</TableCell>
+                    <TableCell onClick={() => onDeactivate(doctor)}>
+                      <FiUserX />
+                    </TableCell>
                   </TableRow>
                 )
               })}

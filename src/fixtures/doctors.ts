@@ -65,4 +65,9 @@ export const headCellsDoctors: HeadCellDoctor[] = [
     numeric: false,
     label: 'Specialization',
   },
+  {
+    id: 'active',
+    numeric: false,
+    label: 'Deactivate',
+  },
 ]

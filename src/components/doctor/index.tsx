@@ -9,14 +9,20 @@ import AddDoctor from './addDoctor/addDoctor'
 import Modal from '../modal/Modal'
 import { toast } from 'react-toastify'
 import { Content } from '../layout/layout.styles'
+import DeactivateDoctor from './deactivate/DeactivateDoctor'
 
 const Doctor = () => {
   const [doctors, setDoctors] = useState<DoctorType[]>([])
   const [openModalAdd, setOpenModalAdd] = useState(false)
+  const [openModalDeactivate, setOpenModalDeactivate] = useState(false)
+  const [
+    doctorToDeactivate,
+    setDoctorToDeactivate,
+  ] = useState<DoctorType | null>(null)
 
   useEffect(() => {
     doctorService
-      .getAllDoctors()
+      .getAllActiveDoctors()
       .then((res) => {
         setDoctors(res.data)
       })
@@ -32,10 +38,34 @@ const Doctor = () => {
     setOpenModalAdd(false)
   }
 
+  const handleOpenModalDeactivate = (doctor: DoctorType) => {
+    setDoctorToDeactivate(doctor)
+    setOpenModalDeactivate(true)
+  }
+  const handleCloseModalDeactivate = () => {
+    setOpenModalDeactivate(false)
+  }
+
   const handleUpdateData = (newDoctor: DoctorType) => {
     const lastPatient = doctors[doctors.length - 1]
     newDoctor.id = Number(lastPatient.id) + 1 + ''
     setDoctors([...doctors, newDoctor])
+  }
+
+  const handleDeactivate = () => {
+    if (doctorToDeactivate) {
+      doctorService
+        .deactivate(doctorToDeactivate.username)
+        .then((res) => {
+          const newDoctors = doctors.filter(
+            (d) => d.id !== doctorToDeactivate.id,
+          )
+          setDoctors(newDoctors)
+          toast.success(res.data)
+        })
+        .catch((err) => toast.error(err.message))
+        .finally(() => handleCloseModalDeactivate())
+    }
   }
 
   return (
@@ -45,6 +75,15 @@ const Doctor = () => {
           <AddDoctor
             onUpdate={handleUpdateData}
             onClose={handleCloseModalAddDr}
+          />
+        </Modal>
+      )}
+      {openModalDeactivate && (
+        <Modal onClose={handleCloseModalDeactivate}>
+          <DeactivateDoctor
+            onClose={handleCloseModalDeactivate}
+            onDeactivate={handleDeactivate}
+            doctor={doctorToDeactivate}
           />
         </Modal>
       )}
@@ -60,7 +99,10 @@ const Doctor = () => {
           </div>
         </ButtonHolderTable>
         {doctors.length > 0 ? (
-          <TableDoctors doctors={doctors} />
+          <TableDoctors
+            doctors={doctors}
+            onDeactivate={handleOpenModalDeactivate}
+          />
         ) : (
           <Grid
             container

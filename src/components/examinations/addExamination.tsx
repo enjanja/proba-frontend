@@ -82,6 +82,7 @@ const AddExamination = ({
         diagnosis: '',
       }
 
+      console.log(newData.id.dateTime)
       doctorService
         .createExam(newData, hospital.id.toString())
         .then((res) => {
