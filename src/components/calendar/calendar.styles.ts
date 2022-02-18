@@ -98,8 +98,8 @@ export const DayNumber = styled.div`
 
 export const TodayNumber = styled(DayNumber)`
   background-color: white;
-  width: 16px;
-  height: 17px;
+  width: 20px;
+  height: 18px;
   border-radius: 99px;
   text-align: center;
   justify-content: center;

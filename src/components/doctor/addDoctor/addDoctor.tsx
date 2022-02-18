@@ -70,14 +70,14 @@ const AddDoctor = ({ onUpdate, onClose }: AddDoctorProps) => {
       .createDoctor(newData)
       .then((res) => {
         onUpdate(newData)
-        toast.error(res.data)
+        toast.success(res.data)
         onClose()
       })
       .catch((err) => {
         if (!err) {
           toast.error('Network Error')
         }
-        toast.error(err.message)
+        toast.error(err.response.data)
       })
       .finally(() => {
         setErrorSpecialization('')

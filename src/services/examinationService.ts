@@ -2,7 +2,10 @@ import { API_URL_DOCTOR, API_URL_EXAMINATION } from '../api/api'
 import instance from '../api/instance'
 import { UpdateDiagnosisData } from '../interfaces/dataTypes'
 
-const getAllExaminations = (doctorId: string, hospitalId: string) => {
+const getAllExaminations = (
+  doctorId: string | undefined,
+  hospitalId: string,
+) => {
   const params = new URLSearchParams()
   if (doctorId && hospitalId) {
     params.append('doctorId', doctorId)
