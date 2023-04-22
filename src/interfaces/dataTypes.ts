@@ -28,12 +28,13 @@ export interface DoctorType {
   examinations?: ExaminationType[]
 }
 
+export interface ExaminationIdType {
+  doctorId: string | undefined
+  patientId: string
+  dateTime: string
+}
 export interface ExaminationType {
-  id: {
-    doctorId: string | undefined
-    patientId: string
-    dateTime: string
-  }
+  id: ExaminationIdType
   patient: PatientType
   doctor: DoctorType
   diagnosis: string

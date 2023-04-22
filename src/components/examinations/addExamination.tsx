@@ -59,17 +59,14 @@ const AddExamination = ({
     }
 
     if (data && date && doctor && hospital) {
-      // ovde pravimo novi datum
+      // ovde new date
       const year = date?.getFullYear()
       const month = date?.getMonth()
       const day = date?.getDate()
-
       const parts = interval.split(':')
       const hour = Number(parts[0])
       const minute = Number(parts[1])
-
-      const newDate = new Date(year, month, day, hour + 1, minute) // ovde dodajemo + 1  da bi dobro prikazivao vreme
-      // jer smanji za po 1
+      const newDate = new Date(year, month, day, hour + 2, minute) // hour + 2 because it looses that 2 hous for some reason
 
       const newData: ExaminationTypeForAxios = {
         id: {
@@ -82,7 +79,6 @@ const AddExamination = ({
         diagnosis: '',
       }
 
-      console.log(newData.id.dateTime)
       doctorService
         .createExam(newData, hospital.id.toString())
         .then((res) => {

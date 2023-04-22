@@ -59,8 +59,6 @@ const UpdateDiagnosis = ({
       diagnosis: getValues('diagnosis'),
     }
 
-    console.log(examination)
-
     examinationService
       .updateDiagnosis(newExamination)
       .then((res) => {
@@ -70,6 +68,7 @@ const UpdateDiagnosis = ({
       .catch((err) => toast.error(err.message))
     setisEditable(false)
   }
+
   const handleDelete = () => {
     if (examination.id.doctorId) {
       examinationService
@@ -87,6 +86,18 @@ const UpdateDiagnosis = ({
     }
   }
 
+  const handleExportPDF = () => {
+    examinationService
+      .exportExaminationToPDF(examination.id)
+      .then((res) => {
+        console.log(res)
+        // Handle response, such as opening a new window with the PDF file
+      })
+      .catch((err) => {
+        toast.error(err.message)
+      })
+  }
+
   const date = examination.id.dateTime
   const newFormat1 = date.substring(0, date.indexOf('T'))
   const newFormat2 = date.substring(
@@ -101,9 +112,7 @@ const UpdateDiagnosis = ({
       <UpdateDiagnosisAcentText>
         Doctor: <span>Dr {examination.doctor.name} </span>
       </UpdateDiagnosisAcentText>
-      <UpdateDiagnosisAcentText>
-        Patient: <span>{examination.patient.name}</span>
-      </UpdateDiagnosisAcentText>
+      <UpdateDiagnosisAcentText>Patient:</UpdateDiagnosisAcentText>
       <UpdateDiagnosisAcentText>
         Date: <span>{newDate}</span>
       </UpdateDiagnosisAcentText>
@@ -135,7 +144,6 @@ const UpdateDiagnosis = ({
               No
             </Button>
           </ButtonDividerInner>
-
           <ButtonDividerInner>
             <Button color={colors.danger} onClick={handleDelete}>
               Yes
@@ -145,6 +153,12 @@ const UpdateDiagnosis = ({
       )}
       <ButtonSecondary onClick={onCancel} color={colors.secondaryDisabled}>
         Close
+      </ButtonSecondary>
+      <ButtonSecondary
+        onClick={handleExportPDF}
+        color={colors.secondaryDisabled}
+      >
+        Export PDF
       </ButtonSecondary>
     </AddExaminationContainer>
   )

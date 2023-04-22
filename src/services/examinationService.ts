@@ -1,6 +1,7 @@
+import { AxiosRequestConfig } from 'axios'
 import { API_URL_DOCTOR, API_URL_EXAMINATION } from '../api/api'
 import instance from '../api/instance'
-import { UpdateDiagnosisData } from '../interfaces/dataTypes'
+import { ExaminationIdType, UpdateDiagnosisData } from '../interfaces/dataTypes'
 
 const getAllExaminations = (
   doctorId: string | undefined,
@@ -37,8 +38,43 @@ const deleteExamination = (
   return instance.delete(`${API_URL_DOCTOR}removeExam`, request)
 }
 
+const exportExaminationToPDF = (examinationId: ExaminationIdType) => {
+  const params = new URLSearchParams()
+  if (
+    examinationId.doctorId &&
+    examinationId.patientId &&
+    examinationId.dateTime
+  ) {
+    params.append('doctorId', examinationId.doctorId)
+    params.append('patientId', examinationId.patientId)
+    params.append('dateTime', examinationId.dateTime)
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const request: AxiosRequestConfig<any> = {
+    responseType: 'blob', // set the response type to blob to get binary data
+    params: params,
+  }
+  console.log(examinationId, params)
+
+  return instance
+    .get(`${API_URL_EXAMINATION}pdf`, request)
+    .then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute(
+        'download',
+        `exam_${examinationId.doctorId}_${examinationId.patientId}_${examinationId.dateTime}.pdf`,
+      )
+      document.body.appendChild(link)
+      link.click()
+    })
+    .catch((error) => console.log('Error exporting examination to PDF', error))
+}
+
 export default {
   getAllExaminations,
   updateDiagnosis,
   deleteExamination,
+  exportExaminationToPDF,
 }
