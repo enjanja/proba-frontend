@@ -9,12 +9,7 @@ import {
 import AddExamination from '../../examinations/addExamination'
 import UpdateDiagnosis from '../../examinations/updateDiagnosis'
 import Modal from '../../modal/Modal'
-import {
-  ColumnContainer,
-  ModalContainer,
-  RowContainer,
-  TimeTableContainer,
-} from './calendarModal.styles'
+import { ColumnContainer, ModalContainer } from './calendarModal.styles'
 import TimeTableRow from './timeTableRow'
 
 interface DayModalProps {
@@ -61,13 +56,13 @@ const DayModal = ({
   }
   const intervals = generateTimeIntervals(30)
 
-  const handleOpenAddExam = () => {
-    setshowAddExamDialog(!showAddExamDialog)
+  const openAddExamDialog = () => {
+    setshowAddExamDialog(true)
     setUpdateDiagnosisDialog(false)
   }
 
   const handleSetInterval = (value: string) => {
-    handleOpenAddExam()
+    openAddExamDialog()
     setInterval(value)
   }
 
@@ -76,8 +71,8 @@ const DayModal = ({
     onClose()
   }
 
-  const handleSelectExamination = (newExam: ExaminationType) => {
-    setChosenExamination(newExam)
+  const handleSelectExamination = (examination: ExaminationType) => {
+    setChosenExamination(examination)
     setUpdateDiagnosisDialog(true)
     setshowAddExamDialog(false)
   }
@@ -116,56 +111,61 @@ const DayModal = ({
     onDeleteExamForDay(deletedExam)
   }
 
+  const showUpdateExamDialog = showUpdateDiagnosisDialog && chosenExamination
+
   return (
     <Modal onClose={handleCloseDayModal}>
       <ModalContainer>
-        <RowContainer>
-          <ColumnContainer>
-            <TimeTableContainer>
-              {intervals.map((a) => {
-                const examination = updatedExaminations.find((e) => {
-                  const time = e?.id.dateTime.substring(
-                    e.id.dateTime.indexOf('T') + 1,
-                    e.id.dateTime.lastIndexOf(':') + 3,
-                  )
-                  if (time.trim() === a) return e
-                })
-
-                return (
-                  <TimeTableRow
-                    type={type}
-                    key={a}
-                    examination={examination}
-                    interval={a}
-                    onSetInterval={handleSetInterval}
-                    onSetChosenExam={handleSelectExamination}
-                  />
-                )
-              })}
-            </TimeTableContainer>
-          </ColumnContainer>
-          <ColumnContainer>
-            {showAddExamDialog && (
-              <AddExamination
-                onCreate={handleCreate}
-                onClose={handleOpenAddExam}
-                doctor={doctor}
-                hospital={hospital}
-                date={todaysDate}
-                interval={interval}
-              />
-            )}
-            {showUpdateDiagnosisDialog && chosenExamination && (
-              <UpdateDiagnosis
+        <ColumnContainer>
+          {intervals.map((i) => {
+            const examination = updatedExaminations.find((exam) => {
+              const time = exam?.id.dateTime.substring(
+                exam.id.dateTime.indexOf('T') + 1,
+                exam.id.dateTime.lastIndexOf(':') + 3,
+              )
+              if (time.trim() === i) return exam
+            })
+            return (
+              <TimeTableRow
                 type={type}
-                onUpdate={handleUpdate}
-                examination={chosenExamination}
-                onCancel={handleCancelEditDiagnosis}
-                onDelete={handleDelete}
+                key={i}
+                examination={examination}
+                interval={i}
+                isSelected={interval === i}
+                onSetInterval={handleSetInterval}
+                onSetChosenExam={handleSelectExamination}
               />
-            )}
-          </ColumnContainer>
-        </RowContainer>
+            )
+          })}
+        </ColumnContainer>
+        <ColumnContainer>
+          <h3>
+            {`${todaysDate?.toDateString()} at 
+            ${interval.slice(0, interval.lastIndexOf(':'))}`}
+          </h3>
+          {showUpdateExamDialog || showAddExamDialog ? null : (
+            <p>Please select a time slot</p>
+          )}
+          {showAddExamDialog && (
+            <AddExamination
+              onCreate={handleCreate}
+              onClose={() => setshowAddExamDialog(false)}
+              doctor={doctor}
+              hospital={hospital}
+              date={todaysDate}
+              interval={interval}
+            />
+          )}
+          {showUpdateExamDialog && (
+            <UpdateDiagnosis
+              type={type}
+              onUpdate={handleUpdate}
+              examination={chosenExamination}
+              onCancel={handleCancelEditDiagnosis}
+              onDelete={handleDelete}
+            />
+          )}
+        </ColumnContainer>
       </ModalContainer>
     </Modal>
   )

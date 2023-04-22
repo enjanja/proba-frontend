@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Grid, Paper, Stack, TextField } from '@mui/material'
+import { Autocomplete, Box, Grid, Stack, TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -69,56 +69,17 @@ const Examinations = () => {
 
   return (
     <Content>
-      <Paper
-        sx={{
-          width: '80%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Stack direction="row" spacing={2} sx={{ paddingTop: '20px' }}>
-          {type === 1 && (
-            <div style={{ width: '300px' }}>
-              <Controller
-                render={({ field: { value } }) => (
-                  <Autocomplete
-                    options={doctors}
-                    getOptionLabel={(option: DoctorType) => option.name}
-                    renderOption={(
-                      props: React.HTMLAttributes<HTMLLIElement>,
-                      option: DoctorType,
-                    ) => (
-                      <Box component="li" {...props} key={option.id}>
-                        {option.name}
-                      </Box>
-                    )}
-                    renderInput={(params) => {
-                      return (
-                        <TextField {...params} label="Doctor" value={value} />
-                      )
-                    }}
-                    onChange={(_, data) => setDoctor(data)}
-                  />
-                )}
-                defaultValue={doctors[0]}
-                name="doctor"
-                control={control}
-              />
-            </div>
-          )}
-          <div
-            style={{ width: '300px', paddingLeft: type === 1 ? '' : '20px' }}
-          >
+      <Stack direction="row" spacing={2} sx={{ paddingBottom: '20px' }}>
+        {type === 1 && (
+          <div style={{ width: '300px' }}>
             <Controller
               render={({ field: { value } }) => (
                 <Autocomplete
-                  options={hospitals}
-                  getOptionLabel={(option: HospitalType) => option.name}
+                  options={doctors}
+                  getOptionLabel={(option: DoctorType) => option.name}
                   renderOption={(
                     props: React.HTMLAttributes<HTMLLIElement>,
-                    option: HospitalType,
+                    option: DoctorType,
                   ) => (
                     <Box component="li" {...props} key={option.id}>
                       {option.name}
@@ -126,42 +87,69 @@ const Examinations = () => {
                   )}
                   renderInput={(params) => {
                     return (
-                      <TextField {...params} label="Hospital" value={value} />
+                      <TextField {...params} label="Doctor" value={value} />
                     )
                   }}
-                  onChange={(_, data) => setHospital(data)}
+                  onChange={(_, data) => setDoctor(data)}
                 />
               )}
-              // defaultValue={hospitals[0] || null}
-              name="hospital"
+              defaultValue={doctors[0]}
+              name="doctor"
               control={control}
             />
           </div>
-        </Stack>
-        {doctorWithExams && hospital ? (
-          <Calendar
-            type={type}
-            hospital={hospital}
-            doctor={doctor?.examinations ? doctor : doctorWithExams}
-            examinations={
-              doctor?.examinations
-                ? doctor.examinations
-                : doctorWithExams?.examinations
-            }
-          />
-        ) : (
-          <Grid
-            container
-            direction={'row'}
-            justifyContent={'center'}
-            height={'400px'}
-          >
-            <h3 style={{ color: colors.secondary }}>
-              Select a {type === 1 && `doctor and `} hospital
-            </h3>
-          </Grid>
         )}
-      </Paper>
+        <div style={{ width: '300px', paddingLeft: type === 1 ? '' : '20px' }}>
+          <Controller
+            render={({ field: { value } }) => (
+              <Autocomplete
+                options={hospitals}
+                getOptionLabel={(option: HospitalType) => option.name}
+                renderOption={(
+                  props: React.HTMLAttributes<HTMLLIElement>,
+                  option: HospitalType,
+                ) => (
+                  <Box component="li" {...props} key={option.id}>
+                    {option.name}
+                  </Box>
+                )}
+                renderInput={(params) => {
+                  return (
+                    <TextField {...params} label="Hospital" value={value} />
+                  )
+                }}
+                onChange={(_, data) => setHospital(data)}
+              />
+            )}
+            // defaultValue={hospitals[0] || null}
+            name="hospital"
+            control={control}
+          />
+        </div>
+      </Stack>
+      {doctorWithExams && hospital ? (
+        <Calendar
+          type={type}
+          hospital={hospital}
+          doctor={doctor?.examinations ? doctor : doctorWithExams}
+          examinations={
+            doctor?.examinations
+              ? doctor.examinations
+              : doctorWithExams?.examinations
+          }
+        />
+      ) : (
+        <Grid
+          container
+          direction={'row'}
+          justifyContent={'center'}
+          height={'400px'}
+        >
+          <h3 style={{ color: colors.secondary }}>
+            Select a {type === 1 && `doctor and `} hospital
+          </h3>
+        </Grid>
+      )}
     </Content>
   )
 }

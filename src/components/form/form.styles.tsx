@@ -113,7 +113,6 @@ export const MyListItem = styled.div`
   padding: 0 2px;
   margin: 0 0 5px 0;
 `
-
 export const MyListItemText = styled.span`
   white-space: nowrap;
   overflow: hidden;
@@ -126,7 +125,15 @@ export const MyListItemText = styled.span`
     text-overflow: ellipsis;
   }
 `
-
+export const ButtonDivider = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+`
+export const ButtonDividerInner = styled.div`
+  width: 45%;
+`
 export const Hospital = ({ hospital }: { hospital: HospitalType }) => {
   return (
     <MyListItem>
@@ -134,23 +141,3 @@ export const Hospital = ({ hospital }: { hospital: HospitalType }) => {
     </MyListItem>
   )
 }
-
-export const AddExaminationContainer = styled.div`
-  padding: 20px;
-  width: 250px;
-  margin: 0;
-  height: 100%;
-
-  border-left: 1px solid ${colors.secondary};
-`
-
-export const ButtonDivider = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-`
-
-export const ButtonDividerInner = styled.div`
-  width: 45%;
-`

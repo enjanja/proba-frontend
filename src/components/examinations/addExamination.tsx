@@ -1,4 +1,4 @@
-import { Autocomplete, Stack, TextField } from '@mui/material'
+import { Autocomplete, TextField } from '@mui/material'
 import { Box } from '@mui/system'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -8,16 +8,16 @@ import {
   HospitalType,
   PatientType,
 } from '../../interfaces/dataTypes'
+import { Form, ButtonDivider, ButtonDividerInner } from '../form/form.styles'
 import { ButtonSecondary } from '../button/button.styles'
 import { Controller } from 'react-hook-form'
 import patientService from '../../services/patientService'
 import doctorService from '../../services/doctorService'
 import { toast } from 'react-toastify'
-import { AddExaminationContainer, Form } from '../form/form.styles'
 import { colors } from '../../global.styles'
 
 interface AddExaminationProps {
-  onClose?: () => void
+  onClose: () => void
   onCreate: (newExam: ExaminationTypeForAxios) => void
   doctor: DoctorType | null
   hospital: HospitalType | null
@@ -52,13 +52,12 @@ const AddExamination = ({
       return
     }
 
-    const newPatient = {
-      id: data.patient.id,
-      jmbg: data.patient.jmbg,
-      name: data.patient.name,
-    }
-
     if (data && date && doctor && hospital) {
+      const newPatient = {
+        id: data.patient.id,
+        jmbg: data.patient.jmbg,
+        name: data.patient.name,
+      }
       // ovde new date
       const year = date?.getFullYear()
       const month = date?.getMonth()
@@ -91,41 +90,45 @@ const AddExamination = ({
   }
 
   return (
-    <AddExaminationContainer>
-      <h3>Add an appointment</h3>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={3}>
-          <Controller
-            render={({ field: { value, onChange } }) => (
-              <Autocomplete
-                freeSolo
-                options={patients}
-                getOptionLabel={(option: PatientType) => option.name}
-                renderOption={(
-                  props: React.HTMLAttributes<HTMLLIElement>,
-                  option: PatientType,
-                ) => (
-                  <Box component="li" {...props} key={option.id}>
-                    {option.name}
-                  </Box>
-                )}
-                renderInput={(params) => (
-                  <TextField {...params} label="Patient" value={value} />
-                )}
-                onChange={(_, data) => onChange(data)}
-              />
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <Controller
+        render={({ field: { value, onChange } }) => (
+          <Autocomplete
+            freeSolo
+            options={patients}
+            getOptionLabel={(option: PatientType) => option.name}
+            renderOption={(
+              props: React.HTMLAttributes<HTMLLIElement>,
+              option: PatientType,
+            ) => (
+              <Box component="li" {...props} key={option.id}>
+                {option.name}
+              </Box>
             )}
-            defaultValue={patients[0]}
-            name="patient"
-            control={control}
+            renderInput={(params) => (
+              <TextField {...params} label="Select a patient" value={value} />
+            )}
+            onChange={(_, data) => onChange(data)}
           />
+        )}
+        name="patient"
+        control={control}
+      />
+      <ButtonDivider>
+        <ButtonDividerInner>
           <ButtonSecondary>Create</ButtonSecondary>
-        </Stack>
-      </Form>
-      <ButtonSecondary color={colors.secondaryDisabled} onClick={onClose}>
-        Cancel
-      </ButtonSecondary>
-    </AddExaminationContainer>
+        </ButtonDividerInner>
+        <ButtonDividerInner>
+          <ButtonSecondary
+            color={colors.secondaryDisabled}
+            onClick={onClose}
+            type="button"
+          >
+            Cancel
+          </ButtonSecondary>
+        </ButtonDividerInner>
+      </ButtonDivider>
+    </Form>
   )
 }
 

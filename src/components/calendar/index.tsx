@@ -11,20 +11,17 @@ import {
   HospitalType,
 } from '../../interfaces/dataTypes'
 import {
-  BlankDay,
-  Busyness,
+  DayHeader,
   CalendarContainer,
-  Cell1,
-  Day,
-  DayNames,
+  DayTableCell,
+  DayTableCellContent,
+  TableHeader,
   DayNumber,
-  Days,
   Header,
-  Kalendar,
   KalendarContent,
   TodayNumber,
 } from './calendar.styles'
-import DayModal from './calendarModals/dayModal'
+import DayModal from './calendarModals/calendarModal'
 import { colors } from '../../global.styles'
 
 interface CalendarProps {
@@ -33,6 +30,9 @@ interface CalendarProps {
   hospital: HospitalType | null
   examinations: ExaminationType[] | undefined
 }
+const arrowSize = '30px'
+const LeftArrow = <RiArrowLeftSFill size={arrowSize} />
+const RightArrow = <RiArrowRightSFill size={arrowSize} />
 
 const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
   const weekDays = moment.weekdaysShort()
@@ -98,53 +98,49 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
 
   const toggleShowYearTable = () => {
     if (showMonthTable) {
-      return
+      setShowMonthTable(false)
     }
+    const showTable = showYearTable ? true : false
+    setShowDateTable(showTable)
     setShowYearTable((prev) => !prev)
-    setShowDateTable((prev) => !prev)
   }
   const toggleShowMonthTable = () => {
     if (showYearTable) {
-      return
+      setShowYearTable(false)
     }
+    const showTable = showMonthTable ? true : false
+    setShowDateTable(showTable)
     setShowMonthTable((prev) => !prev)
-    setShowDateTable((prev) => !prev)
   }
 
   const onPrevMonth = () => {
     setNewDateObject(dateObject.subtract(1, 'month'))
     setCurrentMonth(dateObject.format('MMMM'))
   }
-  const onPrevYear = () => {
-    setNewDateObject(dateObject.subtract(1, 'year'))
-    setCurrentYear(dateObject.format('Y'))
-  }
   const onNextMonth = () => {
     setNewDateObject(dateObject.add(1, 'month'))
     setCurrentMonth(dateObject.format('MMMM'))
+  }
+  const onPrevYear = () => {
+    setNewDateObject(dateObject.subtract(1, 'year'))
+    setCurrentYear(dateObject.format('Y'))
   }
   const onNextYear = () => {
     setNewDateObject(dateObject.add(1, 'year'))
     setCurrentYear(dateObject.format('Y'))
   }
 
-  const weekdayshortname = weekdayshort.map((day) => {
-    return <th key={day}>{day}</th>
-  })
-
   const blanks = [] // prazna polja pre prvog dana u mesecu
   for (let i = 0; i < Number(firstDayOfMonth()) - 1; i++) {
-    blanks.push(<BlankDay key={i * -1}>{''}</BlankDay>)
+    blanks.push(<td key={i * -1}>{''}</td>)
   }
 
   const handleSelectDayExaminations = (day: number) => {
     const date = new Date(`${currentYear} ${currentMonth} ${day}`)
     setTodaysDate(date)
-
     const newDayExams = thisMonthExams.filter(
       (exam) => new Date(exam.id.dateTime).getDate() === day,
     )
-
     setChosenDayExams(newDayExams)
     handleOpenModal()
   }
@@ -169,23 +165,27 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
 
   const daysInMonthValues: JSX.Element[] = [] // broj dana u mesecu
   for (let day = 1; day <= daysInMonth(); day++) {
+    const Day =
+      day !== Number(currentDay()) ? (
+        <DayNumber>{day}</DayNumber>
+      ) : (
+        <TodayNumber>{day}</TodayNumber>
+      )
+    const isDayAvailable =
+      thisMonthExams.filter(
+        (exam) => new Date(exam?.id.dateTime).getDate() === day,
+      ).length < 17
     daysInMonthValues.push(
-      <Cell1 onClick={() => handleSelectDayExaminations(day)}>
-        {day !== Number(currentDay()) ? (
-          <DayNumber>{day}</DayNumber>
-        ) : (
-          <TodayNumber>{day}</TodayNumber>
-        )}
-        <Day key={day}>
-          {thisMonthExams.filter((exam) => {
-            if (new Date(exam?.id.dateTime).getDate() === day) return true
-          }).length >= 17 ? (
-            <Busyness color={colors.danger}>Busy</Busyness>
-          ) : (
-            <Busyness color={colors.primary}>Available</Busyness>
-          )}
-        </Day>
-      </Cell1>,
+      <DayTableCell onClick={() => handleSelectDayExaminations(day)}>
+        <DayTableCellContent>
+          <DayHeader
+            backgroundColor={isDayAvailable ? colors.primary : colors.danger}
+          >
+            {isDayAvailable ? 'Available' : 'Busy'}
+            {Day}
+          </DayHeader>
+        </DayTableCellContent>
+      </DayTableCell>,
     )
   }
 
@@ -223,55 +223,44 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
       )}
       <CalendarContainer>
         <Header>
-          <div onClick={onPrevMonth}>
-            <RiArrowLeftSFill size="30px" />
-          </div>
+          <div onClick={onPrevMonth}>{LeftArrow}</div>
           <div onClick={toggleShowMonthTable}>{currentMonth}</div>
-          <div onClick={onNextMonth}>
-            <RiArrowRightSFill size="30px" />
-          </div>
-          <div onClick={onPrevYear}>
-            <RiArrowLeftSFill size="30px" />
-          </div>
+          <div onClick={onNextMonth}>{RightArrow}</div>
+          <div onClick={onPrevYear}>{LeftArrow}</div>
           <div onClick={toggleShowYearTable}>{currentYear}</div>
-          <div onClick={onNextYear}>
-            <RiArrowRightSFill size="30px" />
-          </div>
+          <div onClick={onNextYear}>{RightArrow}</div>
         </Header>
-
-        <Kalendar>
-          {showYearTable && (
-            <YearTable
-              year={currentYear}
-              onShowYearTable={toggleShowYearTable}
-              dateObject={dateObject}
-              onSetDateObject={setNewDateObject}
-              onSetShowMonthTable={toggleShowMonthTable}
-            />
-          )}
-          {showMonthTable && (
-            <MonthList
-              data={moment.months()}
-              dateObject={dateObject}
-              onToggleMonthTable={toggleShowMonthTable}
-              onSetDateObject={setNewDateObject}
-            />
-          )}
-        </Kalendar>
-
+        {showYearTable && (
+          <YearTable
+            year={currentYear}
+            onShowYearTable={toggleShowYearTable}
+            dateObject={dateObject}
+            onSetDateObject={setNewDateObject}
+          />
+        )}
+        {showMonthTable && (
+          <MonthList
+            data={moment.months()}
+            dateObject={dateObject}
+            onToggleMonthTable={toggleShowMonthTable}
+            onSetDateObject={setNewDateObject}
+          />
+        )}
         {showDateTable && (
-          <Kalendar>
-            <KalendarContent>
-              <DayNames>
-                <tr>{weekdayshortname}</tr>
-              </DayNames>
-              <tbody>
-                {days.map((day, i) => {
-                  return <Days key={i}>{day}</Days>
-                })}
-              </tbody>
-            </KalendarContent>
-          </Kalendar>
+          <KalendarContent>
+            <TableHeader>
+              <tr>
+                {weekdayshort.map((day) => (
+                  <th key={day}>{day}</th>
+                ))}
+              </tr>
+            </TableHeader>
+            <tbody>
+              {days.map((day, i) => (
+                <tr key={i}>{day}</tr>
+              ))}
+            </tbody>
+          </KalendarContent>
         )}
       </CalendarContainer>
     </>

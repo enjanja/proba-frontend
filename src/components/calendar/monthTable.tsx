@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { KalendarContentSecond, Cell2, Header2 } from './calendar.styles'
+import { KalendarContent, Cell2, TableHeader } from './calendar.styles'
 
 interface MonthTableProps {
   onToggleMonthTable: () => void
@@ -52,18 +52,20 @@ const MonthList = ({
   rows.push(cells) // add last row
 
   return (
-    <KalendarContentSecond>
-      <thead>
-        <Header2>
-          <td style={{ width: '100%' }}>Select a Month</td>
-        </Header2>
-      </thead>
+    <KalendarContent>
+      <TableHeader>
+        <tr>
+          <th>Select a Month</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </TableHeader>
       <tbody>
         {rows.map((d, i) => {
           return <tr key={i}>{d}</tr>
         })}
       </tbody>
-    </KalendarContentSecond>
+    </KalendarContent>
   )
 }
 

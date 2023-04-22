@@ -9,12 +9,8 @@ import {
 } from '../../interfaces/dataTypes'
 import examinationService from '../../services/examinationService'
 import { Button, ButtonSecondary } from '../button/button.styles'
-import {
-  AddExaminationContainer,
-  ButtonDivider,
-  ButtonDividerInner,
-} from '../form/form.styles'
-import { UpdateDiagnosisAcentText, H3 } from '../text/text.styles'
+import { ButtonDivider, ButtonDividerInner } from '../form/form.styles'
+import { UpdateDiagnosisAcentText } from '../text/text.styles'
 
 interface UpdateDiagnosisProps {
   type: number
@@ -58,7 +54,6 @@ const UpdateDiagnosis = ({
       dateTime: examination.id.dateTime,
       diagnosis: getValues('diagnosis'),
     }
-
     examinationService
       .updateDiagnosis(newExamination)
       .then((res) => {
@@ -91,7 +86,6 @@ const UpdateDiagnosis = ({
       .exportExaminationToPDF(examination.id)
       .then((res) => {
         console.log(res)
-        // Handle response, such as opening a new window with the PDF file
       })
       .catch((err) => {
         toast.error(err.message)
@@ -107,8 +101,7 @@ const UpdateDiagnosis = ({
   const newDate = newFormat1 + ' ' + newFormat2
 
   return (
-    <AddExaminationContainer>
-      <H3>Appointment data</H3>
+    <>
       <UpdateDiagnosisAcentText>
         Doctor: <span>Dr {examination.doctor.name} </span>
       </UpdateDiagnosisAcentText>
@@ -123,17 +116,25 @@ const UpdateDiagnosis = ({
         {...register('diagnosis')}
         style={{ width: '100%', marginTop: '10px' }}
       />
-      {!isEditable && (
-        <ButtonSecondary
-          onClick={handleEnableDiagnosisEdit}
-          color={colors.primary}
-        >
-          Edit diagnosis
-        </ButtonSecondary>
-      )}
-      {isEditable && (
-        <ButtonSecondary onClick={handleUpdate}>Update</ButtonSecondary>
-      )}
+
+      <ButtonDivider>
+        <ButtonDividerInner>
+          <ButtonSecondary
+            onClick={isEditable ? handleUpdate : handleEnableDiagnosisEdit}
+            color={isEditable ? colors.secondary : colors.primary}
+          >
+            {isEditable ? 'Update' : 'Edit'}
+          </ButtonSecondary>
+        </ButtonDividerInner>
+        <ButtonDividerInner>
+          <ButtonSecondary
+            onClick={handleExportPDF}
+            color={colors.secondaryDisabled}
+          >
+            Export PDF
+          </ButtonSecondary>
+        </ButtonDividerInner>
+      </ButtonDivider>
       {!openDelete && type === 1 && (
         <ButtonSecondary onClick={handleOpenDelete}>Delete</ButtonSecondary>
       )}
@@ -152,15 +153,9 @@ const UpdateDiagnosis = ({
         </ButtonDivider>
       )}
       <ButtonSecondary onClick={onCancel} color={colors.secondaryDisabled}>
-        Close
+        Cancel
       </ButtonSecondary>
-      <ButtonSecondary
-        onClick={handleExportPDF}
-        color={colors.secondaryDisabled}
-      >
-        Export PDF
-      </ButtonSecondary>
-    </AddExaminationContainer>
+    </>
   )
 }
 

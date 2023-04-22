@@ -10,6 +10,7 @@ import {
 interface TimeTableRowProps {
   type: number
   interval: string
+  isSelected: boolean
   examination: ExaminationType | undefined
   onSetInterval: (value: string) => void
   onSetChosenExam: (value: ExaminationType) => void
@@ -18,67 +19,45 @@ interface TimeTableRowProps {
 const TimeTableRow = ({
   type,
   interval,
+  isSelected,
   examination,
   onSetInterval,
   onSetChosenExam,
 }: TimeTableRowProps) => {
-  const handleAddExamination = (value: string) => {
-    onSetInterval(value)
+  const handleAddExamination = (interval: string) => {
+    onSetInterval(interval)
   }
 
-  const handleEditDiagnosis = (value: ExaminationType) => {
+  const handleEditDiagnosis = (value: ExaminationType, interval: string) => {
+    onSetInterval(interval)
     onSetChosenExam(value)
   }
 
+  const ApointmentSlotContainer =
+    interval === '16:00:00' ? AppointmentSlotBottom : AppointmentSlot
+
   return (
-    <>
-      {interval === '16:00:00' && (
-        <AppointmentSlotBottom key={interval}>
-          <Time>{interval}</Time>
-          <Patient>
-            <div>{examination?.patient.name}</div>
-            <div>{examination?.patient.jmbg}</div>
-          </Patient>
-          <div>
-            {!examination && type === 1 && (
-              <MdOutlineAddBox
-                size="20px"
-                onClick={() => handleAddExamination(interval)}
-              />
-            )}
-            {examination && (
-              <MdEditCalendar
-                size="20px"
-                onClick={() => handleEditDiagnosis(examination)}
-              />
-            )}
-          </div>
-        </AppointmentSlotBottom>
-      )}
-      {interval !== '16:00:00' && (
-        <AppointmentSlot key={interval}>
-          <Time>{interval}</Time>
-          <Patient>
-            <div>{examination?.patient.name}</div>
-            <div>{examination?.patient.jmbg}</div>
-          </Patient>
-          <div>
-            {!examination && type === 1 && (
-              <MdOutlineAddBox
-                size="20px"
-                onClick={() => handleAddExamination(interval)}
-              />
-            )}
-            {examination && (
-              <MdEditCalendar
-                size="20px"
-                onClick={() => handleEditDiagnosis(examination)}
-              />
-            )}
-          </div>
-        </AppointmentSlot>
-      )}
-    </>
+    <ApointmentSlotContainer key={interval} isSelected={isSelected}>
+      <Time>{interval}</Time>
+      <Patient>
+        <div>{examination?.patient.name}</div>
+        <div>{examination?.patient.jmbg}</div>
+      </Patient>
+      <div>
+        {!examination && type === 1 && (
+          <MdOutlineAddBox
+            size="20px"
+            onClick={() => handleAddExamination(interval)}
+          />
+        )}
+        {examination && (
+          <MdEditCalendar
+            size="20px"
+            onClick={() => handleEditDiagnosis(examination, interval)}
+          />
+        )}
+      </div>
+    </ApointmentSlotContainer>
   )
 }
 

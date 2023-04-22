@@ -2,158 +2,79 @@ import styled from 'styled-components'
 import { colors } from '../../global.styles'
 
 export const CalendarContainer = styled.div`
-  margin: 20px;
-  width: 80%;
-  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.8);
+  border: 1px solid ${colors.text};
+  border-radius: 5px;
+  width: 90%;
 `
 
 export const Header = styled.div`
   padding: 5px;
-  background: ${colors.secondary};
-  color: ${colors.base};
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  justify-content: space-around;
+  border-bottom: 1px solid ${colors.text};
   cursor: pointer;
-
   div {
-    width: 100%;
     display: flex;
     justify-content: center;
-
     :hover {
       color: ${colors.primary};
     }
   }
 `
-
-export const Kalendar = styled.div`
-  background: ${colors.white};
-`
-
 export const KalendarContent = styled.table`
   width: 100%;
-  height: 430px;
   border-collapse: collapse;
 `
-export const KalendarContentSecond = styled.table`
+export const TableHeader = styled.thead`
+  border-bottom: 1px solid ${colors.text};
+  height: 30px;
   width: 100%;
-  height: 430px;
 `
-
-export const DayNames = styled.thead`
-  width: 100%;
-  background: ${colors.secondaryLight};
-  color: ${colors.white};
-  padding: 10px;
-  font-style: oblique;
-
-  tr {
-    height: 30px;
-  }
-`
-
-export const Days = styled.tr`
-  background: ${colors.white};
-`
-
-export const Cell1 = styled.td`
-  width: 50px;
-  max-width: 50px;
-  background: ${colors.white};
-  overflow: hidden;
-  position: relative;
-`
-
-export const Day = styled.div`
-  width: 100%;
-  height: 100%;
-  max-height: 90px;
-  background: ${colors.white};
+export const DayTableCell = styled.td`
   cursor: pointer;
-  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.8);
-
+  border: 1px solid ${colors.primary};
+`
+export const DayTableCellContent = styled.div`
+  display: flex;
+  background-color: ${colors.white};
+  height: 6rem;
   &:hover {
     background-color: ${colors.hover};
   }
-
-  overflow: scroll;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `
-
-export const BlankDay = styled.td`
-  width: 1/7 * 100%;
-  max-width: 50px;
-  max-height: 90px;
-`
-
-export const DayNumber = styled.div`
-  position: absolute;
-  top: 4px;
-  right: 5px;
-  color: white;
-`
-
+export const DayNumber = styled.div``
 export const TodayNumber = styled(DayNumber)`
-  background-color: white;
   width: 20px;
-  height: 18px;
-  border-radius: 99px;
-  text-align: center;
+  height: 20px;
+  display: flex;
   justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  text-align: center;
+  background-color: ${colors.white};
   color: ${colors.danger};
 `
-
-export const ExaminationContainer = styled.div`
-  background: ${colors.primary};
-  font-size: 11px;
-  border-radius: 3px;
-  padding: 2px 5px;
-  margin: 2px;
-  cursor: pointer;
-`
-
-export const Description = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
-
-export const Header2 = styled.tr`
-  color: ${colors.base};
-  height: 30px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-`
-
 export const Cell2 = styled.td`
-  width: 50px;
-  max-width: 50px;
-  height: 50px;
-  max-height: 50px;
-  background: ${colors.base};
+  height: 6rem;
   text-align: center;
-
   cursor: pointer;
   &:hover {
     color: ${colors.secondaryLight};
-    background: ${colors.primaryLight};
+    background: ${colors.hover};
   }
 `
-
-interface BusynessProp {
-  color: string
+interface DayHeaderProp {
+  backgroundColor: string
 }
-
-export const Busyness = styled.div<BusynessProp>`
+export const DayHeader = styled.div<DayHeaderProp>`
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  padding: 5px;
+  width: 100%;
+  height: 2rem;
+  font-size: 15px;
   color: white;
-  height: 25px;
-  background: ${({ color }) => color};
-  border-radius: 3px;
-  padding: 2px 5px;
-  font-size: 13px;
+  background: ${({ backgroundColor }) => backgroundColor};
 `

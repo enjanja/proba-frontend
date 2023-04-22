@@ -1,10 +1,9 @@
 import moment from 'moment'
 import './calendar.css'
-import { KalendarContentSecond, Cell2, Header2 } from './calendar.styles'
+import { KalendarContent, Cell2, TableHeader } from './calendar.styles'
 
 interface YearTableProps {
   onShowYearTable: () => void
-  onSetShowMonthTable: () => void
   onSetDateObject: (newObject: moment.Moment) => void
   dateObject: moment.Moment
   year: string | undefined
@@ -14,7 +13,6 @@ const YearTable = ({
   onShowYearTable,
   dateObject,
   onSetDateObject,
-  onSetShowMonthTable,
   year,
 }: YearTableProps) => {
   const months: JSX.Element[] = []
@@ -25,7 +23,6 @@ const YearTable = ({
     newDateObject = moment(dateObject).set('year', Number(year))
 
     onSetDateObject(newDateObject)
-    onSetShowMonthTable()
     onShowYearTable()
   }
 
@@ -75,14 +72,16 @@ const YearTable = ({
   })
 
   return (
-    <KalendarContentSecond>
-      <thead>
-        <Header2>
-          <th>Select a Yeah</th>
-        </Header2>
-      </thead>
+    <KalendarContent>
+      <TableHeader>
+        <tr>
+          <th style={{ width: '33.33%' }}>Select a Yeah</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </TableHeader>
       <tbody>{yearlist}</tbody>
-    </KalendarContentSecond>
+    </KalendarContent>
   )
 }
 
