@@ -143,7 +143,7 @@ const Navbar = () => {
           style={{ width: '100%', color: 'gray' }}
         >
           <MenuItem>
-            <Avatar style={{ backgroundColor: colors.primary }} /> Profile
+            <Avatar style={{ backgroundColor: colors.blue }} /> Profile
           </MenuItem>
         </Link>
         <Divider />

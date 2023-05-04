@@ -31,3 +31,17 @@ export const Content = styled.div`
   align-items: center;
   width: 100%;
 `
+
+export const PageHeader = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 500px;
+`
+
+export const TableCellContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`

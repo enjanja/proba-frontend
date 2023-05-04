@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react'
-import { Grid, Paper } from '@mui/material'
+import { toast } from 'react-toastify'
 import doctorService from '../../services/doctorService'
 import { DoctorType } from '../../interfaces/dataTypes'
-import { colors } from '../../global.styles'
-import { Button, ButtonHolderTable } from '../button/button.styles'
 import TableDoctors from './tableDoctor'
 import AddDoctor from './addDoctor/addDoctor'
 import Modal from '../modal/Modal'
-import { toast } from 'react-toastify'
-import { Content } from '../layout/layout.styles'
 import DeactivateDoctor from './deactivate/DeactivateDoctor'
+import { FormControl, FormControlLabel, Checkbox } from '@mui/material'
+import { colors } from '../../global.styles'
+import { Button } from '../button/button.styles'
+import { Content, PageHeader } from '../layout/layout.styles'
+import { ButtonDividerInner } from '../form/form.styles'
 
 const Doctor = () => {
+  const [showAllDoctors, setShowAllDoctors] = useState<boolean>(false)
   const [doctors, setDoctors] = useState<DoctorType[]>([])
   const [openModalAdd, setOpenModalAdd] = useState(false)
   const [openModalDeactivate, setOpenModalDeactivate] = useState(false)
@@ -21,15 +23,17 @@ const Doctor = () => {
   ] = useState<DoctorType | null>(null)
 
   useEffect(() => {
-    doctorService
-      .getAllActiveDoctors()
+    const getDoctors = showAllDoctors
+      ? doctorService.getAllDoctors
+      : doctorService.getAllActiveDoctors
+    getDoctors()
       .then((res) => {
         setDoctors(res.data)
       })
       .catch((err) => {
         toast.error(err.message)
       })
-  }, [])
+  }, [showAllDoctors])
 
   const handleOpenModalAddDr = () => {
     setOpenModalAdd(true)
@@ -68,6 +72,12 @@ const Doctor = () => {
     }
   }
 
+  const handleToggleCheckbox = () => {
+    setShowAllDoctors((prev) => !prev)
+  }
+
+  const doctorsExist = doctors.length > 0
+
   return (
     <Content>
       {openModalAdd && (
@@ -87,35 +97,36 @@ const Doctor = () => {
           />
         </Modal>
       )}
-
-      <Paper
-        sx={{
-          width: '80%',
-        }}
-      >
-        <ButtonHolderTable>
-          <div style={{ maxWidth: '200px' }}>
-            <Button onClick={handleOpenModalAddDr}>Add doctor</Button>
-          </div>
-        </ButtonHolderTable>
-        {doctors.length > 0 ? (
-          <TableDoctors
-            doctors={doctors}
-            onDeactivate={handleOpenModalDeactivate}
-          />
-        ) : (
-          <Grid
-            container
-            direction={'row'}
-            justifyContent={'center'}
-            height={'400px'}
-          >
-            <h3 style={{ color: colors.secondary }}>
-              No doctors currently work with us
-            </h3>
-          </Grid>
-        )}
-      </Paper>
+      <PageHeader>
+        <ButtonDividerInner>
+          <Button onClick={handleOpenModalAddDr}>Add doctor</Button>
+        </ButtonDividerInner>
+        <ButtonDividerInner>
+          <FormControl style={{ marginLeft: '1.5rem' }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onClick={handleToggleCheckbox}
+                  checked={showAllDoctors}
+                  disabled={!doctorsExist}
+                />
+              }
+              label="Show all doctors"
+              labelPlacement="end"
+            />
+          </FormControl>
+        </ButtonDividerInner>
+      </PageHeader>
+      {doctorsExist ? (
+        <TableDoctors
+          doctors={doctors}
+          onDeactivate={handleOpenModalDeactivate}
+        />
+      ) : (
+        <h3 style={{ color: colors.black }}>
+          No doctors currently work with us
+        </h3>
+      )}
     </Content>
   )
 }

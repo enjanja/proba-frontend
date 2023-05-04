@@ -9,10 +9,8 @@ export const NavbarContainer = styled.div<NavProps>`
   display: flex;
   justify-content: space-between;
   position: absolute;
-  background: ${colors.primary};
-
+  background: ${colors.blue};
   margin: 0;
-
   height: 50px;
   width: 100%;
 `
@@ -30,8 +28,8 @@ export const NavSelectionItem = styled.div<NavProps>`
   width: 100%;
   max-width: 150px;
   justify-content: center;
-  background-color: ${({ active }) => (active ? colors.background : 'none')};
-  color: ${({ active }) => (active ? colors.secondaryDark : 'white')};
+  background-color: ${({ active }) => (active ? colors.white : 'none')};
+  color: ${({ active }) => (active ? colors.black : '.white')};
 `
 
 export const NavItem = styled.div`
@@ -42,6 +40,6 @@ export const NavItem = styled.div`
   margin: 0 20px;
 
   &:hover {
-    color: ${colors.secondaryDisabled};
+    color: ${colors.hover};
   }
 `

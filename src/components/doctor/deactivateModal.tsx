@@ -30,7 +30,7 @@ const Deactivate = ({
           <Button onClick={handleCancel}>Cancel</Button>
         </ButtonDividerInner>
         <ButtonDividerInner>
-          <Button color={colors.secondary} onClick={handleDeactivate}>
+          <Button color={colors.black} onClick={handleDeactivate}>
             Confirm
           </Button>
         </ButtonDividerInner>

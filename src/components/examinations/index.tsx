@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Grid, Stack, TextField } from '@mui/material'
+import { Autocomplete, Box, Stack, TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -45,6 +45,12 @@ const Examinations = () => {
     }
   }, [])
 
+  const handleSetDoctor = (doctor: DoctorType | null) => {
+    setDoctor(doctor)
+    setHospitals([])
+    setHospital(null)
+  }
+
   useEffect(() => {
     if (doctor) {
       doctorService
@@ -90,10 +96,9 @@ const Examinations = () => {
                       <TextField {...params} label="Doctor" value={value} />
                     )
                   }}
-                  onChange={(_, data) => setDoctor(data)}
+                  onChange={(_, data) => handleSetDoctor(data)}
                 />
               )}
-              defaultValue={doctors[0]}
               name="doctor"
               control={control}
             />
@@ -110,18 +115,16 @@ const Examinations = () => {
                   option: HospitalType,
                 ) => (
                   <Box component="li" {...props} key={option.id}>
+                    {console.log('render', option)}
                     {option.name}
                   </Box>
                 )}
-                renderInput={(params) => {
-                  return (
-                    <TextField {...params} label="Hospital" value={value} />
-                  )
-                }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Hospital" value={value} />
+                )}
                 onChange={(_, data) => setHospital(data)}
               />
             )}
-            // defaultValue={hospitals[0] || null}
             name="hospital"
             control={control}
           />
@@ -139,16 +142,9 @@ const Examinations = () => {
           }
         />
       ) : (
-        <Grid
-          container
-          direction={'row'}
-          justifyContent={'center'}
-          height={'400px'}
-        >
-          <h3 style={{ color: colors.secondary }}>
-            Select a {type === 1 && `doctor and `} hospital
-          </h3>
-        </Grid>
+        <h3 style={{ color: colors.black }}>
+          Select a {type === 1 && `doctor and `} hospital
+        </h3>
       )}
     </Content>
   )

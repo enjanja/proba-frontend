@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Grid, Paper } from '@mui/material'
 import { PatientType } from '../../interfaces/dataTypes'
 import { colors } from '../../global.styles'
-import { Button, ButtonHolderTable } from '../button/button.styles'
+import { Button } from '../button/button.styles'
 import TablePatients from './tablePatients'
 import patientService from '../../services/patientService'
 import Modal from '../modal/Modal'
@@ -10,7 +9,7 @@ import AddPatient from './addPatient'
 import { ActionType } from '../../enums/action'
 import EditPatient from './editPatient'
 import { toast } from 'react-toastify'
-import { Content } from '../layout/layout.styles'
+import { Content, PageHeader } from '../layout/layout.styles'
 
 const Patients = () => {
   const [patients, setPatients] = useState<PatientType[]>([])
@@ -82,31 +81,16 @@ const Patients = () => {
           )}
         </Modal>
       )}
-      <Paper
-        sx={{
-          width: '80%',
-        }}
-      >
-        <ButtonHolderTable>
-          <div style={{ maxWidth: '200px' }}>
-            <Button onClick={handleOpenModal}>Add Patient</Button>
-          </div>
-        </ButtonHolderTable>
-        {patients.length > 0 ? (
-          <TablePatients patients={patients} onEdit={handleOpenEditModal} />
-        ) : (
-          <Grid
-            container
-            direction={'row'}
-            justifyContent={'center'}
-            height={'400px'}
-          >
-            <h3 style={{ color: colors.secondary }}>
-              No patients are currently with us
-            </h3>
-          </Grid>
-        )}
-      </Paper>
+      <PageHeader style={{ width: '200px' }}>
+        <Button onClick={handleOpenModal}>Add Patient</Button>
+      </PageHeader>
+      {patients.length > 0 ? (
+        <TablePatients patients={patients} onEdit={handleOpenEditModal} />
+      ) : (
+        <h3 style={{ color: colors.black }}>
+          No patients are currently with us
+        </h3>
+      )}
     </Content>
   )
 }

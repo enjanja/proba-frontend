@@ -1,5 +1,4 @@
 import moment from 'moment'
-import './calendar.css'
 import { KalendarContent, Cell2, TableHeader } from './calendar.styles'
 
 interface YearTableProps {

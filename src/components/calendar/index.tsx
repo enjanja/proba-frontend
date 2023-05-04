@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react'
 import { RiArrowLeftSFill, RiArrowRightSFill } from 'react-icons/ri'
 import moment from 'moment'
-import './calendar.css'
 import YearTable from './yearTable'
 import MonthList from './monthTable'
 import {
@@ -149,10 +148,8 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
     setNewExaminations((prev) => [...(prev as ExaminationType[]), ...newExams])
   }
   const handleDeleteExamForDay = (deletedExam: ExaminationType) => {
-    setNewExaminations(
-      (prev) =>
-        prev &&
-        prev.filter((exam) => exam.id.dateTime !== deletedExam.id.dateTime),
+    setNewExaminations((prev) =>
+      prev?.filter((exam) => exam.id.dateTime !== deletedExam.id.dateTime),
     )
   }
 
@@ -176,10 +173,10 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
         (exam) => new Date(exam?.id.dateTime).getDate() === day,
       ).length < 17
     daysInMonthValues.push(
-      <DayTableCell onClick={() => handleSelectDayExaminations(day)}>
+      <DayTableCell key={day} onClick={() => handleSelectDayExaminations(day)}>
         <DayTableCellContent>
           <DayHeader
-            backgroundColor={isDayAvailable ? colors.primary : colors.danger}
+            backgroundColor={isDayAvailable ? colors.blue : colors.red}
           >
             {isDayAvailable ? 'Available' : 'Busy'}
             {Day}
@@ -256,8 +253,8 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
               </tr>
             </TableHeader>
             <tbody>
-              {days.map((day, i) => (
-                <tr key={i}>{day}</tr>
+              {days.map((day, index) => (
+                <tr key={index}>{day}</tr>
               ))}
             </tbody>
           </KalendarContent>

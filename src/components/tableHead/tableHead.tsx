@@ -10,6 +10,11 @@ interface EnhancedTableProps {
   header: HeadCell[]
 }
 
+const tableStyle = (headCell?: HeadCell) => ({
+  width: headCell?.width,
+  backgroundColor: colors.white,
+})
+
 const EnhancedTableHead = (props: EnhancedTableProps) => {
   const { header } = props
   const location = useLocation()
@@ -19,7 +24,7 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
       <TableRow>
         {header.map((headCell) => (
           <TableCell
-            sx={{ color: colors.base, backgroundColor: colors.secondary }}
+            sx={tableStyle(headCell)}
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
           >
@@ -27,9 +32,7 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
           </TableCell>
         ))}
         {location.pathname === '/nurse/patients' ? (
-          <>
-            <TableCell sx={{ backgroundColor: colors.secondary }} />
-          </>
+          <TableCell sx={tableStyle()} />
         ) : null}
       </TableRow>
     </TableHead>

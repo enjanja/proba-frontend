@@ -13,7 +13,7 @@ export const FormContainer = styled.div`
   width: 300px;
   margin: 0;
 
-  background-color: ${colors.base};
+  background-color: ${colors.white};
   border-radius: 10px;
   box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.1);
 `
@@ -42,21 +42,17 @@ export const Input = styled.input`
   width: 100%;
   padding: 0;
   margin-top: 5px;
-
   text-indent: 10px;
-  color: ${colors.text};
+  color: ${colors.black};
   font-size: 15px;
-
-  border: 2px solid ${colors.inputBorder};
+  border: 2px solid ${colors.grey};
   border-radius: 10px;
-
   &:focus {
     outline: none;
-    border: 2px solid ${colors.primary};
+    border: 2px solid ${colors.blue};
   }
-
   &:disabled::-webkit-input-placeholder {
-    color: ${colors.inputBorder};
+    color: ${colors.grey};
     border: none;
     outline: none;
   }
@@ -82,7 +78,7 @@ export const AddDoctorFormContainer = styled.div`
   margin: 0;
   height: fit-content;
 
-  background-color: ${colors.base};
+  background-color: ${colors.white};
   border-radius: 5px;
   box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.1);
 `
@@ -114,13 +110,13 @@ export const MyListItem = styled.div`
   margin: 0 0 5px 0;
 `
 export const MyListItemText = styled.span`
-  white-space: nowrap;
+  .white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 12px;
   .truncate {
     width: 100px;
-    white-space: nowrap;
+    .white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }

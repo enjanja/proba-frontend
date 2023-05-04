@@ -53,8 +53,6 @@ const Profile = () => {
 
   useEffect(() => {
     if (type === 2) {
-      console.log('uso')
-
       doctorService
         .getDoctorProfile()
         .then((res) => {
@@ -129,9 +127,9 @@ const Profile = () => {
   }
 
   const onSubmit = (data: UserType) => {
-    if (user && user.hospitals && user.specialization) {
+    if (user?.hospitals && user.specialization) {
       if (
-        data.username === user?.username &&
+        data.username === user.username &&
         data.name === user.name &&
         data.password === user.password &&
         specialization.id === user.specialization.id &&
@@ -168,9 +166,9 @@ const Profile = () => {
         })
     }
 
-    if (user && user.hospital) {
+    if (user?.hospital) {
       if (
-        data.username === user?.username &&
+        data.username === user.username &&
         data.name === user.name &&
         data.password === user.password &&
         data.hospital === user.hospital
@@ -208,6 +206,8 @@ const Profile = () => {
     setOpenModal(false)
   }
 
+  console.log('profile', user)
+
   return (
     <Wrapper>
       {openModal && (
@@ -217,7 +217,7 @@ const Profile = () => {
       )}
       <InnerWrapper>
         <AddDoctorFormContainer>
-          {(user?.hospitals || user?.hospital) && (
+          {user && (
             <Form onSubmit={handleSubmit(onSubmit)} id="update-form">
               <AddDoctorInputContainer>
                 <Label>Full Name</Label>
@@ -304,7 +304,7 @@ const Profile = () => {
                     <Button
                       form="update-form"
                       type="button"
-                      color={colors.primary}
+                      backgroundColor={colors.blue}
                       onClick={handleEditForm}
                     >
                       Cancel
@@ -316,14 +316,14 @@ const Profile = () => {
                     <Button
                       form="update-form"
                       type="submit"
-                      color={colors.secondary}
+                      backgroundColor={colors.black}
                     >
                       Update
                     </Button>
                   )}
                   {!isEditable && (
                     <Button
-                      color={colors.secondary}
+                      backgroundColor={colors.black}
                       onClick={handleOpenModal}
                       type="button"
                     >

@@ -52,10 +52,13 @@ const TablePatients = ({ patients, onEdit }: TablePatientsProps) => {
       <TableContainer
         sx={{
           overflow: 'scroll',
-          height: '415px',
+          border: '1px solid black',
+          borderRadius: '5px',
+          width: '90%',
+          height: '550px',
         }}
       >
-        <Table size="small" stickyHeader>
+        <Table stickyHeader>
           <EnhancedTableHead header={headCellsPatients} />
           <TableBody>
             {patients

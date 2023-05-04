@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { colors } from '../../global.styles'
 
 export const CalendarContainer = styled.div`
-  border: 1px solid ${colors.text};
+  border: 1px solid ${colors.black};
   border-radius: 5px;
   width: 90%;
 `
@@ -12,13 +12,13 @@ export const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  border-bottom: 1px solid ${colors.text};
+  border-bottom: 1px solid ${colors.black};
   cursor: pointer;
   div {
     display: flex;
     justify-content: center;
     :hover {
-      color: ${colors.primary};
+      color: ${colors.blue};
     }
   }
 `
@@ -27,17 +27,16 @@ export const KalendarContent = styled.table`
   border-collapse: collapse;
 `
 export const TableHeader = styled.thead`
-  border-bottom: 1px solid ${colors.text};
+  border-bottom: 1px solid ${colors.black};
   height: 30px;
   width: 100%;
 `
 export const DayTableCell = styled.td`
   cursor: pointer;
-  border: 1px solid ${colors.primary};
+  border: 1px solid ${colors.blue};
 `
 export const DayTableCellContent = styled.div`
   display: flex;
-  background-color: ${colors.white};
   height: 6rem;
   &:hover {
     background-color: ${colors.hover};
@@ -53,14 +52,14 @@ export const TodayNumber = styled(DayNumber)`
   border-radius: 5px;
   text-align: center;
   background-color: ${colors.white};
-  color: ${colors.danger};
+  color: ${colors.red};
 `
 export const Cell2 = styled.td`
   height: 6rem;
   text-align: center;
   cursor: pointer;
   &:hover {
-    color: ${colors.secondaryLight};
+    color: ${colors.black};
     background: ${colors.hover};
   }
 `
@@ -75,6 +74,6 @@ export const DayHeader = styled.div<DayHeaderProp>`
   width: 100%;
   height: 2rem;
   font-size: 15px;
-  color: white;
+  color: .white;
   background: ${({ backgroundColor }) => backgroundColor};
 `

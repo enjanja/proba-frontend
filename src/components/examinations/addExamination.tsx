@@ -9,7 +9,7 @@ import {
   PatientType,
 } from '../../interfaces/dataTypes'
 import { Form, ButtonDivider, ButtonDividerInner } from '../form/form.styles'
-import { ButtonSecondary } from '../button/button.styles'
+import { Button } from '../button/button.styles'
 import { Controller } from 'react-hook-form'
 import patientService from '../../services/patientService'
 import doctorService from '../../services/doctorService'
@@ -116,16 +116,12 @@ const AddExamination = ({
       />
       <ButtonDivider>
         <ButtonDividerInner>
-          <ButtonSecondary>Create</ButtonSecondary>
+          <Button backgroundColor={colors.black}>Create</Button>
         </ButtonDividerInner>
         <ButtonDividerInner>
-          <ButtonSecondary
-            color={colors.secondaryDisabled}
-            onClick={onClose}
-            type="button"
-          >
+          <Button onClick={onClose} type="button" backgroundColor={colors.blue}>
             Cancel
-          </ButtonSecondary>
+          </Button>
         </ButtonDividerInner>
       </ButtonDivider>
     </Form>

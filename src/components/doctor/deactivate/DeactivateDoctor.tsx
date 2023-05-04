@@ -22,7 +22,7 @@ const DeactivateDoctor = ({
     <AddDoctorFormContainer>
       <h3
         style={{
-          color: colors.secondary,
+          color: colors.black,
           textAlign: 'center',
           marginBottom: '35px',
         }}
@@ -35,14 +35,14 @@ const DeactivateDoctor = ({
           <Button
             form="update-form"
             type="button"
-            color={colors.primary}
+            color={colors.blue}
             onClick={onClose}
           >
             Cancel
           </Button>
         </ButtonDividerInner>{' '}
         <ButtonDividerInner>
-          <Button color={colors.secondary} onClick={onDeactivate}>
+          <Button color={colors.black} onClick={onDeactivate}>
             Yes
           </Button>
         </ButtonDividerInner>

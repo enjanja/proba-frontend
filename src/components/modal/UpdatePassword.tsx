@@ -98,7 +98,7 @@ const UpdatePassword = ({ onCancel }: { onCancel: () => void }) => {
                 position: 'absolute',
                 right: '10px',
                 top: '18px',
-                color: passwordIsVisible ? colors.primary : colors.secondary,
+                color: passwordIsVisible ? colors.blue : colors.black,
               }}
             />
           </InputContainerPassword>
@@ -121,7 +121,7 @@ const UpdatePassword = ({ onCancel }: { onCancel: () => void }) => {
                 position: 'absolute',
                 right: '10px',
                 top: '18px',
-                color: passwordIsVisible ? colors.primary : colors.secondary,
+                color: passwordIsVisible ? colors.blue : colors.black,
               }}
             />
           </InputContainerPassword>
@@ -144,7 +144,7 @@ const UpdatePassword = ({ onCancel }: { onCancel: () => void }) => {
                 position: 'absolute',
                 right: '10px',
                 top: '18px',
-                color: passwordIsVisible ? colors.primary : colors.secondary,
+                color: passwordIsVisible ? colors.blue : colors.black,
               }}
             />
           </InputContainerPassword>
@@ -155,14 +155,18 @@ const UpdatePassword = ({ onCancel }: { onCancel: () => void }) => {
             <Button
               form="update-form"
               type="button"
-              color={colors.primary}
+              backgroundColor={colors.blue}
               onClick={() => onCancel()}
             >
               Cancel
             </Button>
           </ButtonDividerInner>{' '}
           <ButtonDividerInner>
-            <Button type="submit" color={colors.secondary} form="password-form">
+            <Button
+              type="submit"
+              backgroundColor={colors.black}
+              form="password-form"
+            >
               Update
             </Button>
           </ButtonDividerInner>

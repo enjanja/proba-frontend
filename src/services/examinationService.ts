@@ -56,20 +56,7 @@ const exportExaminationToPDF = (examinationId: ExaminationIdType) => {
   }
   console.log(examinationId, params)
 
-  return instance
-    .get(`${API_URL_EXAMINATION}pdf`, request)
-    .then((response) => {
-      const url = window.URL.createObjectURL(new Blob([response.data]))
-      const link = document.createElement('a')
-      link.href = url
-      link.setAttribute(
-        'download',
-        `exam_${examinationId.doctorId}_${examinationId.patientId}_${examinationId.dateTime}.pdf`,
-      )
-      document.body.appendChild(link)
-      link.click()
-    })
-    .catch((error) => console.log('Error exporting examination to PDF', error))
+  return instance.get(`${API_URL_EXAMINATION}pdf`, request)
 }
 
 export default {

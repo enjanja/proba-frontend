@@ -87,12 +87,12 @@ const Login = () => {
                   position: 'absolute',
                   right: '10px',
                   top: '18px',
-                  color: passwordIsVisible ? colors.primary : colors.secondary,
+                  color: passwordIsVisible ? colors.blue : colors.black,
                 }}
               />
             </InputContainer>
             <Button>
-              {isLoading ? <ClipLoader color="white" size="20px" /> : 'Login'}
+              {isLoading ? <ClipLoader color=".white" size="20px" /> : 'Login'}
             </Button>
           </Form>
         </FormContainer>

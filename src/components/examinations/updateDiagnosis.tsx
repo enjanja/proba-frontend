@@ -84,11 +84,20 @@ const UpdateDiagnosis = ({
   const handleExportPDF = () => {
     examinationService
       .exportExaminationToPDF(examination.id)
-      .then((res) => {
-        console.log(res)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .then((res: any) => {
+        const url = window.URL.createObjectURL(new Blob([res.data]))
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute(
+          'download',
+          `exam_${examination.id.doctorId}_${examination.id.patientId}_${examination.id.dateTime}.pdf`,
+        )
+        document.body.appendChild(link)
+        link.click()
       })
-      .catch((err) => {
-        toast.error(err.message)
+      .catch(() => {
+        toast.error('Error exporting examination to PDF')
       })
   }
 
@@ -121,7 +130,7 @@ const UpdateDiagnosis = ({
         <ButtonDividerInner>
           <ButtonSecondary
             onClick={isEditable ? handleUpdate : handleEnableDiagnosisEdit}
-            color={isEditable ? colors.secondary : colors.primary}
+            backgroundColor={isEditable ? colors.black : colors.blue}
           >
             {isEditable ? 'Update' : 'Edit'}
           </ButtonSecondary>
@@ -129,30 +138,35 @@ const UpdateDiagnosis = ({
         <ButtonDividerInner>
           <ButtonSecondary
             onClick={handleExportPDF}
-            color={colors.secondaryDisabled}
+            backgroundColor={colors.green}
           >
             Export PDF
           </ButtonSecondary>
         </ButtonDividerInner>
       </ButtonDivider>
       {!openDelete && type === 1 && (
-        <ButtonSecondary onClick={handleOpenDelete}>Delete</ButtonSecondary>
+        <ButtonSecondary
+          onClick={handleOpenDelete}
+          backgroundColor={colors.black}
+        >
+          Delete
+        </ButtonSecondary>
       )}
       {openDelete && type === 1 && (
         <ButtonDivider>
           <ButtonDividerInner>
-            <Button color={colors.secondary} onClick={handleOpenDelete}>
+            <Button backgroundColor={colors.black} onClick={handleOpenDelete}>
               No
             </Button>
           </ButtonDividerInner>
           <ButtonDividerInner>
-            <Button color={colors.danger} onClick={handleDelete}>
+            <Button backgroundColor={colors.red} onClick={handleDelete}>
               Yes
             </Button>
           </ButtonDividerInner>
         </ButtonDivider>
       )}
-      <ButtonSecondary onClick={onCancel} color={colors.secondaryDisabled}>
+      <ButtonSecondary onClick={onCancel} backgroundColor={colors.blue}>
         Cancel
       </ButtonSecondary>
     </>

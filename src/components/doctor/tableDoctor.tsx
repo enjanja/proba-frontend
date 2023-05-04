@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
 import {
+  Table,
+  TableBody,
   TableCell,
   TableContainer,
   TablePagination,
@@ -11,6 +11,7 @@ import EnhancedTableHead from '../tableHead/tableHead'
 import { DoctorType } from '../../interfaces/dataTypes'
 import { headCellsDoctors } from '../../fixtures/doctors'
 import { FiUserX } from 'react-icons/fi'
+import { TableCellContent } from '../layout/layout.styles'
 
 const TableDoctors = ({
   doctors,
@@ -50,10 +51,13 @@ const TableDoctors = ({
       <TableContainer
         sx={{
           overflow: 'scroll',
-          height: '415px',
+          border: '1px solid black',
+          borderRadius: '5px',
+          width: '90%',
+          height: '550px',
         }}
       >
-        <Table size="small" stickyHeader>
+        <Table stickyHeader>
           <EnhancedTableHead header={headCellsDoctors} />
           <TableBody>
             {doctors
@@ -64,9 +68,16 @@ const TableDoctors = ({
                     <TableCell>{doctor.name}</TableCell>
                     <TableCell>{doctor.username}</TableCell>
                     <TableCell>{doctor.specialization.name}</TableCell>
-                    <TableCell onClick={() => onDeactivate(doctor)}>
-                      <FiUserX />
-                    </TableCell>
+                    {doctor.active ? (
+                      <TableCell onClick={() => onDeactivate(doctor)}>
+                        <TableCellContent>
+                          {'Active'}
+                          <FiUserX />
+                        </TableCellContent>
+                      </TableCell>
+                    ) : (
+                      <TableCell>Deactivated</TableCell>
+                    )}
                   </TableRow>
                 )
               })}
