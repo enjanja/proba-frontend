@@ -1,5 +1,4 @@
 import { TextField } from '@mui/material'
-import { Box } from '@mui/system'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { addPatientValidations } from '../../fixtures/validation'
@@ -7,7 +6,6 @@ import { PatientType } from '../../interfaces/dataTypes'
 import patientService from '../../services/patientService'
 import { ButtonSecondary } from '../button/button.styles'
 import {
-  AddDoctorFormContainer,
   AddDoctorInputContainer,
   AddDoctorInputFieldContainer,
   Form,
@@ -60,42 +58,33 @@ const EditPatient = ({
   }
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      height="100%"
-    >
-      <AddDoctorFormContainer>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <AddDoctorInputContainer key={addPatientValidations[0].name}>
-            <Label>{addPatientValidations[0].name}</Label>
-            <AddDoctorInputFieldContainer>
-              <TextField
-                sx={{ width: '100%' }}
-                placeholder="name"
-                {...register('name', addPatientValidations[0].validations)}
-                error={errors.name !== undefined}
-                helperText={errors?.name?.message}
-              />
-            </AddDoctorInputFieldContainer>
-          </AddDoctorInputContainer>
-          <AddDoctorInputContainer key={addPatientValidations[1].name}>
-            <Label>{addPatientValidations[1].name}</Label>
-            <AddDoctorInputFieldContainer>
-              <TextField
-                sx={{ width: '100%' }}
-                placeholder="jmbg"
-                {...register('jmbg', addPatientValidations[1].validations)}
-                error={errors.jmbg !== undefined}
-                helperText={errors?.jmbg?.message}
-              />
-            </AddDoctorInputFieldContainer>
-          </AddDoctorInputContainer>
-          <ButtonSecondary>Edit</ButtonSecondary>
-        </Form>
-      </AddDoctorFormContainer>
-    </Box>
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <AddDoctorInputContainer key={addPatientValidations[0].name}>
+        <Label>{addPatientValidations[0].name}</Label>
+        <AddDoctorInputFieldContainer>
+          <TextField
+            sx={{ width: '100%' }}
+            placeholder="name"
+            {...register('name', addPatientValidations[0].validations)}
+            error={errors.name !== undefined}
+            helperText={errors?.name?.message}
+          />
+        </AddDoctorInputFieldContainer>
+      </AddDoctorInputContainer>
+      <AddDoctorInputContainer key={addPatientValidations[1].name}>
+        <Label>{addPatientValidations[1].name}</Label>
+        <AddDoctorInputFieldContainer>
+          <TextField
+            sx={{ width: '100%' }}
+            placeholder="jmbg"
+            {...register('jmbg', addPatientValidations[1].validations)}
+            error={errors.jmbg !== undefined}
+            helperText={errors?.jmbg?.message}
+          />
+        </AddDoctorInputFieldContainer>
+      </AddDoctorInputContainer>
+      <ButtonSecondary>Edit</ButtonSecondary>
+    </Form>
   )
 }
 

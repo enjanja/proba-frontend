@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import {
-  AddDoctorFormContainer,
   AddDoctorInputContainer,
   AddDoctorInputFieldContainer,
   ButtonDivider,
   ButtonDividerInner,
   Form,
+  FormContainer,
   Label,
 } from '../../components/form/form.styles'
-import { InnerWrapper, Wrapper } from '../../components/layout/layout.styles'
+import { CenterPage, Wrapper } from '../../components/layout/layout.styles'
 import { Button } from '../../components/button/button.styles'
 import { Controller, useForm } from 'react-hook-form'
 import {
@@ -206,8 +206,6 @@ const Profile = () => {
     setOpenModal(false)
   }
 
-  console.log('profile', user)
-
   return (
     <Wrapper>
       {openModal && (
@@ -215,8 +213,8 @@ const Profile = () => {
           <UpdatePassword onCancel={handleCloseModal} />
         </Modal>
       )}
-      <InnerWrapper>
-        <AddDoctorFormContainer>
+      <CenterPage>
+        <FormContainer>
           {user && (
             <Form onSubmit={handleSubmit(onSubmit)} id="update-form">
               <AddDoctorInputContainer>
@@ -293,14 +291,27 @@ const Profile = () => {
                   </AddDoctorInputFieldContainer>
                 </AddDoctorInputContainer>
               )}
-              <ButtonDivider>
-                <ButtonDividerInner>
-                  {!isEditable && (
+              {!isEditable && (
+                <ButtonDivider>
+                  <ButtonDividerInner>
                     <Button onClick={handleEditForm} type="button">
                       Edit
                     </Button>
-                  )}
-                  {isEditable && (
+                  </ButtonDividerInner>
+                  <ButtonDividerInner>
+                    <Button
+                      backgroundColor={colors.blue}
+                      onClick={handleOpenModal}
+                      type="button"
+                    >
+                      Change Password
+                    </Button>
+                  </ButtonDividerInner>
+                </ButtonDivider>
+              )}
+              {isEditable && (
+                <ButtonDivider>
+                  <ButtonDividerInner>
                     <Button
                       form="update-form"
                       type="button"
@@ -309,33 +320,22 @@ const Profile = () => {
                     >
                       Cancel
                     </Button>
-                  )}
-                </ButtonDividerInner>{' '}
-                <ButtonDividerInner>
-                  {isEditable && (
+                  </ButtonDividerInner>
+                  <ButtonDividerInner>
                     <Button
                       form="update-form"
                       type="submit"
-                      backgroundColor={colors.black}
+                      backgroundColor={colors.green}
                     >
                       Update
                     </Button>
-                  )}
-                  {!isEditable && (
-                    <Button
-                      backgroundColor={colors.black}
-                      onClick={handleOpenModal}
-                      type="button"
-                    >
-                      Change Password
-                    </Button>
-                  )}
-                </ButtonDividerInner>
-              </ButtonDivider>
+                  </ButtonDividerInner>
+                </ButtonDivider>
+              )}
             </Form>
           )}
-        </AddDoctorFormContainer>
-      </InnerWrapper>
+        </FormContainer>
+      </CenterPage>
     </Wrapper>
   )
 }

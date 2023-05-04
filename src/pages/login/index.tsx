@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router'
 import { Routes } from '../../enums/routes'
 import { LoginData } from '../../interfaces/dataTypes'
 import { LoginFormData } from '../../interfaces/propTypes'
-import { Content, Wrapper } from '../../components/layout/layout.styles'
+import { Wrapper } from '../../components/layout/layout.styles'
 import {
   Form,
   FormContainer,
@@ -55,49 +55,47 @@ const Login = () => {
   }
 
   return (
-    <Content>
-      <Wrapper>
-        <FormContainer>
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <H2>
-              <FiUser size="30px" />
-            </H2>
-            <InputContainer>
-              <TextField
-                placeholder="Username"
-                sx={{ width: '100%' }}
-                {...register('username', usernameValidation)}
-                error={errors.username !== undefined}
-                helperText={errors?.username?.message}
-              />
-            </InputContainer>
-            <InputContainer>
-              <TextField
-                type={passwordIsVisible ? 'text' : 'password'}
-                placeholder="Password"
-                sx={{ width: '100%' }}
-                {...register('password', passwordValidation)}
-                error={errors.password !== undefined}
-                helperText={errors?.password?.message}
-              />
-              <FaEye
-                onClick={handleChangePasswordIsVisible}
-                size={20}
-                style={{
-                  position: 'absolute',
-                  right: '10px',
-                  top: '18px',
-                  color: passwordIsVisible ? colors.blue : colors.black,
-                }}
-              />
-            </InputContainer>
-            <Button>
-              {isLoading ? <ClipLoader color=".white" size="20px" /> : 'Login'}
-            </Button>
-          </Form>
-        </FormContainer>
-      </Wrapper>
-    </Content>
+    <Wrapper>
+      <FormContainer>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <H2>
+            <FiUser size="30px" />
+          </H2>
+          <InputContainer>
+            <TextField
+              placeholder="Username"
+              sx={{ width: '100%' }}
+              {...register('username', usernameValidation)}
+              error={errors.username !== undefined}
+              helperText={errors?.username?.message}
+            />
+          </InputContainer>
+          <InputContainer>
+            <TextField
+              type={passwordIsVisible ? 'text' : 'password'}
+              placeholder="Password"
+              sx={{ width: '100%' }}
+              {...register('password', passwordValidation)}
+              error={errors.password !== undefined}
+              helperText={errors?.password?.message}
+            />
+            <FaEye
+              onClick={handleChangePasswordIsVisible}
+              size={20}
+              style={{
+                position: 'absolute',
+                right: '10px',
+                top: '18px',
+                color: passwordIsVisible ? colors.blue : colors.black,
+              }}
+            />
+          </InputContainer>
+          <Button>
+            {isLoading ? <ClipLoader color=".white" size="20px" /> : 'Login'}
+          </Button>
+        </Form>
+      </FormContainer>
+    </Wrapper>
   )
 }
 

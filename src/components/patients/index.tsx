@@ -65,7 +65,12 @@ const Patients = () => {
   return (
     <Content>
       {openModal && (
-        <Modal onClose={handleCloseModal}>
+        <Modal
+          onClose={handleCloseModal}
+          header={
+            action === ActionType.ADD ? 'Add new patient' : 'Edit patient'
+          }
+        >
           {action === ActionType.ADD && (
             <AddPatient
               onUpdate={handleUpdateData}

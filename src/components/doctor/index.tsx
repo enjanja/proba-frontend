@@ -81,7 +81,7 @@ const Doctor = () => {
   return (
     <Content>
       {openModalAdd && (
-        <Modal onClose={handleCloseModalAddDr}>
+        <Modal onClose={handleCloseModalAddDr} header="Add new doctor">
           <AddDoctor
             onUpdate={handleUpdateData}
             onClose={handleCloseModalAddDr}

@@ -1,10 +1,6 @@
 import { colors } from '../../global.styles'
 import { Button } from '../button/button.styles'
-import {
-  AddDoctorFormContainer,
-  ButtonDivider,
-  ButtonDividerInner,
-} from '../form/form.styles'
+import { ButtonDivider, ButtonDividerInner } from '../form/form.styles'
 
 const Deactivate = ({
   onCancel,
@@ -21,7 +17,7 @@ const Deactivate = ({
   }
 
   return (
-    <AddDoctorFormContainer>
+    <>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <h3>This action will deactivate this users profile</h3>
       </div>
@@ -35,7 +31,7 @@ const Deactivate = ({
           </Button>
         </ButtonDividerInner>
       </ButtonDivider>
-    </AddDoctorFormContainer>
+    </>
   )
 }
 

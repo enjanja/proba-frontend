@@ -7,7 +7,6 @@ import { colors } from '../../global.styles'
 import authService from '../../services/authService'
 import { Button } from '../button/button.styles'
 import {
-  AddDoctorFormContainer,
   AddDoctorInputContainer,
   ButtonDivider,
   ButtonDividerInner,
@@ -78,101 +77,99 @@ const UpdatePassword = ({ onCancel }: { onCancel: () => void }) => {
   }
 
   return (
-    <AddDoctorFormContainer>
-      <Form onSubmit={handleSubmit(onSubmit)} id="password-form">
-        <AddDoctorInputContainer>
-          <Label>Current Password</Label>
-          <InputContainerPassword>
-            <TextField
-              type={passwordIsVisible ? 'text' : 'password'}
-              placeholder="Current Password"
-              sx={{ width: '100%' }}
-              {...register('oldPassword', validations.oldPassword)}
-              error={errors?.oldPassword}
-              helperText={errors?.oldPassword?.message}
-            />
-            <FaEye
-              onClick={handleChangePasswordIsVisible}
-              size={20}
-              style={{
-                position: 'absolute',
-                right: '10px',
-                top: '18px',
-                color: passwordIsVisible ? colors.blue : colors.black,
-              }}
-            />
-          </InputContainerPassword>
-        </AddDoctorInputContainer>
-        <AddDoctorInputContainer>
-          <Label>New Password</Label>
-          <InputContainerPassword>
-            <TextField
-              type={passwordIsVisible ? 'text' : 'password'}
-              placeholder="New Password"
-              sx={{ width: '100%' }}
-              {...register('newPassword', validations.newPassword)}
-              error={errors?.newPassword}
-              helperText={errors?.newPassword?.message}
-            />
-            <FaEye
-              onClick={handleChangePasswordIsVisible}
-              size={20}
-              style={{
-                position: 'absolute',
-                right: '10px',
-                top: '18px',
-                color: passwordIsVisible ? colors.blue : colors.black,
-              }}
-            />
-          </InputContainerPassword>
-        </AddDoctorInputContainer>
-        <AddDoctorInputContainer>
-          <Label>Confirm New Password</Label>
-          <InputContainerPassword>
-            <TextField
-              type={passwordIsVisible ? 'text' : 'password'}
-              placeholder="Confirm New Password"
-              sx={{ width: '100%' }}
-              {...register('confirmPassword', validations.confirmPassword)}
-              error={errors?.confirmPassword}
-              helperText={errors?.confirmPassword?.message}
-            />
-            <FaEye
-              onClick={handleChangePasswordIsVisible}
-              size={20}
-              style={{
-                position: 'absolute',
-                right: '10px',
-                top: '18px',
-                color: passwordIsVisible ? colors.blue : colors.black,
-              }}
-            />
-          </InputContainerPassword>
-        </AddDoctorInputContainer>
+    <Form onSubmit={handleSubmit(onSubmit)} id="password-form">
+      <AddDoctorInputContainer>
+        <Label>Current Password</Label>
+        <InputContainerPassword>
+          <TextField
+            type={passwordIsVisible ? 'text' : 'password'}
+            placeholder="Current Password"
+            sx={{ width: '100%' }}
+            {...register('oldPassword', validations.oldPassword)}
+            error={errors?.oldPassword}
+            helperText={errors?.oldPassword?.message}
+          />
+          <FaEye
+            onClick={handleChangePasswordIsVisible}
+            size={20}
+            style={{
+              position: 'absolute',
+              right: '10px',
+              top: '18px',
+              color: passwordIsVisible ? colors.blue : colors.black,
+            }}
+          />
+        </InputContainerPassword>
+      </AddDoctorInputContainer>
+      <AddDoctorInputContainer>
+        <Label>New Password</Label>
+        <InputContainerPassword>
+          <TextField
+            type={passwordIsVisible ? 'text' : 'password'}
+            placeholder="New Password"
+            sx={{ width: '100%' }}
+            {...register('newPassword', validations.newPassword)}
+            error={errors?.newPassword}
+            helperText={errors?.newPassword?.message}
+          />
+          <FaEye
+            onClick={handleChangePasswordIsVisible}
+            size={20}
+            style={{
+              position: 'absolute',
+              right: '10px',
+              top: '18px',
+              color: passwordIsVisible ? colors.blue : colors.black,
+            }}
+          />
+        </InputContainerPassword>
+      </AddDoctorInputContainer>
+      <AddDoctorInputContainer>
+        <Label>Confirm New Password</Label>
+        <InputContainerPassword>
+          <TextField
+            type={passwordIsVisible ? 'text' : 'password'}
+            placeholder="Confirm New Password"
+            sx={{ width: '100%' }}
+            {...register('confirmPassword', validations.confirmPassword)}
+            error={errors?.confirmPassword}
+            helperText={errors?.confirmPassword?.message}
+          />
+          <FaEye
+            onClick={handleChangePasswordIsVisible}
+            size={20}
+            style={{
+              position: 'absolute',
+              right: '10px',
+              top: '18px',
+              color: passwordIsVisible ? colors.blue : colors.black,
+            }}
+          />
+        </InputContainerPassword>
+      </AddDoctorInputContainer>
 
-        <ButtonDivider>
-          <ButtonDividerInner>
-            <Button
-              form="update-form"
-              type="button"
-              backgroundColor={colors.blue}
-              onClick={() => onCancel()}
-            >
-              Cancel
-            </Button>
-          </ButtonDividerInner>{' '}
-          <ButtonDividerInner>
-            <Button
-              type="submit"
-              backgroundColor={colors.black}
-              form="password-form"
-            >
-              Update
-            </Button>
-          </ButtonDividerInner>
-        </ButtonDivider>
-      </Form>
-    </AddDoctorFormContainer>
+      <ButtonDivider>
+        <ButtonDividerInner>
+          <Button
+            form="update-form"
+            type="button"
+            backgroundColor={colors.blue}
+            onClick={() => onCancel()}
+          >
+            Cancel
+          </Button>
+        </ButtonDividerInner>{' '}
+        <ButtonDividerInner>
+          <Button
+            type="submit"
+            backgroundColor={colors.black}
+            form="password-form"
+          >
+            Update
+          </Button>
+        </ButtonDividerInner>
+      </ButtonDivider>
+    </Form>
   )
 }
 

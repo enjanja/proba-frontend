@@ -1,11 +1,8 @@
 import { colors } from '../../../global.styles'
 import { DoctorType } from '../../../interfaces/dataTypes'
 import { Button } from '../../button/button.styles'
-import {
-  AddDoctorFormContainer,
-  ButtonDivider,
-  ButtonDividerInner,
-} from '../../form/form.styles'
+import { ButtonDivider, ButtonDividerInner, Form } from '../../form/form.styles'
+import { H3 } from '../../text/text.styles'
 
 interface DeactivateDoctorProps {
   onClose: () => void
@@ -19,35 +16,33 @@ const DeactivateDoctor = ({
   doctor,
 }: DeactivateDoctorProps) => {
   return (
-    <AddDoctorFormContainer>
-      <h3
+    <Form>
+      <H3
         style={{
-          color: colors.black,
           textAlign: 'center',
-          marginBottom: '35px',
         }}
       >
         Are you sure you want to deactivate <br />
         Dr {doctor?.name}
-      </h3>
+      </H3>
       <ButtonDivider>
         <ButtonDividerInner>
           <Button
             form="update-form"
             type="button"
-            color={colors.blue}
+            backgroundColor={colors.black}
             onClick={onClose}
           >
-            Cancel
+            No
           </Button>
-        </ButtonDividerInner>{' '}
+        </ButtonDividerInner>
         <ButtonDividerInner>
-          <Button color={colors.black} onClick={onDeactivate}>
+          <Button backgroundColor={colors.red} onClick={onDeactivate}>
             Yes
           </Button>
         </ButtonDividerInner>
       </ButtonDivider>
-    </AddDoctorFormContainer>
+    </Form>
   )
 }
 

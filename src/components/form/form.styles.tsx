@@ -3,24 +3,17 @@ import { colors } from '../../global.styles'
 import { HospitalType } from '../../interfaces/dataTypes'
 
 export const FormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   text-align: center;
-
-  padding: 20px;
-  width: 300px;
-  margin: 0;
-
-  background-color: ${colors.white};
   border-radius: 10px;
-  box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid ${colors.hover};
+  box-shadow: 0px 0px 6px 2px rgba(31, 24, 24, 0.1);
 `
 
 export const Form = styled.form`
   width: 100%;
   margin: 0;
+  padding: 1rem;
+  min-width: 400px;
 `
 
 export const InputContainer = styled.div`
@@ -68,19 +61,13 @@ export const FormListContainer = styled.div`
   display: flex;
   justify-content: end;
 `
-
 export const FormListItem = styled.div`
   margin-bottom: 5px;
 `
-export const AddDoctorFormContainer = styled.div`
-  padding: 20px;
+export const ModalFormContainer = styled.div`
   width: 400px;
   margin: 0;
   height: fit-content;
-
-  background-color: ${colors.white};
-  border-radius: 5px;
-  box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.1);
 `
 export const AddDoctorInputContainer = styled.div`
   min-height: 80px;
