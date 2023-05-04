@@ -15,10 +15,10 @@ import {
   DayTableCell,
   DayTableCellContent,
   TableHeader,
-  DayNumber,
   Header,
   KalendarContent,
   TodayNumber,
+  TableSubHeader,
 } from './calendar.styles'
 import DayModal from './calendarModals/calendarModal'
 import { colors } from '../../global.styles'
@@ -164,7 +164,7 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
   for (let day = 1; day <= daysInMonth(); day++) {
     const Day =
       day !== Number(currentDay()) ? (
-        <DayNumber>{day}</DayNumber>
+        <div>{day}</div>
       ) : (
         <TodayNumber>{day}</TodayNumber>
       )
@@ -248,7 +248,7 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
             <TableHeader>
               <tr>
                 {weekdayshort.map((day) => (
-                  <th key={day}>{day}</th>
+                  <TableSubHeader key={day}>{day}</TableSubHeader>
                 ))}
               </tr>
             </TableHeader>

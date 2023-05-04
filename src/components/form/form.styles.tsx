@@ -6,7 +6,7 @@ export const FormContainer = styled.div`
   text-align: center;
   border-radius: 10px;
   border: 1px solid ${colors.hover};
-  box-shadow: 0px 0px 6px 2px rgba(31, 24, 24, 0.1);
+  box-shadow: 0px 0px 6px 2px rgba(31, 24, 24, 0.2);
 `
 
 export const Form = styled.form`

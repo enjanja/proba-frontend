@@ -6,7 +6,7 @@ import { colors } from '../../global.styles'
 import { DoctorType, HospitalType } from '../../interfaces/dataTypes'
 import doctorService from '../../services/doctorService'
 import hospitalService from '../../services/hospitalService'
-import Calendar from '../calendar'
+import Calendar from '../calendar/calendar'
 import { Content } from '../layout/layout.styles'
 
 const Examinations = () => {

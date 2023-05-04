@@ -1,14 +1,12 @@
 import { useRoutes } from 'react-router'
-import BoardDoctor from '../components/boardDoctor'
-import BoardNurse from '../components/boardNurse'
 import Doctor from '../components/doctor'
-import Examinations from '../components/examinations'
+import Examinations from '../components/examinations/examinations'
 import Patients from '../components/patients'
 import { Roles } from '../enums/roles'
 import { Routes } from '../enums/routes'
 import { RouteProps } from '../interfaces/propTypes'
 import Home from '../pages/home'
-import Login from '../pages/login'
+import Login from '../pages/login/login'
 import Profile from '../pages/profile'
 import ProtectedRoute from './ProtectedRoute'
 import PublicOnlyRoute from './PublicOnlyRoute'
@@ -34,7 +32,7 @@ const Router = () => {
       children: [
         {
           path: Routes.NURSE,
-          element: <BoardNurse />,
+          element: <Home />,
           children: [
             { path: Routes.DOCTORS, element: <Doctor /> },
             { path: Routes.PATIENTS, element: <Patients /> },
@@ -44,7 +42,7 @@ const Router = () => {
         },
         {
           path: Routes.DOCTOR,
-          element: <BoardDoctor />,
+          element: <Home />,
           children: [
             { path: Routes.EXAMINATIONS, element: <Examinations /> },
             { path: Routes.PROFILE, element: <Profile /> },

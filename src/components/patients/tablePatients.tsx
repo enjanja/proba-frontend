@@ -7,10 +7,11 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material'
-import EnhancedTableHead from '../tableHead/tableHead'
+import EnhancedTableHead from '../table/tableHead'
 import { headCellsPatients } from '../../fixtures/patients'
 import { AiFillEdit } from 'react-icons/ai'
 import { PatientType } from '../../interfaces/dataTypes'
+import { tableStyle } from '../table/table-constants'
 
 interface TablePatientsProps {
   patients: PatientType[]
@@ -49,15 +50,7 @@ const TablePatients = ({ patients, onEdit }: TablePatientsProps) => {
 
   return (
     <>
-      <TableContainer
-        sx={{
-          overflow: 'scroll',
-          border: '1px solid black',
-          borderRadius: '5px',
-          width: '90%',
-          height: '550px',
-        }}
-      >
+      <TableContainer sx={tableStyle}>
         <Table stickyHeader>
           <EnhancedTableHead header={headCellsPatients} />
           <TableBody>

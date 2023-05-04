@@ -1,14 +1,11 @@
-import BoardDoctor from '../../components/boardDoctor'
-import BoardNurse from '../../components/boardNurse'
-import Navbar from '../../components/navbar'
+import { Outlet } from 'react-router-dom'
+import Navbar from '../../components/navbar/navbar'
 
 const Home = () => {
-  const type = JSON.parse(localStorage.getItem('type') || '')
-
   return (
     <>
       <Navbar />
-      {type === 1 ? <BoardNurse /> : <BoardDoctor />}
+      <Outlet />
     </>
   )
 }

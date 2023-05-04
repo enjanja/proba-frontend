@@ -1,5 +1,10 @@
 import moment from 'moment'
-import { KalendarContent, Cell2, TableHeader } from './calendar.styles'
+import {
+  KalendarContent,
+  Cell2,
+  TableHeader,
+  TableSubHeader,
+} from './calendar.styles'
 
 interface YearTableProps {
   onShowYearTable: () => void
@@ -74,9 +79,11 @@ const YearTable = ({
     <KalendarContent>
       <TableHeader>
         <tr>
-          <th style={{ width: '33.33%' }}>Select a Yeah</th>
-          <th></th>
-          <th></th>
+          <TableSubHeader style={{ width: '33.33%' }}>
+            Select a Yeah
+          </TableSubHeader>
+          <TableSubHeader></TableSubHeader>
+          <TableSubHeader></TableSubHeader>
         </tr>
       </TableHeader>
       <tbody>{yearlist}</tbody>

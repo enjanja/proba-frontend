@@ -116,12 +116,12 @@ const AddExamination = ({
       />
       <ButtonDivider>
         <ButtonDividerInner>
-          <Button backgroundColor={colors.black}>Create</Button>
-        </ButtonDividerInner>
-        <ButtonDividerInner>
           <Button onClick={onClose} type="button" backgroundColor={colors.blue}>
             Cancel
           </Button>
+        </ButtonDividerInner>
+        <ButtonDividerInner>
+          <Button backgroundColor={colors.black}>Create</Button>
         </ButtonDividerInner>
       </ButtonDivider>
     </Form>

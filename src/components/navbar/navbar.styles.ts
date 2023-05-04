@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { colors } from '../../global.styles'
+import { colors, colorsMap } from '../../global.styles'
 
 interface NavProps {
   active?: boolean
@@ -16,29 +16,27 @@ export const NavbarContainer = styled.div<NavProps>`
 `
 export const NavSelection = styled.div<NavProps>`
   display: flex;
-  justify-content: space-around;
   height: 100%;
-  width: 40%;
+  width: 500px;
 `
 
 export const NavSelectionItem = styled.div<NavProps>`
   display: flex;
   align-items: center;
+  justify-content: center;
   height: 100%;
   width: 100%;
-  max-width: 150px;
-  justify-content: center;
   background-color: ${({ active }) => (active ? colors.white : 'none')};
-  color: ${({ active }) => (active ? colors.black : '.white')};
+  &:hover {
+    background-color: ${({ active }) =>
+      active ? 'none' : colorsMap.blueHover};
+  }
+  color: ${({ active }) => (active ? colors.black : colors.white)};
 `
 
 export const NavItem = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
   height: 100%;
-  margin: 0 20px;
-
   &:hover {
     color: ${colors.hover};
   }

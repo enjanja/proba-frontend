@@ -7,11 +7,12 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material'
-import EnhancedTableHead from '../tableHead/tableHead'
+import EnhancedTableHead from '../table/tableHead'
 import { DoctorType } from '../../interfaces/dataTypes'
 import { headCellsDoctors } from '../../fixtures/doctors'
 import { FiUserX } from 'react-icons/fi'
 import { TableCellContent } from '../layout/layout.styles'
+import { tableStyle } from '../table/table-constants'
 
 const TableDoctors = ({
   doctors,
@@ -48,15 +49,7 @@ const TableDoctors = ({
 
   return (
     <>
-      <TableContainer
-        sx={{
-          overflow: 'scroll',
-          border: '1px solid black',
-          borderRadius: '5px',
-          width: '90%',
-          height: '550px',
-        }}
-      >
+      <TableContainer sx={tableStyle}>
         <Table stickyHeader>
           <EnhancedTableHead header={headCellsDoctors} />
           <TableBody>
