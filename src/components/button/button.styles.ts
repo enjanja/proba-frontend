@@ -34,6 +34,12 @@ export const Button = styled.button<ButtonProps>`
         ? colorsMap[`${colorsNames[backgroundColor]}Active`]
         : colorsMap.blackActive};
   }
+  &:disabled {
+    background-color: ${({ backgroundColor }) =>
+      backgroundColor
+        ? colorsMap[`${colorsNames[backgroundColor]}Disabled`]
+        : colorsMap.blackActive};
+  }
 `
 
 export const ButtonSecondary = styled(Button)`

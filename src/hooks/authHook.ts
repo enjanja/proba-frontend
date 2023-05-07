@@ -18,8 +18,6 @@ export const useAuth = () => {
           instance.defaults.headers.common[
             'Authorization'
           ] = `Bearer "${res.data?.jwt}"`
-
-          console.log(instance.defaults.headers.common)
           onSuccess()
         }
       })
@@ -28,7 +26,6 @@ export const useAuth = () => {
           onError('Network error')
           return
         }
-
         onError(err.response?.data)
       })
       .finally(() => setLoading(false))

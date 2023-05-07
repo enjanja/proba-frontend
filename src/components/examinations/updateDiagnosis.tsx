@@ -139,6 +139,7 @@ const UpdateDiagnosis = ({
           <ButtonSecondary
             onClick={handleExportPDF}
             backgroundColor={colors.green}
+            disabled={isEditable}
           >
             Export PDF
           </ButtonSecondary>
@@ -148,6 +149,7 @@ const UpdateDiagnosis = ({
         <ButtonSecondary
           onClick={handleOpenDelete}
           backgroundColor={colors.black}
+          disabled={isEditable}
         >
           Delete
         </ButtonSecondary>

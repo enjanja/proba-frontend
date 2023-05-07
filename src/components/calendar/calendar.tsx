@@ -110,7 +110,7 @@ const Calendar = ({ doctor, examinations, hospital, type }: CalendarProps) => {
     const showTable = showMonthTable ? true : false
     setShowDateTable(showTable)
     setShowMonthTable((prev) => !prev)
-  }
+  }  
 
   const onPrevMonth = () => {
     setNewDateObject(dateObject.subtract(1, 'month'))

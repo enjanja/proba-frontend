@@ -6,8 +6,6 @@ const login = (data: LoginData) => instance.post(`${API_URL_AUTH}`, data)
 
 const logout = () => {
   instance.defaults.headers.common['Authorization'] = ``
-  console.log(instance.defaults.headers.common)
-
   localStorage.clear()
 }
 

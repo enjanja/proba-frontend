@@ -10,10 +10,6 @@ const instanceConfig: AxiosRequestConfig = {
 const exists = localStorage.getItem('jwt')
 const jwt = exists ? JSON.parse(exists || '') : ''
 
-// if (jwt && instanceConfig.headers) {
-//   instanceConfig.headers.Authorization = `Bearer "${jwt}"`
-// }
-
 const instance = axios.create(instanceConfig)
 instance.defaults.headers.common['Authorization'] = `Bearer "${jwt}"`
 
@@ -24,28 +20,20 @@ instance.interceptors.request.use(
   (err) => err,
 )
 
-console.log(jwt)
-console.log(instance.defaults.headers.common)
-
 instance.interceptors.response.use(
-  (res) => {
-    return res
-  },
+  (res) => res,
   (err) => {
     const originalConfig = err.config
     if (err?.response?.status === 401) {
+      const refreshToken = localStorage.getItem('refreshToken')
       instance.defaults.headers.common.Authorization = ''
       return instance
-        .post(
-          `/account/auth/refresh/token`,
-          JSON.parse(localStorage.getItem('refreshToken') || ''),
-          {
-            headers: {
-              'Content-Type': 'text/plain',
-              Authorization: '',
-            },
+        .post(`/account/auth/refresh/token`, JSON.parse(refreshToken || ''), {
+          headers: {
+            'Content-Type': 'text/plain',
+            Authorization: '',
           },
-        )
+        })
         .then((res) => {
           localStorage.setItem('token', JSON.stringify(res?.data?.token))
           Object.assign(instance.defaults, {

@@ -56,9 +56,7 @@ const Profile = () => {
       doctorService
         .getDoctorProfile()
         .then((res) => {
-          console.log(res)
           setUser(res.data)
-          console.log('uso')
           setValue('name', res.data.name)
           setValue('username', res.data.username)
           setSpecialization(res.data.specialization)
@@ -152,7 +150,6 @@ const Profile = () => {
       doctorService
         .updateDoctorProfile(newData)
         .then((res) => {
-          console.log(res)
           setValue('name', res.data.name)
           setValue('username', res.data.username)
           setSpecialization(res.data.specialization)
@@ -161,7 +158,6 @@ const Profile = () => {
           toast.info('Profile updated')
         })
         .catch((err) => {
-          console.log(err)
           toast.info(err.message)
         })
     }
@@ -184,7 +180,6 @@ const Profile = () => {
       nurseService
         .updateNurseProfile(newData)
         .then((res) => {
-          console.log(res)
           setValue('name', res.data.name)
           setValue('username', res.data.username)
           setHospital(res.data.hospital)
@@ -192,7 +187,6 @@ const Profile = () => {
           toast.info('Profile updated')
         })
         .catch((err) => {
-          console.log(err)
           toast.info(err.message)
         })
     }

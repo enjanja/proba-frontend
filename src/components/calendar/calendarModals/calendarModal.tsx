@@ -32,7 +32,7 @@ const DayModal = ({
   onClose,
   onAddExamForDay,
   onDeleteExamForDay,
-}: DayModalProps) => {
+}: DayModalProps) => {  
   const [showAddExamDialog, setshowAddExamDialog] = useState(false)
   const [showUpdateDiagnosisDialog, setUpdateDiagnosisDialog] = useState(false)
   const [interval, setInterval] = useState('')

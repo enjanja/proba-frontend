@@ -54,7 +54,6 @@ const exportExaminationToPDF = (examinationId: ExaminationIdType) => {
     responseType: 'blob', // set the response type to blob to get binary data
     params: params,
   }
-  console.log(examinationId, params)
 
   return instance.get(`${API_URL_EXAMINATION}pdf`, request)
 }

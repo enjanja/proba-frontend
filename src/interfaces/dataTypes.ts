@@ -38,6 +38,7 @@ export interface ExaminationType {
   patient: PatientType
   doctor: DoctorType
   diagnosis: string
+  hospital?: HospitalType
 }
 
 export interface ExaminationTypeForAxios {

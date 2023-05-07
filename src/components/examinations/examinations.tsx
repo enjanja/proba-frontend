@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { colors } from '../../global.styles'
-import { DoctorType, HospitalType } from '../../interfaces/dataTypes'
+import { DoctorType, ExaminationType, HospitalType } from '../../interfaces/dataTypes'
 import doctorService from '../../services/doctorService'
 import hospitalService from '../../services/hospitalService'
 import Calendar from '../calendar/calendar'
@@ -18,7 +18,6 @@ const Examinations = () => {
   const [doctorWithExams, setDoctorWithExams] = useState<DoctorType | null>(
     null,
   )
-
   const [hospital, setHospital] = useState<HospitalType | null>(null)
   const [hospitals, setHospitals] = useState<HospitalType[]>([])
 
@@ -51,6 +50,9 @@ const Examinations = () => {
     setHospital(null)
   }
 
+  const extractExaminations = (examinatios: ExaminationType[] | undefined) =>
+    examinatios?.filter(e => e.hospital?.id === hospital?.id);
+    
   useEffect(() => {
     if (doctor) {
       doctorService
@@ -115,7 +117,6 @@ const Examinations = () => {
                   option: HospitalType,
                 ) => (
                   <Box component="li" {...props} key={option.id}>
-                    {console.log('render', option)}
                     {option.name}
                   </Box>
                 )}
@@ -137,8 +138,10 @@ const Examinations = () => {
           doctor={doctor?.examinations ? doctor : doctorWithExams}
           examinations={
             doctor?.examinations
-              ? doctor.examinations
-              : doctorWithExams?.examinations
+              ? extractExaminations(doctor.examinations)
+              : extractExaminations(doctorWithExams?.examinations)
+              // ? doctor.examinations
+              // : doctorWithExams?.examinations
           }
         />
       ) : (
