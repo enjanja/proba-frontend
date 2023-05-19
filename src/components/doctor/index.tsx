@@ -16,7 +16,6 @@ const Doctor = () => {
   const [showAllDoctors, setShowAllDoctors] = useState<boolean>(false)
   const [doctors, setDoctors] = useState<DoctorType[]>([])
   const [openModalAdd, setOpenModalAdd] = useState(false)
-  const [openModalDeactivate, setOpenModalDeactivate] = useState(false)
   const [
     doctorToDeactivate,
     setDoctorToDeactivate,
@@ -44,32 +43,15 @@ const Doctor = () => {
 
   const handleOpenModalDeactivate = (doctor: DoctorType) => {
     setDoctorToDeactivate(doctor)
-    setOpenModalDeactivate(true)
   }
   const handleCloseModalDeactivate = () => {
-    setOpenModalDeactivate(false)
+    setDoctorToDeactivate(null)
   }
 
   const handleUpdateData = (newDoctor: DoctorType) => {
     const lastPatient = doctors[doctors.length - 1]
     newDoctor.id = Number(lastPatient.id) + 1 + ''
     setDoctors([...doctors, newDoctor])
-  }
-
-  const handleDeactivate = () => {
-    if (doctorToDeactivate) {
-      doctorService
-        .deactivate(doctorToDeactivate.username)
-        .then((res) => {
-          const newDoctors = doctors.filter(
-            (d) => d.id !== doctorToDeactivate.id,
-          )
-          setDoctors(newDoctors)
-          toast.success(res.data)
-        })
-        .catch((err) => toast.error(err.message))
-        .finally(() => handleCloseModalDeactivate())
-    }
   }
 
   const handleToggleCheckbox = () => {
@@ -88,11 +70,10 @@ const Doctor = () => {
           />
         </Modal>
       )}
-      {openModalDeactivate && (
+      {doctorToDeactivate && (
         <Modal onClose={handleCloseModalDeactivate}>
           <DeactivateDoctor
             onClose={handleCloseModalDeactivate}
-            onDeactivate={handleDeactivate}
             doctor={doctorToDeactivate}
           />
         </Modal>
@@ -124,7 +105,7 @@ const Doctor = () => {
         />
       ) : (
         <h3 style={{ color: colors.black }}>
-          No doctors currently work with us
+          No doctors exist in the system
         </h3>
       )}
     </Content>

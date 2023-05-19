@@ -32,7 +32,6 @@ const AddPatient = ({ onUpdate, onClose }: AddPatientProps) => {
       ...data,
       id: '',
     }
-
     patientService
       .createPatient(newData)
       .then((res) => {
@@ -40,8 +39,8 @@ const AddPatient = ({ onUpdate, onClose }: AddPatientProps) => {
         toast.success(res.data)
         onClose()
       })
-      .catch((err) => {
-        toast.error(err.message)
+      .catch(() => {        
+        toast.error('System error, couldn\'t create patient')
       })
   }
 

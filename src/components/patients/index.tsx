@@ -93,7 +93,7 @@ const Patients = () => {
         <TablePatients patients={patients} onEdit={handleOpenEditModal} />
       ) : (
         <h3 style={{ color: colors.black }}>
-          No patients are currently with us
+          No patients found in the system
         </h3>
       )}
     </Content>
