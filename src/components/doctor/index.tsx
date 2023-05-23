@@ -16,10 +16,7 @@ const Doctor = () => {
   const [showAllDoctors, setShowAllDoctors] = useState<boolean>(false)
   const [doctors, setDoctors] = useState<DoctorType[]>([])
   const [openModalAdd, setOpenModalAdd] = useState(false)
-  const [
-    doctorToDeactivate,
-    setDoctorToDeactivate,
-  ] = useState<DoctorType | null>(null)
+  const [doctorToDeactivate, setDoctorToDeactivate] = useState<DoctorType | null>(null)
 
   useEffect(() => {
     const getDoctors = showAllDoctors
@@ -46,6 +43,20 @@ const Doctor = () => {
   }
   const handleCloseModalDeactivate = () => {
     setDoctorToDeactivate(null)
+  }
+  
+  const handleDeactivate = () => {
+    if (doctorToDeactivate) {
+      doctorService
+      .deactivate(doctorToDeactivate.username)
+      .then((res) => {
+        toast.success(res.data)
+        setDoctors((prevDoctors: DoctorType[]) => 
+          prevDoctors.filter(doctor => doctor.id !== doctorToDeactivate.id))
+      })
+      .catch((err) => toast.error(err.message))
+      .finally(handleCloseModalDeactivate)
+    }
   }
 
   const handleUpdateData = (newDoctor: DoctorType) => {
@@ -75,6 +86,7 @@ const Doctor = () => {
           <DeactivateDoctor
             onClose={handleCloseModalDeactivate}
             doctor={doctorToDeactivate}
+            onDeactivate={handleDeactivate}
           />
         </Modal>
       )}

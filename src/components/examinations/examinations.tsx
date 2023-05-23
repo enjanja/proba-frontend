@@ -140,8 +140,6 @@ const Examinations = () => {
             doctor?.examinations
               ? extractExaminations(doctor.examinations)
               : extractExaminations(doctorWithExams?.examinations)
-              // ? doctor.examinations
-              // : doctorWithExams?.examinations
           }
         />
       ) : (

@@ -33,9 +33,6 @@ const TablePatients = ({ patients, onEdit }: TablePatientsProps) => {
     setPage(0)
   }
 
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - patients.length) : 0
-
   const EditCell = ({ selectedPatient }: { selectedPatient: PatientType }) => {
     const handleEdit = () => {
       onEdit(selectedPatient)
@@ -66,11 +63,6 @@ const TablePatients = ({ patients, onEdit }: TablePatientsProps) => {
                   </TableRow>
                 )
               })}
-            {emptyRows > 0 && (
-              <TableRow>
-                <TableCell colSpan={4} />
-              </TableRow>
-            )}
           </TableBody>
         </Table>
       </TableContainer>

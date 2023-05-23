@@ -38,7 +38,7 @@ export const DayTableCell = styled.td`
 `
 export const DayTableCellContent = styled.div`
   display: flex;
-  height: 6rem;
+  height: 5rem;
   &:hover {
     background-color: ${colors.hover};
   }

@@ -26,9 +26,8 @@ const SelectSpecialization = ({
   specialization,
   onSelectSpecialization,
 }: SelectSpecializationProps) => {
-  const [specializations, setSpecializations] = useState<SpecializationType[]>(
-    [],
-  )
+  const [specializations, setSpecializations] = useState<SpecializationType[]>([])
+  const [changedSpecialization, setChangedSpecialization] = useState<SpecializationType | null>(null);
 
   useEffect(() => {
     specializationService
@@ -37,10 +36,7 @@ const SelectSpecialization = ({
         setSpecializations(res?.data)
       })
       .catch((err) => {
-        if (!err) {
-          toast.error('Network error')
-        }
-        toast.error(err.message)
+        toast.error(err ? err.message : 'Network error')
       })
   }, [])
 
@@ -48,7 +44,10 @@ const SelectSpecialization = ({
     const selectedSpec = specializations.find(
       (item) => item.name === event.target.value,
     )
-    selectedSpec && onSelectSpecialization(selectedSpec)
+    if (selectedSpec) {
+      onSelectSpecialization(selectedSpec)
+      setChangedSpecialization(selectedSpec)
+    }
   }
 
   return (
@@ -62,7 +61,7 @@ const SelectSpecialization = ({
           disabled={disabled}
           labelId="specialization"
           id="select"
-          value={specialization.name}
+          value={changedSpecialization?.name || specialization.name}
           label="Specialization"
           onChange={handleSelectSpecialization}
         >

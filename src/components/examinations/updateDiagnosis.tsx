@@ -40,19 +40,20 @@ const UpdateDiagnosis = ({
   }
 
   const handleUpdate = () => {
-    if (
-      getValues('diagnosis') === '' ||
-      getValues('diagnosis') === examination.diagnosis
-    ) {
+    const diagnosis = getValues('diagnosis');
+    if (!diagnosis || diagnosis === examination.diagnosis) {
       setisEditable(false)
       return
     }
-
+    if (diagnosis.length > 500) {
+      toast.error(`Diagnosis can't be longer than 500 characters. Current character count: ${diagnosis.length}`);
+      return;
+    }
     const newExamination: UpdateDiagnosisData = {
       doctorId: examination.id.doctorId,
       patientId: examination.id.patientId,
       dateTime: examination.id.dateTime,
-      diagnosis: getValues('diagnosis'),
+      diagnosis,
     }
     examinationService
       .updateDiagnosis(newExamination)
@@ -114,7 +115,7 @@ const UpdateDiagnosis = ({
       <UpdateDiagnosisAcentText>
         Doctor: <span>Dr {examination.doctor.name} </span>
       </UpdateDiagnosisAcentText>
-      <UpdateDiagnosisAcentText>Patient:</UpdateDiagnosisAcentText>
+      <UpdateDiagnosisAcentText>Patient: <span>{examination.patient.name} </span></UpdateDiagnosisAcentText>
       <UpdateDiagnosisAcentText>
         Date: <span>{newDate}</span>
       </UpdateDiagnosisAcentText>
@@ -122,15 +123,16 @@ const UpdateDiagnosis = ({
       <TextareaAutosize
         disabled={!isEditable}
         minRows={5}
+        maxRows={10}
         {...register('diagnosis')}
         style={{ width: '100%', marginTop: '10px' }}
       />
-
       <ButtonDivider>
         <ButtonDividerInner>
           <ButtonSecondary
             onClick={isEditable ? handleUpdate : handleEnableDiagnosisEdit}
             backgroundColor={isEditable ? colors.black : colors.blue}
+            type={isEditable ? 'submit' : 'button'}
           >
             {isEditable ? 'Update' : 'Edit'}
           </ButtonSecondary>
@@ -140,6 +142,7 @@ const UpdateDiagnosis = ({
             onClick={handleExportPDF}
             backgroundColor={colors.green}
             disabled={isEditable}
+            type="button"
           >
             Export PDF
           </ButtonSecondary>
@@ -150,6 +153,7 @@ const UpdateDiagnosis = ({
           onClick={handleOpenDelete}
           backgroundColor={colors.black}
           disabled={isEditable}
+          type="button"
         >
           Delete
         </ButtonSecondary>
@@ -157,18 +161,18 @@ const UpdateDiagnosis = ({
       {openDelete && type === 1 && (
         <ButtonDivider>
           <ButtonDividerInner>
-            <Button backgroundColor={colors.black} onClick={handleOpenDelete}>
+            <Button backgroundColor={colors.black} onClick={handleOpenDelete} type="button">
               No
             </Button>
           </ButtonDividerInner>
           <ButtonDividerInner>
-            <Button backgroundColor={colors.red} onClick={handleDelete}>
+            <Button backgroundColor={colors.red} onClick={handleDelete}  type="button">
               Yes
             </Button>
           </ButtonDividerInner>
         </ButtonDivider>
       )}
-      <ButtonSecondary onClick={onCancel} backgroundColor={colors.blue}>
+      <ButtonSecondary onClick={onCancel} backgroundColor={colors.blue}  type="button">
         Cancel
       </ButtonSecondary>
     </>

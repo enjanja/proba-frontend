@@ -50,6 +50,7 @@ const Profile = () => {
   const [chosenHospitals, setChosenHospitals] = useState<HospitalType[]>([])
   const [hospital, setHospital] = useState<HospitalType | null>(null)
   const [hospitals, setHospitals] = useState<HospitalType[]>([])
+  const userIsDoctor = user?.hospitals && user.specialization;
 
   useEffect(() => {
     if (type === 2) {
@@ -124,8 +125,8 @@ const Profile = () => {
     return false
   }
 
-  const onSubmit = (data: UserType) => {
-    if (user?.hospitals && user.specialization) {
+  const onSubmit = (data: UserType) => {    
+    if (userIsDoctor && user?.hospitals && user.specialization) {
       if (
         data.username === user.username &&
         data.name === user.name &&
@@ -133,6 +134,7 @@ const Profile = () => {
         specialization.id === user.specialization.id &&
         equalHospitals(user.hospitals)
       ) {
+        console.log('break');
         return
       }
 
@@ -285,7 +287,7 @@ const Profile = () => {
                   </AddDoctorInputFieldContainer>
                 </AddDoctorInputContainer>
               )}
-              {!isEditable && (
+              {userIsDoctor && !isEditable && (
                 <ButtonDivider>
                   <ButtonDividerInner>
                     <Button onClick={handleEditForm} type="button">
@@ -303,7 +305,7 @@ const Profile = () => {
                   </ButtonDividerInner>
                 </ButtonDivider>
               )}
-              {isEditable && (
+              {userIsDoctor && isEditable && (
                 <ButtonDivider>
                   <ButtonDividerInner>
                     <Button

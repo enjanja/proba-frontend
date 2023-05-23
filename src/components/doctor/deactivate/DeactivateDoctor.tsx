@@ -1,30 +1,20 @@
-import { toast } from 'react-toastify'
 import { colors } from '../../../global.styles'
 import { DoctorType } from '../../../interfaces/dataTypes'
 import { Button } from '../../button/button.styles'
 import { ButtonDivider, ButtonDividerInner, Form } from '../../form/form.styles'
 import { H3 } from '../../text/text.styles'
-import doctorService from '../../../services/doctorService'
 
 interface DeactivateDoctorProps {
   onClose: () => void
+  onDeactivate: () => void
   doctor: DoctorType
 }
 
 const DeactivateDoctor = ({
   onClose,
   doctor,
+  onDeactivate
 }: DeactivateDoctorProps) => {
-    const handleDeactivate = () => {
-      doctorService
-        .deactivate(doctor.username)
-        .then((res) => {
-          toast.success(res.data)
-        })
-        .catch((err) => toast.error(err.message))
-        .finally(onClose)
-  }
-
   return (
     <Form>
       <H3
@@ -49,7 +39,7 @@ const DeactivateDoctor = ({
         <ButtonDividerInner>
           <Button
             backgroundColor={colors.red}
-            onClick={handleDeactivate}
+            onClick={onDeactivate}
             type="button"
             >
             Yes

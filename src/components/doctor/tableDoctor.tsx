@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Table,
   TableBody,
@@ -46,6 +46,10 @@ const TableDoctors = ({
       missingRowsArray.push(i)
     }
   }
+
+  useEffect(() => {
+    setPage(0)
+  }, [doctors])
 
   return (
     <>
