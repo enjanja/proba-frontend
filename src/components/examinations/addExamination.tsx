@@ -97,13 +97,13 @@ const AddExamination = ({
           <Autocomplete
             freeSolo
             options={patients}
-            getOptionLabel={(option: PatientType) => option.name}
+            getOptionLabel={(option: PatientType) => `${option.name}${option.lbo ? `  |  ${option.lbo}` : ''}` }
             renderOption={(
               props: React.HTMLAttributes<HTMLLIElement>,
               option: PatientType,
             ) => (
               <Box component="li" {...props} key={option.id}>
-                {option.name}
+                {option.name}{option.lbo ? `  |  ${option.lbo}` : null}
               </Box>
             )}
             renderInput={(params) => (
