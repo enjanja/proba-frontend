@@ -59,6 +59,7 @@ const TablePatients = ({ patients, onEdit }: TablePatientsProps) => {
                     <TableCell>{patient.id}</TableCell>
                     <TableCell>{patient.name}</TableCell>
                     <TableCell>{patient.jmbg}</TableCell>
+                    <TableCell>{patient.lbo}</TableCell>
                     <EditCell selectedPatient={patient} />
                   </TableRow>
                 )

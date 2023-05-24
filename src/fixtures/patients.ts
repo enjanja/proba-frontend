@@ -12,18 +12,24 @@ export const headCellsPatients: HeadCellPatient[] = [
     id: 'id',
     numeric: false,
     label: 'ID',
-    width: '20%',
+    width: '10%',
   },
   {
     id: 'name',
     numeric: false,
     label: 'Full name',
-    width: '40%',
+    width: '30%',
   },
   {
     id: 'jmbg',
     numeric: false,
     label: 'JMBG',
     width: '30%',
+  },
+  {
+    id: 'lbo',
+    numeric: false,
+    label: 'LBO',
+    width: '20%',
   },
 ]

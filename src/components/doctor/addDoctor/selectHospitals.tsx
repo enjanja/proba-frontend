@@ -1,6 +1,6 @@
 import { TransparentButton } from '../../button/button.styles'
 import {
-  AddDoctorInputContainer,
+  InputFieldWrapper,
   Label,
   ListContainer,
   MyListItem,
@@ -85,7 +85,7 @@ const HospitalsSelect = ({
   }
 
   return (
-    <AddDoctorInputContainer>
+    <InputFieldWrapper>
       {chosenHospitals.length > 0 ? (
         <ListContainer>
           {chosenHospitals.map((h: HospitalType) => (
@@ -113,7 +113,7 @@ const HospitalsSelect = ({
         </Select>
         <Error>{errorHospital}</Error>
       </FormControl>
-    </AddDoctorInputContainer>
+    </InputFieldWrapper>
   )
 }
 

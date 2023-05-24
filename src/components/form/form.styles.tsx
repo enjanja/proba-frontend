@@ -10,16 +10,14 @@ export const FormContainer = styled.div`
 `
 
 export const Form = styled.form`
-  width: 100%;
   margin: 0;
   padding: 1rem;
-  min-width: 400px;
 `
 
 export const InputContainer = styled.div`
   min-height: 90px;
   max-height: 100px;
-  width: 100%;
+  width: 300px;
   text-align: start;
   position: relative;
 `
@@ -54,7 +52,8 @@ export const Input = styled.input`
 export const Label = styled.label`
   max-width: 100px;
   font-size: 15px;
-  margin-bottom: 10px;
+  margin-right: 20px;
+  text-transform: capitalize;
 `
 
 export const FormListContainer = styled.div`
@@ -69,16 +68,11 @@ export const ModalFormContainer = styled.div`
   margin: 0;
   height: fit-content;
 `
-export const AddDoctorInputContainer = styled.div`
-  min-height: 80px;
-  max-height: 80px;
+export const InputFieldWrapper = styled.div`
+  min-height: 99px;
   width: 100%;
-
   display: flex;
   justify-content: space-between;
-`
-export const AddDoctorInputFieldContainer = styled.div`
-  width: 70%;
 `
 
 export const ListContainer = styled.div`

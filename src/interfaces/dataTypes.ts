@@ -63,6 +63,7 @@ export interface PatientType {
   id: string
   name: string
   jmbg: string
+  lbo: string
 }
 
 export interface HospitalType {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import {
-  AddDoctorInputContainer,
-  AddDoctorInputFieldContainer,
+  InputFieldWrapper,
+  InputContainer,
   ButtonDivider,
   ButtonDividerInner,
   Form,
@@ -213,28 +213,28 @@ const Profile = () => {
         <FormContainer>
           {user && (
             <Form onSubmit={handleSubmit(onSubmit)} id="update-form">
-              <AddDoctorInputContainer>
+              <InputFieldWrapper>
                 <Label>Full Name</Label>
-                <AddDoctorInputFieldContainer>
+                <InputContainer>
                   <TextField
                     placeholder="name"
                     disabled={!isEditable}
                     sx={{ width: '100%' }}
                     {...register('name')}
                   />
-                </AddDoctorInputFieldContainer>
-              </AddDoctorInputContainer>
-              <AddDoctorInputContainer>
+                </InputContainer>
+              </InputFieldWrapper>
+              <InputFieldWrapper>
                 <Label>Userame</Label>
-                <AddDoctorInputFieldContainer>
+                <InputContainer>
                   <TextField
                     placeholder="username"
                     disabled={!isEditable}
                     sx={{ width: '100%' }}
                     {...register('username')}
                   />
-                </AddDoctorInputFieldContainer>
-              </AddDoctorInputContainer>
+                </InputContainer>
+              </InputFieldWrapper>
               {user.specialization && (
                 <SelectSpecialization
                   defaultValue={user.specialization.name}
@@ -251,9 +251,9 @@ const Profile = () => {
                 />
               )}
               {user.hospital && (
-                <AddDoctorInputContainer>
+                <InputFieldWrapper>
                   <Label>Hospital</Label>
-                  <AddDoctorInputFieldContainer>
+                  <InputContainer>
                     <Controller
                       render={({ field: { value } }) => (
                         <Autocomplete
@@ -284,8 +284,8 @@ const Profile = () => {
                       name="hospital"
                       control={control}
                     />
-                  </AddDoctorInputFieldContainer>
-                </AddDoctorInputContainer>
+                  </InputContainer>
+                </InputFieldWrapper>
               )}
               {userIsDoctor && !isEditable && (
                 <ButtonDivider>

@@ -5,19 +5,16 @@ import { Button } from '../button/button.styles'
 import TablePatients from './tablePatients'
 import patientService from '../../services/patientService'
 import Modal from '../modal/Modal'
-import AddPatient from './addPatient'
+import AddPatient from './patientModal'
 import { ActionType } from '../../enums/action'
-import EditPatient from './editPatient'
 import { toast } from 'react-toastify'
 import { Content, PageHeader } from '../layout/layout.styles'
 
 const Patients = () => {
   const [patients, setPatients] = useState<PatientType[]>([])
-  const [selectedPatient, setSelectedPatient] = useState<PatientType | null>(
-    null,
-  )
+  const [selectedPatient, setSelectedPatient] = useState<PatientType | null>(null)
   const [openModal, setOpenModal] = useState(false)
-  const [action, setAction] = useState('')
+  const [action, setAction] = useState<string | null>(null)
 
   useEffect(() => {
     patientService
@@ -36,10 +33,11 @@ const Patients = () => {
   }
   const handleCloseModal = () => {
     setOpenModal(false)
-    setAction('')
+    setSelectedPatient(null)
+    setAction(null)
   }
 
-  const handleUpdateData = (newPatient: PatientType) => {
+  const handleCreatePatient = (newPatient: PatientType) => {
     const lastPatient = patients[patients.length - 1]
     newPatient.id = Number(lastPatient.id) + 1 + ''
     setPatients([...patients, newPatient])
@@ -51,11 +49,12 @@ const Patients = () => {
     setAction(ActionType.EDIT)
   }
 
-  const handleEdit = (newPatient: PatientType) => {
+  const handleUpdatePatient = (newPatient: PatientType) => {
     const newPatients = patients.map((patient) => {
       if (patient.id === newPatient.id) {
         patient.name = newPatient.name
         patient.jmbg = newPatient.jmbg
+        patient.lbo = newPatient.lbo
       }
       return patient
     })
@@ -67,21 +66,15 @@ const Patients = () => {
       {openModal && (
         <Modal
           onClose={handleCloseModal}
-          header={
-            action === ActionType.ADD ? 'Add new patient' : 'Edit patient'
-          }
+          header={ action === ActionType.ADD ? 'Add new patient' : 'Edit patient' }
         >
-          {action === ActionType.ADD && (
+          {action && (
             <AddPatient
-              onUpdate={handleUpdateData}
-              onClose={handleCloseModal}
-            />
-          )}
-          {action === ActionType.EDIT && selectedPatient && (
-            <EditPatient
-              onEdit={handleEdit}
-              onClose={handleCloseModal}
               selectedPatient={selectedPatient}
+              onCreate={handleCreatePatient}
+              onUpdate={handleUpdatePatient}
+              onClose={handleCloseModal}
+              type={action}
             />
           )}
         </Modal>

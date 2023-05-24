@@ -1,3 +1,5 @@
+import { PatientType } from '../interfaces/dataTypes' 
+
 export const usernameValidation = {
   required: 'This field is required',
   minLength: {
@@ -8,6 +10,10 @@ export const usernameValidation = {
 
 export const passwordValidation = {
   required: 'This field is required',
+  pattern: {
+    value: /^(?=.*[A-Za-z])(?=.*\d).{6,}$/,
+    message: 'Password must have letters and numbers, with at least 6 characters' 
+  },
   minLength: {
     value: 6,
     message: 'Password must have at least 6 characters',
@@ -38,6 +44,7 @@ export const addDoctorValidations = [
   },
   {
     name: 'username',
+    type: 'number',
     validations: {
       required: 'This field is required',
       minLength: {
@@ -58,44 +65,56 @@ export const addDoctorValidations = [
   },
 ]
 
+type PatientTypeKeys = Extract<keyof PatientType, string>;
+
 export interface AddPatientValidationType {
-  name: string
+  name: PatientTypeKeys
+  disabled: boolean | ((param: string) => boolean)
   validations: {
     required: string
-    maxLength?: {
-      value: number
-      message: string
-    }
     minLength?: {
       value: number
       message: string
-    }
+    },
+    pattern?: {
+      value: RegExp,
+      message: string
+    } | undefined
   }
 }
 
-export const addPatientValidations = [
+export const addPatientValidations: AddPatientValidationType[] = [
   {
     name: 'name',
+    disabled: false,
     validations: {
       required: 'This field is required',
       minLength: {
         value: 2,
-        message: 'Full name must have at least 2 characters',
-      },
+        message: 'Full name must have at least 2 characters'
+      }
     },
   },
   {
     name: 'jmbg',
+    disabled: (param: string) => param === 'jmbg',
     validations: {
       required: 'This field is required',
-      maxLength: {
-        value: 13,
-        message: 'JMBG must be at least 13 characters',
-      },
-      minLength: {
-        value: 13,
-        message: 'JMBG must be at least 13 characters',
-      },
+      pattern: {
+        value: /^\d{13}$/,
+        message: 'Allowed length = 13 characters. No letters allowed.'  
+      }
     },
   },
+  {
+    name: 'lbo',
+    disabled: false,
+    validations: {
+      required: 'This field is required',
+      pattern: {
+        value: /^\d{11}$/,
+        message: 'Allowed length = 11 characters. No letters allowed.'
+      }
+    },
+  }
 ]

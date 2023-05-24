@@ -11,8 +11,8 @@ import {
 } from '../../../interfaces/dataTypes'
 import { ButtonSecondary } from '../../button/button.styles'
 import {
-  AddDoctorInputContainer,
-  AddDoctorInputFieldContainer,
+  InputFieldWrapper,
+  InputContainer,
   Form,
   Label,
 } from '../../form/form.styles'
@@ -100,18 +100,18 @@ const AddDoctor = ({ onUpdate, onClose }: AddDoctorProps) => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       {addDoctorValidations.map((validation: AddDrValidationType) => (
-        <AddDoctorInputContainer key={validation.name}>
+        <InputFieldWrapper key={validation.name}>
           <Label>{validation.name}</Label>
-          <AddDoctorInputFieldContainer>
+          <InputContainer>
             <TextField
               sx={{ width: '100%' }}
               placeholder={validation.name}
               {...register(validation.name, validation.validations)}
               error={errors.username !== undefined}
-              helperText={errors?.username?.message}
+              helperText={errors?.[validation.name]?.message}
             />
-          </AddDoctorInputFieldContainer>
-        </AddDoctorInputContainer>
+          </InputContainer>
+        </InputFieldWrapper>
       ))}
       <SelectSpecialization
         specialization={specialization}

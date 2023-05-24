@@ -56,6 +56,7 @@ const AddExamination = ({
       const newPatient = {
         id: data.patient.id,
         jmbg: data.patient.jmbg,
+        lbo: data.patient.lbo,
         name: data.patient.name,
       }
       // ovde new date

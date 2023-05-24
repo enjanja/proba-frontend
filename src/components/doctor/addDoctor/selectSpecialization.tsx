@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { SpecializationType } from '../../../interfaces/dataTypes'
 import specializationService from '../../../services/specializationService'
-import { AddDoctorInputContainer, Label } from '../../form/form.styles'
+import { InputFieldWrapper, Label } from '../../form/form.styles'
 import { Error } from '../../text/text.styles'
 
 interface SelectSpecializationProps {
@@ -51,7 +51,7 @@ const SelectSpecialization = ({
   }
 
   return (
-    <AddDoctorInputContainer>
+    <InputFieldWrapper>
       <Label>Specialization</Label>
       <FormControl fullWidth style={{ width: '70%', float: 'right' }}>
         <InputLabel id="specialization" sx={{ marginTop: '-6px' }}>
@@ -73,7 +73,7 @@ const SelectSpecialization = ({
         </Select>
         <Error>{errorSpecialization}</Error>
       </FormControl>
-    </AddDoctorInputContainer>
+    </InputFieldWrapper>
   )
 }
 

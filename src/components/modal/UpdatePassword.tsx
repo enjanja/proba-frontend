@@ -7,7 +7,7 @@ import { colors } from '../../global.styles'
 import authService from '../../services/authService'
 import { Button } from '../button/button.styles'
 import {
-  AddDoctorInputContainer,
+  InputFieldWrapper,
   ButtonDivider,
   ButtonDividerInner,
   Form,
@@ -78,7 +78,7 @@ const UpdatePassword = ({ onCancel }: { onCancel: () => void }) => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} id="password-form">
-      <AddDoctorInputContainer>
+      <InputFieldWrapper>
         <Label>Current Password</Label>
         <InputContainerPassword>
           <TextField
@@ -100,8 +100,8 @@ const UpdatePassword = ({ onCancel }: { onCancel: () => void }) => {
             }}
           />
         </InputContainerPassword>
-      </AddDoctorInputContainer>
-      <AddDoctorInputContainer>
+      </InputFieldWrapper>
+      <InputFieldWrapper>
         <Label>New Password</Label>
         <InputContainerPassword>
           <TextField
@@ -123,8 +123,8 @@ const UpdatePassword = ({ onCancel }: { onCancel: () => void }) => {
             }}
           />
         </InputContainerPassword>
-      </AddDoctorInputContainer>
-      <AddDoctorInputContainer>
+      </InputFieldWrapper>
+      <InputFieldWrapper>
         <Label>Confirm New Password</Label>
         <InputContainerPassword>
           <TextField
@@ -146,7 +146,7 @@ const UpdatePassword = ({ onCancel }: { onCancel: () => void }) => {
             }}
           />
         </InputContainerPassword>
-      </AddDoctorInputContainer>
+      </InputFieldWrapper>
 
       <ButtonDivider>
         <ButtonDividerInner>
